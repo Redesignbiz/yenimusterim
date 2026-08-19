@@ -378,16 +378,20 @@ export default function PrivacyPolicy() {
           <P>
             {site.name} işletme kullanımına yönelik olduğu ve hesaplar merkezî
             olarak tanımlandığı için uygulama içinde kendi hesabınızı silen bir
-            düğme bulunmaz. Hesabınızın ve hesabınıza bağlı kişisel verilerinizin
-            silinmesi için{" "}
+            düğme bulunmaz. Hesabınızın silinmesi ve hesabınızla ilişkili,
+            saklanması hukuken zorunlu olmayan kişisel verilerin silinmesi için{" "}
             <Link
               href="/hesap-silme"
               className="font-semibold text-primary underline underline-offset-4"
             >
               hesap silme adımlarını
             </Link>{" "}
-            izlemeniz gerekir. Talep oluşturmak için uygulamayı kullanmanız
-            gerekmez.
+            izleyebilirsiniz.
+          </P>
+          <P>
+            Yasal yükümlülükler nedeniyle saklanması gereken kayıtlar, ilgili
+            saklama süresi boyunca tutulabilir ve bu sürenin sonunda silinir veya
+            anonim hâle getirilir.
           </P>
 
           {/* 9 */}

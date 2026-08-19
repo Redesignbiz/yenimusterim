@@ -5,6 +5,7 @@ import { Features } from "@/components/Features";
 import { Appointments } from "@/components/Appointments";
 import { TeamLocations } from "@/components/TeamLocations";
 import { ComingSoon } from "@/components/ComingSoon";
+import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <Appointments />
         <TeamLocations />
         <ComingSoon />
+        <Contact />
       </main>
       <Footer />
     </>

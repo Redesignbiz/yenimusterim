@@ -18,6 +18,18 @@ export const site = {
     support: 'destek@yenimusterim.com',
     privacy: 'kvkk@yenimusterim.com',
     accountDeletion: 'kvkk@yenimusterim.com',
+    /**
+     * TODO: işletme telefon numarası.
+     *
+     * Boş bırakıldığında iletişim bölümünde satır HİÇ render edilmez — yayında
+     * "[Telefon]" gibi bir yer tutucu görünmesin diye bilinçli olarak koşullu.
+     * Numara girilince satır kendiliğinden çıkar, kod değişikliği gerekmez.
+     *
+     * `as string` ZORUNLU: nesne `as const` olduğu için tip aksi hâlde `''`
+     * literaline daralır, TypeScript de koşullu dalı ölü kod sayıp `never`
+     * hatası verir. Bu daraltma değeri doldurunca kendiliğinden çözülmez.
+     */
+    phone: '' as string,
   },
 
   controller: {

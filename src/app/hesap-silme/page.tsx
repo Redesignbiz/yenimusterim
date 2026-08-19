@@ -47,8 +47,10 @@ export default function AccountDeletion() {
           </h1>
           <p className="mt-5 text-[16px] leading-7 text-ink-muted">
             {site.name} hesabınızın ve hesabınıza bağlı kişisel verilerinizin
-            silinmesini, aşağıdaki adımları izleyerek talep edebilirsiniz. Talep
-            oluşturmak için uygulamayı kullanmanız gerekmez.
+            silinmesini, aşağıdaki adımları izleyerek talep edebilirsiniz.
+            Uygulamayı telefonunuzdan silmiş veya hesabınıza giriş yapamıyor
+            olsanız dahi, silme talebinizi bu sayfadaki adres üzerinden
+            oluşturabilirsiniz.
           </p>
 
           {/* Neden uygulama içinde bir silme düğmesi yok */}

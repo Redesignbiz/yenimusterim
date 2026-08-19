@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { site } from "@/lib/site";
 
 /**
  * Bağlantılar MUTLAK yol kullanır ("/#sss"), sayfa-içi çapa ("#sss") değil.
@@ -18,12 +17,15 @@ export function Header() {
           <Logo idPrefix="header-logo" className="h-6 w-auto sm:h-7" />
         </Link>
 
-        <a
-          href={`mailto:${site.contact.support}?subject=Yeni%20M%C3%BC%C5%9Fterim%20hakk%C4%B1nda%20bilgi%20talebi`}
+        {/* Mutlak yol: alt sayfalardan da ana sayfadaki iletişim bölümüne götürür.
+            Eskiden doğrudan `mailto:` idi — posta istemcisi tanımlı olmayan
+            tarayıcıda tıklama sessizce hiçbir şey yapmıyordu. */}
+        <Link
+          href="/#iletisim"
           className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-bright sm:px-5"
         >
           Bize ulaşın
-        </a>
+        </Link>
       </div>
     </header>
   );
