@@ -11,13 +11,14 @@ export function Hero() {
           </p>
 
           <h1 className="mt-6 text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-ink sm:text-[44px]">
-            Nitelendirilmiş müşteri talepleri, planlanan saatte servis noktasında
+            İhtiyacı belli müşteri talepleri, planlanan saatte servis noktasında
           </h1>
 
           <p className="mt-6 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg">
-            Müşteri talebi servis noktasına iletilmeden önce ihtiyacı belirlenir,
-            niteliği doğrulanır ve veri paylaşımı için açık rızası alınır. Her
-            talep tanımlı bir arama saatiyle iletilir; o saatte bildirim gelir.
+            Müşteri talebi servis noktasına iletilmeden önce ne istediği
+            belirlenir, satın alma niyeti olduğu anlaşılır ve verilerinin
+            paylaşılmasına onay verdiği teyit edilir. Her talep tanımlı bir arama
+            saatiyle iletilir; o saatte bildirim gelir.
           </p>
 
         </div>

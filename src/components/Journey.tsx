@@ -9,7 +9,7 @@ import { Section, SectionHeading } from "./Section";
  */
 const steps = [
   {
-    title: "Talep nitelendirilir ve rıza alınır",
+    title: "Müşterinin ihtiyacı belirlenir ve onayı alınır",
     points: [
       "Ziyaretçi, bağlama göre yapılandırılmış bir görüşme akışıyla karşılanır.",
       "İhtiyacı ve satın alma niyeti görüşme sırasında belirlenir.",
