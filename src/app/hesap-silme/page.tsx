@@ -189,12 +189,14 @@ export default function AccountDeletion() {
                   [
                     "Müşteri talepleri ve randevular",
                     "Anonimleştirilir",
-                    `Servis noktasına ait ticari kayıt · ${site.retention.logYears} yıl`,
+                    // "kadar": politika 6. maddesiyle aynı ifade. Düz bir süre
+                    // yazmak, mevzuata bağlı değişken süreyi kesinmiş gibi gösterir.
+                    `İlgili mevzuattan doğan saklama yükümlülükleri ve hukuki yükümlülükler gerekçesiyle ${site.retention.logYears} yıla kadar`,
                   ],
                   [
                     "İşlem geçmişi ve erişim kayıtları",
                     "Anonimleştirilir",
-                    `Yasal saklama yükümlülüğü · ${site.retention.logYears} yıl`,
+                    "Bilgi güvenliği, denetim ve hukuki yükümlülükler için gerekli olan süre boyunca",
                   ],
                 ].map(([data, action, reason]) => (
                   <tr key={data} className="border-b border-outline-variant last:border-0">
@@ -223,7 +225,7 @@ export default function AccountDeletion() {
           </h2>
           <ul className="mt-4 space-y-2.5">
             {[
-              "Uygulamaya giriş yapamazsınız ve bildirim almazsınız.",
+              "Talebiniz tamamlandıktan sonra uygulama girişiniz ve bildirimler sona erer.",
               "Silme işlemi geri alınamaz; silinen kimlik verileri yeniden oluşturulamaz.",
               "Uygulamaya yeniden erişmeniz gerekirse yönetici tarafından yeni bir hesap tanımlanması gerekir. Önceki hesaba ait veriler bu hesaba aktarılmaz.",
             ].map((item) => (

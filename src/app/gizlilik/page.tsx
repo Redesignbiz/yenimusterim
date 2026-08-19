@@ -352,10 +352,21 @@ export default function PrivacyPolicy() {
               </>,
               <>
                 <strong className="font-semibold text-ink">
-                  Talep, randevu ve işlem kayıtları:
+                  Talep ve randevu kayıtları:
                 </strong>{" "}
-                ilgili ticari ilişkinin sona ermesinden itibaren yasal saklama
-                süresi olan {site.retention.logYears} yıl boyunca saklanır.
+                ilgili mevzuattan doğan saklama yükümlülükleri ve hukuki
+                taleplerin kurulması, kullanılması veya savunulması için gerekli
+                süre boyunca; uygulanabilir olduğu durumlarda ilgili ticari
+                ilişkinin sona ermesinden itibaren {site.retention.logYears} yıla
+                kadar saklanabilir.
+              </>,
+              <>
+                <strong className="font-semibold text-ink">
+                  Güvenlik ve erişim kayıtları:
+                </strong>{" "}
+                bilgi güvenliği, denetim ve hukuki yükümlülükler için gerekli
+                olan süre boyunca saklanır ve sürenin sonunda silinir veya anonim
+                hâle getirilir.
               </>,
             ]}
           />
