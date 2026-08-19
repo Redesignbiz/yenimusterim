@@ -169,8 +169,9 @@ export default function PrivacyPolicy() {
                   Cihaz bildirim kimliği:
                 </strong>{" "}
                 bildirim gönderebilmek için cihazınıza ait bildirim jetonu
-                (push token) ve son görülme zamanı. Bu jeton cihazı tanımlar,
-                kişiyi değil; bildirim izni vermezseniz hiç oluşturulmaz.
+                (push token) ve son görülme zamanı. Uygulama bu jetonu açılışta
+                cihazdan alır ve yalnızca kendi sunucumuza kaydeder. Jeton cihazı
+                tanımlar, kişiyi değil; bildirim izni vermezseniz hiç oluşturulmaz.
               </>,
               <>
                 <strong className="font-semibold text-ink">İşlem kayıtları:</strong>{" "}
@@ -205,6 +206,15 @@ export default function PrivacyPolicy() {
               </>,
             ]}
           />
+          <P>
+            Bu veriler, müşteri talebini oluştururken kendisine bilgi verilerek ve{" "}
+            <strong className="font-semibold text-ink">
+              açık rızası alınarak
+            </strong>{" "}
+            toplanır. Verilerinin bir servis noktasıyla paylaşılmasına onay
+            vermeyen bir görüşme talep oluşturmaz; dolayısıyla rıza verilmemiş bir
+            müşterinin verisi uygulamaya hiç ulaşmaz.
+          </P>
 
           <h3 className="mt-8 text-[17px] font-semibold text-ink">
             c) Erişim izleri
@@ -220,6 +230,32 @@ export default function PrivacyPolicy() {
             denetim amacıyla tutulur.
           </P>
 
+          <h3 className="mt-8 text-[17px] font-semibold text-ink">
+            d) Kullanım ve performans verileri
+          </h3>
+          <P>
+            Hizmeti geliştirmek, hataları tespit etmek ve arayüzün nasıl
+            kullanıldığını anlamak amacıyla mobil uygulamada kullanım analizi
+            araçları çalışır. Bu araçlarla işlenen veriler:
+          </P>
+          <UL
+            items={[
+              "Görüntülenen ekranlar veya sayfalar, bunlarda geçirilen süre ve oturum bilgisi",
+              "Dokunma, tıklama ve kaydırma gibi etkileşimler",
+              "Cihaz modeli, işletim sistemi sürümü, ekran boyutu, uygulama sürümü ve dil ayarı",
+              "Hata ve çökme kayıtları",
+              "Uygulama veya tarayıcı tarafından üretilen, kimliğinizi doğrudan göstermeyen bir oturum/kurulum tanımlayıcısı",
+            ]}
+          />
+          <P>
+            <strong className="font-semibold text-ink">
+              Oturum kayıtlarında kişisel veri içeren alanlar maskelenir.
+            </strong>{" "}
+            Müşteri adı, telefon numarası ve benzeri alanlar analiz araçlarına
+            okunabilir biçimde iletilmez; kayıtlarda bu alanların yerinde
+            gizlenmiş içerik görünür.
+          </P>
+
           {/* 3 */}
           <H2 id="toplanmayanlar">3. Toplamadığımız veriler</H2>
           <P>
@@ -232,13 +268,21 @@ export default function PrivacyPolicy() {
               "Kamera, mikrofon, fotoğraflar veya cihazdaki dosyalar",
               "Cihaz rehberi ve kişi listesi",
               "Reklam kimliği (Advertising ID) veya reklam amaçlı izleme",
-              "Üçüncü taraf reklam ve analitik yazılımları — uygulamada hiçbiri kullanılmamaktadır",
+              "Üçüncü taraf reklam yazılımları — uygulamada hiçbiri kullanılmamaktadır",
             ]}
           />
           <P>
             Uygulama içi satın alma bulunmaz ve verileriniz hiçbir koşulda
             reklam, pazarlama veya satış amacıyla üçüncü taraflara aktarılmaz
             veya satılmaz.
+          </P>
+          <P>
+            Mobil uygulamada{" "}
+            <strong className="font-semibold text-ink">
+              kullanım analizi araçları kullanılır
+            </strong>
+            ; bunlar reklam araçları değildir ve topladıkları veri reklam amacıyla
+            kullanılmaz. Ayrıntısı bölüm 2/d ve bölüm 5&apos;te açıklanmıştır.
           </P>
 
           {/* 4 */}
@@ -250,6 +294,7 @@ export default function PrivacyPolicy() {
               "Hesabınızın oluşturulması, kimliğinizin doğrulanması ve yetki sınırlarınızın uygulanması",
               "Hizmet kalitesinin ve performansın ölçülmesi (tamamlanma, zamanında arama, dönüşüm)",
               "Kişisel veriye erişimin denetlenebilir olması ve bilgi güvenliğinin sağlanması",
+              "Hizmetin geliştirilmesi, hataların tespit edilmesi ve arayüz kullanımının analiz edilmesi",
               "Hukuki yükümlülüklerin yerine getirilmesi",
             ]}
           />
@@ -259,6 +304,19 @@ export default function PrivacyPolicy() {
             <em>hukuki yükümlülüğün yerine getirilmesi</em> ve{" "}
             <em>veri sorumlusunun meşru menfaati</em> hukuki sebeplerine
             dayanmaktadır.
+          </P>
+          <P>
+            Son müşteriye ait veriler bakımından hukuki sebep, müşterinin talebini
+            oluşturduğu aşamada alınan <em>açık rızasıdır</em> (KVKK m.5/1). Bu
+            rıza, verilerin talebin yönlendirildiği servis noktasıyla
+            paylaşılmasını da kapsar.
+          </P>
+          <P>
+            Kullanım ve performans verilerinin işlenmesi, servis noktalarına
+            sunulan hizmetin sürdürülmesi ve geliştirilmesine ilişkin{" "}
+            <em>veri sorumlusunun meşru menfaati</em> hukuki sebebine dayanır ve
+            servis noktaları ile kurulan sözleşme kapsamında yürütülür. Bu veriler
+            reklam veya profilleme amacıyla kullanılmaz.
           </P>
 
           {/* 5 */}
@@ -313,14 +371,28 @@ export default function PrivacyPolicy() {
                   <td className="px-4 py-3">Tüm uygulama verisi</td>
                   <td className="px-4 py-3">Barındırma ve veritabanı</td>
                 </tr>
-                <tr>
+                <tr className="border-b border-outline-variant">
                   <td className="px-4 py-3">
-                    Bildirim sağlayıcıları — Google (FCM), Apple (APNs), Expo
+                    Bildirim sağlayıcıları — Expo Push, Google (FCM, Android),
+                    Apple (APNs, iOS)
                   </td>
                   <td className="px-4 py-3">
-                    Cihaz bildirim jetonu, bildirim metni
+                    Cihaz bildirim jetonu ve bildirim metni (müşteri adı,
+                    il/ilçe, lastik ölçüsü, adet, aranma saati)
                   </td>
                   <td className="px-4 py-3">Bildirimin cihaza iletilmesi</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">
+                    Analiz sağlayıcıları — Google (Analytics), Microsoft (Clarity)
+                  </td>
+                  <td className="px-4 py-3">
+                    Kullanım ve performans verileri (bkz. bölüm 2/d) — kişisel
+                    veri alanları maskelenmiş olarak
+                  </td>
+                  <td className="px-4 py-3">
+                    Hizmetin geliştirilmesi ve hata tespiti
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -329,9 +401,28 @@ export default function PrivacyPolicy() {
 
           <P>
             Uygulama verisi Avrupa Birliği içindeki (Almanya, Frankfurt)
-            sunucularda barındırılır; bildirim iletimi sırasında cihaz jetonu ve
-            bildirim metni yurt dışına aktarılabilir. Bildirim metinlerinde
-            müşteri telefon numarası yer almaz.
+            sunucularda barındırılır.
+          </P>
+          <P>
+            Bildirimler sunucumuzdan Expo Push ve Android tarafında Firebase
+            Cloud Messaging (Google), iOS tarafında Apple Push Notification
+            service üzerinden cihaza iletilir. Bildirim metni yeni talebin özetini
+            içerir:{" "}
+            <strong className="font-semibold text-ink">
+              müşteri adı, il/ilçe, lastik ölçüsü, adet ve aranma saati.
+            </strong>{" "}
+            Müşterinin telefon numarası bildirim metninde{" "}
+            <strong className="font-semibold text-ink">yer almaz.</strong> Bu
+            veriler yalnızca bildirimin ilgili servis noktasına ulaştırılması
+            amacıyla, Expo, Google ve Apple tarafından{" "}
+            <em>aktarım aracısı</em> olarak işlenir ve bu aktarım sırasında yurt
+            dışına çıkar.
+          </P>
+          <P>
+            Kullanım ve performans verileri, analiz sağlayıcılarının altyapısı
+            üzerinden işlendiği için yurt dışına aktarılır. Bu aktarımda müşteri
+            adı ve telefon numarası gibi kişisel veri alanları maskelenmiş
+            durumdadır.
           </P>
 
           {/* 6 */}
