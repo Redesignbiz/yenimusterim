@@ -12,20 +12,17 @@ export const site = {
     'Chatbot, çağrı merkezi ve online randevu kanallarından gelen müşteri talepleri tek listede toplanır. ' +
     'Her talep tanımlı bir arama saatiyle iletilir, görüşme sonucu uygulama üzerinden kaydedilir.',
 
-  /** TODO: alan adı netleşince güncelle — metadataBase ve OG etiketleri buna bağlı. */
   url: 'https://yenimusterim.com',
 
-  /** TODO: gerçek adreslerle değiştir. Mağaza formu da destek adresini istiyor. */
   contact: {
     support: 'destek@yenimusterim.com',
     privacy: 'kvkk@yenimusterim.com',
     accountDeletion: 'kvkk@yenimusterim.com',
   },
 
-  /** TODO: ticaret sicilindeki ünvan, adres ve varsa KEP adresi. */
   controller: {
-    legalName: '[Şirket ünvanı]',
-    address: '[Açık adres]',
+    legalName: 'REDESIGN BUSINESS LLC',
+    address: '112 Capitol Trail Suite A950, Newark, DE 19711, USA',
   },
 
   /** TODO: hukuk tarafıyla teyit et. */
