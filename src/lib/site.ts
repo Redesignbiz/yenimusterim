@@ -19,11 +19,12 @@ export const site = {
     privacy: 'kvkk@yenimusterim.com',
     accountDeletion: 'kvkk@yenimusterim.com',
     /**
-     * TODO: işletme telefon numarası.
+     * İşletme telefon numarası — OPSİYONEL, yayın için gerekli değil.
+     * (Play Console destek e-postası ister, telefon istemez; KVKK için de
+     * ulaşılabilir bir kanal yeterli ve o e-postayla karşılanıyor.)
      *
-     * Boş bırakıldığında iletişim bölümünde satır HİÇ render edilmez — yayında
-     * "[Telefon]" gibi bir yer tutucu görünmesin diye bilinçli olarak koşullu.
-     * Numara girilince satır kendiliğinden çıkar, kod değişikliği gerekmez.
+     * Boş bırakıldığında iletişim bölümünde satır HİÇ render edilmez. Numara
+     * girilince satır kendiliğinden çıkar, kod değişikliği gerekmez.
      *
      * `as string` ZORUNLU: nesne `as const` olduğu için tip aksi hâlde `''`
      * literaline daralır, TypeScript de koşullu dalı ölü kod sayıp `never`

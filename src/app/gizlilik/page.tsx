@@ -160,9 +160,9 @@ export default function PrivacyPolicy() {
             items={[
               <>
                 <strong className="font-semibold text-ink">Kimlik ve hesap:</strong>{" "}
-                ad soyad, kullanıcı adı, şifre (geri döndürülemez şekilde
-                şifrelenmiş olarak saklanır), hesap rolü ve bağlı olduğunuz
-                servis noktaları.
+                ad soyad, kullanıcı adı, şifre (tek yönlü kriptografik
+                özetleme/hash yöntemiyle korunarak saklanır ve açık metin olarak
+                tutulmaz), hesap rolü ve bağlı olduğunuz servis noktaları.
               </>,
               <>
                 <strong className="font-semibold text-ink">
@@ -467,7 +467,7 @@ export default function PrivacyPolicy() {
           <UL
             items={[
               "Cihaz ile sunucu arasındaki tüm iletişim TLS ile şifrelenir.",
-              "Şifreler geri döndürülemez şekilde şifrelenerek saklanır; hiç kimse tarafından görüntülenemez.",
+              "Şifreler güvenli tek yönlü hash yöntemleri kullanılarak korunur ve açık metin olarak saklanmaz.",
               "Her kullanıcı yalnızca üyesi olduğu servis noktasının kayıtlarını görebilir. Bu sınır ekranda değil sunucuda uygulanır.",
               "Müşteri telefon numarasına erişim kayıt altına alınır ve denetlenebilir.",
               "Başka bir servis noktasına devredilen talebin telefon numarası, önceki kullanıcıya kalıcı olarak kapatılır.",
