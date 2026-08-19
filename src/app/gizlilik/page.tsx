@@ -168,10 +168,9 @@ export default function PrivacyPolicy() {
                 <strong className="font-semibold text-ink">
                   Cihaz bildirim kimliği:
                 </strong>{" "}
-                bildirim gönderebilmek için cihazınıza ait bildirim jetonu
-                (push token) ve son görülme zamanı. Uygulama bu jetonu açılışta
-                cihazdan alır ve yalnızca kendi sunucumuza kaydeder. Jeton cihazı
-                tanımlar, kişiyi değil; bildirim izni vermezseniz hiç oluşturulmaz.
+                bildirim gönderebilmek için cihazınıza veya uygulama kurulumuna
+                ait bildirim jetonu (push token) ve son görülme zamanı. Uygulama
+                bu jetonu cihazdan alır ve kendi sunucumuza kaydeder.
               </>,
               <>
                 <strong className="font-semibold text-ink">İşlem kayıtları:</strong>{" "}
@@ -185,9 +184,9 @@ export default function PrivacyPolicy() {
             b) Son müşteriye ait veriler
           </h3>
           <P>
-            Bu veriler size uygulama üzerinden{" "}
-            <em>işinizi yapabilmeniz için</em> gösterilir; uygulama tarafından
-            sizden toplanmaz.
+            Bu veriler, servis noktası çalışanına işini yapabilmesi için uygulama
+            üzerinden gösterilir; uygulama kullanıcısından toplanmaz. Veriler,
+            müşteri talebinin oluşturulması sırasında sistemimize iletilir.
           </P>
           <UL
             items={[
@@ -207,13 +206,14 @@ export default function PrivacyPolicy() {
             ]}
           />
           <P>
-            Bu veriler, müşteri talebini oluştururken kendisine bilgi verilerek ve{" "}
+            Bu veriler, müşteri talebinin oluşturulması sırasında müşteriye
+            gerekli bilgilendirme yapılarak ve{" "}
             <strong className="font-semibold text-ink">
               açık rızası alınarak
             </strong>{" "}
             toplanır. Verilerinin bir servis noktasıyla paylaşılmasına onay
-            vermeyen bir görüşme talep oluşturmaz; dolayısıyla rıza verilmemiş bir
-            müşterinin verisi uygulamaya hiç ulaşmaz.
+            vermeyen müşteri için talep oluşturulmaz; dolayısıyla rıza verilmemiş
+            bir müşterinin verisi uygulamaya aktarılmaz.
           </P>
 
           <h3 className="mt-8 text-[17px] font-semibold text-ink">
@@ -230,31 +230,22 @@ export default function PrivacyPolicy() {
             denetim amacıyla tutulur.
           </P>
 
-          <h3 className="mt-8 text-[17px] font-semibold text-ink">
-            d) Kullanım ve performans verileri
-          </h3>
-          <P>
-            Hizmeti geliştirmek, hataları tespit etmek ve arayüzün nasıl
-            kullanıldığını anlamak amacıyla mobil uygulamada kullanım analizi
-            araçları çalışır. Bu araçlarla işlenen veriler:
-          </P>
-          <UL
-            items={[
-              "Görüntülenen ekranlar veya sayfalar, bunlarda geçirilen süre ve oturum bilgisi",
-              "Dokunma, tıklama ve kaydırma gibi etkileşimler",
-              "Cihaz modeli, işletim sistemi sürümü, ekran boyutu, uygulama sürümü ve dil ayarı",
-              "Hata ve çökme kayıtları",
-              "Uygulama veya tarayıcı tarafından üretilen, kimliğinizi doğrudan göstermeyen bir oturum/kurulum tanımlayıcısı",
-            ]}
-          />
-          <P>
-            <strong className="font-semibold text-ink">
-              Oturum kayıtlarında kişisel veri içeren alanlar maskelenir.
-            </strong>{" "}
-            Müşteri adı, telefon numarası ve benzeri alanlar analiz araçlarına
-            okunabilir biçimde iletilmez; kayıtlarda bu alanların yerinde
-            gizlenmiş içerik görünür.
-          </P>
+          {/*
+            ANALİTİK BÖLÜMÜ BİLİNÇLİ OLARAK YOK.
+
+            Google Analytics ve Microsoft Clarity planlanıyor ama henüz kodda
+            değil; kullanıldığını yazmak yanlış beyan olurdu. "Analitik
+            kullanılmamaktadır" demek de yanlış — devreye alınınca metin bir anda
+            gerçeğe aykırı hâle gelir ve kimse politikayı güncellemeyi hatırlamaz.
+            Bu yüzden politika analitik konusunda SESSİZ: ne olumlu ne olumsuz
+            beyan var. Madde 3'teki "reklam yazılımları" satırı yalnızca reklam
+            SDK'larını kapsar, analitiği kapsamaz.
+
+            Araçlar devreye alındığında eklenmesi gerekenler: bölüm 2'ye kullanım
+            ve performans verileri alt başlığı, bölüm 4'e amaç ve hukuki sebep,
+            bölüm 5 tablosuna analiz sağlayıcıları satırı ve yurt dışı aktarım
+            paragrafı. Clarity için maskeleme yapılandırması da şart.
+          */}
 
           {/* 3 */}
           <H2 id="toplanmayanlar">3. Toplamadığımız veriler</H2>
@@ -276,14 +267,6 @@ export default function PrivacyPolicy() {
             reklam, pazarlama veya satış amacıyla üçüncü taraflara aktarılmaz
             veya satılmaz.
           </P>
-          <P>
-            Mobil uygulamada{" "}
-            <strong className="font-semibold text-ink">
-              kullanım analizi araçları kullanılır
-            </strong>
-            ; bunlar reklam araçları değildir ve topladıkları veri reklam amacıyla
-            kullanılmaz. Ayrıntısı bölüm 2/d ve bölüm 5&apos;te açıklanmıştır.
-          </P>
 
           {/* 4 */}
           <H2 id="amac">4. İşleme amaçları ve hukuki sebep</H2>
@@ -294,7 +277,6 @@ export default function PrivacyPolicy() {
               "Hesabınızın oluşturulması, kimliğinizin doğrulanması ve yetki sınırlarınızın uygulanması",
               "Hizmet kalitesinin ve performansın ölçülmesi (tamamlanma, zamanında arama, dönüşüm)",
               "Kişisel veriye erişimin denetlenebilir olması ve bilgi güvenliğinin sağlanması",
-              "Hizmetin geliştirilmesi, hataların tespit edilmesi ve arayüz kullanımının analiz edilmesi",
               "Hukuki yükümlülüklerin yerine getirilmesi",
             ]}
           />
@@ -310,13 +292,6 @@ export default function PrivacyPolicy() {
             oluşturduğu aşamada alınan <em>açık rızasıdır</em> (KVKK m.5/1). Bu
             rıza, verilerin talebin yönlendirildiği servis noktasıyla
             paylaşılmasını da kapsar.
-          </P>
-          <P>
-            Kullanım ve performans verilerinin işlenmesi, servis noktalarına
-            sunulan hizmetin sürdürülmesi ve geliştirilmesine ilişkin{" "}
-            <em>veri sorumlusunun meşru menfaati</em> hukuki sebebine dayanır ve
-            servis noktaları ile kurulan sözleşme kapsamında yürütülür. Bu veriler
-            reklam veya profilleme amacıyla kullanılmaz.
           </P>
 
           {/* 5 */}
@@ -371,7 +346,7 @@ export default function PrivacyPolicy() {
                   <td className="px-4 py-3">Tüm uygulama verisi</td>
                   <td className="px-4 py-3">Barındırma ve veritabanı</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
+                <tr>
                   <td className="px-4 py-3">
                     Bildirim sağlayıcıları — Expo Push, Google (FCM, Android),
                     Apple (APNs, iOS)
@@ -381,18 +356,6 @@ export default function PrivacyPolicy() {
                     il/ilçe, lastik ölçüsü, adet, aranma saati)
                   </td>
                   <td className="px-4 py-3">Bildirimin cihaza iletilmesi</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3">
-                    Analiz sağlayıcıları — Google (Analytics), Microsoft (Clarity)
-                  </td>
-                  <td className="px-4 py-3">
-                    Kullanım ve performans verileri (bkz. bölüm 2/d) — kişisel
-                    veri alanları maskelenmiş olarak
-                  </td>
-                  <td className="px-4 py-3">
-                    Hizmetin geliştirilmesi ve hata tespiti
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -417,12 +380,6 @@ export default function PrivacyPolicy() {
             amacıyla, Expo, Google ve Apple tarafından{" "}
             <em>aktarım aracısı</em> olarak işlenir ve bu aktarım sırasında yurt
             dışına çıkar.
-          </P>
-          <P>
-            Kullanım ve performans verileri, analiz sağlayıcılarının altyapısı
-            üzerinden işlendiği için yurt dışına aktarılır. Bu aktarımda müşteri
-            adı ve telefon numarası gibi kişisel veri alanları maskelenmiş
-            durumdadır.
           </P>
 
           {/* 6 */}

@@ -11,8 +11,9 @@ site üzerinde `/images/<dosya-adı>` adresinden servis edilir.
 | Dosya adı | Ölçü | Nerede kullanılıyor | Durum |
 |---|---|---|---|
 | `hero.webp` | 1125×2250 (1:2) | Hero bölümündeki telefon görseli | ✅ yerinde |
+| `Yeni_Musterim_logo.svg` | 242×39 | Header ve footer logosu (`src/components/Logo.tsx`) | ✅ yerinde |
+| `Favicon.svg` | 54×41 | Favicon — `src/app/icon.svg`'ye **birebir** kopyalanır | ✅ yerinde |
 | `app-icon.svg` | 450×450 | Yayın duyurusu bölümündeki uygulama simgesi | ✅ yerinde |
-| `Favicon.svg` | 54×39 | Favicon kaynağı — `src/app/icon.svg`'ye kopyalandı | ✅ yerinde |
 | `og.png` | 1200×630 | Sosyal medya paylaşım görseli (WhatsApp, LinkedIn, X) | ⬜ bekleniyor |
 
 > `app-icon.svg` PNG ile değiştirilecekse: dosyayı `app-icon.png` olarak bu klasöre koyun,
@@ -28,20 +29,24 @@ site üzerinde `/images/<dosya-adı>` adresinden servis edilir.
 - **Boyut:** Yükleme öncesi sıkıştırın. 1024×1024 bir PNG 200 KB'ın altında olmalı.
 - **Retina:** Ekranda 100 px gösterilecek bir görsel en az 200 px genişliğinde olmalı.
 
-## Şu an kodla çizilen görseller
+## Favicon — iki dosya, biri kopya
 
-Aşağıdakiler dosya değil, SVG olarak koda gömülü. PNG ile değiştirilmeleri **gerekmez**;
-her ekran yoğunluğunda keskin kalırlar ve ağ isteği doğurmazlar.
+Next.js favicon'u **`app/` dizininden** okur; `public/` altındaki bir dosyayı favicon olarak
+kullanamaz. Bu yüzden `public/images/Favicon.svg`, `src/app/icon.svg`'ye kopyalanır.
 
-| Bileşen | Ne çizer |
-|---|---|
-| `src/components/Logo.tsx` | Yeni Müşterim logosu (header + footer) |
-| `src/app/icon.svg` | Tarayıcı sekmesi simgesi (favicon) |
+> ⚠ **Çizim değişince kopyayı yenilemek ZORUNLU.** Yalnızca `Favicon.svg`'yi güncellemek
+> sitede sessizce eski favicon bırakır — hata vermez, fark edilmesi zordur. Bu tuzağa bir
+> kez düşüldü: beyaz kontur eklendi, sekmede görünmedi.
+>
+> Yenileme ve doğrulama:
+> ```bash
+> cp public/images/Favicon.svg src/app/icon.svg
+> diff -q public/images/Favicon.svg src/app/icon.svg   # çıktı yoksa senkron
+> ```
 
-> **Favicon notu:** `src/app/icon.svg`, `public/images/Favicon.svg` ile aynı çizimi taşır;
-> tek fark `viewBox`'ın kareye çevrilmiş olması. Favicon kare bir alana yerleştirildiği için
-> orijinal yatay `viewBox` işareti gereksiz yere küçültüyordu. Çizim değişirse **iki dosya da**
-> güncellenmeli.
+Kalan tek gömülü görsel `src/components/PhoneMockup.tsx` değil — o kaldırıldı. Logo artık
+dosyadan okunuyor; koda gömülü SVG bırakılmadı, çünkü tasarım güncellemeleri kopyaya
+yansımıyordu.
 
 ## Mağaza görselleri buraya konmaz
 

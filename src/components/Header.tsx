@@ -14,7 +14,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-outline-variant bg-surface/85 backdrop-blur">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
         <Link href="/" className="shrink-0">
-          <Logo idPrefix="header-logo" className="h-6 w-auto sm:h-7" />
+          <Logo className="h-6 w-auto sm:h-7" />
         </Link>
 
         {/*
