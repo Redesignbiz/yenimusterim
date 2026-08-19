@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/*
+ * Clear Professional — uygulamanın gerçekte kullandığı tasarım sistemi.
+ * Kaynak: brisa-frontend/stitch_clear_design_system/clear_professional/DESIGN.md
+ * ve dealer-mobile/constants/theme.ts
+ *
+ * Sistemin taşıyıcı kuralı: gölge yok. Derinlik 1px kenarlık ve tonal
+ * katmanlarla kuruluyor — bu yüzden burada bir `shadow` ölçeği tanımlı değil.
+ */
+@theme {
+  --color-surface: #faf8ff;
+  --color-surface-lowest: #ffffff;
+  --color-surface-low: #f2f3fe;
+  --color-surface-container: #ecedf9;
+  --color-surface-high: #e6e7f3;
+  --color-surface-highest: #e1e2ed;
+
+  --color-ink: #191b23;
+  --color-ink-muted: #424654;
+
+  --color-outline: #727786;
+  --color-outline-variant: #c2c6d7;
+
+  --color-primary: #0056c9;
+  --color-primary-bright: #1b6ef3;
+  --color-primary-fixed: #d9e2ff;
+  --color-primary-fixed-dim: #b0c6ff;
+  --color-on-primary-fixed: #001945;
+
+  --color-inverse-surface: #2e3039;
+  --color-inverse-ink: #eff0fb;
+
+  --color-accent: #9f3e00;
+  --color-accent-fixed: #ffdbcc;
+  --color-on-accent-fixed: #351000;
+
+  --color-danger: #ba1a1a;
+  --color-danger-fixed: #ffdad6;
+  --color-on-danger-fixed: #93000a;
+
+  /* 4px'lik katı geometrik ölçek (theme.ts ile birebir). */
+  --radius-sm: 4px;
+  --radius-DEFAULT: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header'ın çapa hedeflerini kesmemesi için. */
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+/*
+ * Türkçe metinde büyük harf kullanımı DESIGN.md'de açıkça yasak: `i` → `I`
+ * dönüşümü noktasız `ı` ile karışıyor. Etiketlerde `uppercase` yerine harf
+ * aralığı ve ağırlıkla ayrışma sağlanıyor.
+ */
+.eyebrow {
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
