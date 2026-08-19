@@ -55,7 +55,16 @@ export function Contact() {
         lead="Uygulama, katılım koşulları ve yayın takvimi hakkındaki sorular aşağıdaki kanallardan iletilebilir."
       />
 
-      <dl className="mt-10 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-3">
+      {/*
+        Sütun sayısı satır sayısını izler. Sabit 3 sütun olduğunda, telefon
+        tanımlı değilken son hücre boş kalıyor ve `gap-px` tekniğinin arka plan
+        rengi (bg-outline-variant) gri bir blok olarak görünüyordu.
+      */}
+      <dl
+        className={`mt-10 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant sm:grid-cols-2 ${
+          rows.length === 3 ? "lg:grid-cols-3" : ""
+        }`}
+      >
         {rows.map((row) => (
           <div key={row.label} className="bg-surface-lowest p-6">
             <span className="flex size-9 items-center justify-center rounded-DEFAULT bg-primary-fixed">
@@ -91,16 +100,6 @@ export function Contact() {
         ))}
       </dl>
 
-      <p className="mt-6 text-[14px] leading-6 text-ink-muted">
-        Kişisel verilerinizle ilgili başvurular için{" "}
-        <a
-          href={`mailto:${site.contact.privacy}`}
-          className="text-primary underline underline-offset-4"
-        >
-          {site.contact.privacy}
-        </a>{" "}
-        adresi kullanılır.
-      </p>
     </Section>
   );
 }

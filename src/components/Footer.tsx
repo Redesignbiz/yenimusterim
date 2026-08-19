@@ -17,13 +17,13 @@ export function Footer() {
           <nav className="flex flex-col gap-3 sm:items-end">
             <Link
               href="/sss"
-              className="text-[14px] font-semibold text-ink transition-colors hover:text-primary"
+              className="text-[14px] font-semibold text-ink-muted transition-colors hover:text-ink"
             >
               Sık sorulan sorular
             </Link>
             <Link
               href="/gizlilik"
-              className="text-[14px] font-semibold text-ink underline underline-offset-4 transition-colors hover:text-primary"
+              className="text-[14px] font-semibold text-ink-muted transition-colors hover:text-ink"
             >
               Gizlilik Politikası
             </Link>
