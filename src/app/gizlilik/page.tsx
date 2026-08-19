@@ -265,9 +265,35 @@ export default function PrivacyPolicy() {
           <H2 id="paylasim">5. Paylaşım ve yurt dışına aktarım</H2>
           <P>
             Veriler yalnızca hizmetin çalışması için zorunlu olan altyapı
-            sağlayıcılarıyla paylaşılır:
+            sağlayıcılarıyla paylaşılır. Reklam, pazarlama veya satış amacıyla
+            hiçbir üçüncü tarafla paylaşılmaz.
           </P>
-          <div className="mt-5 overflow-x-auto rounded-lg border border-outline-variant">
+
+          {/*
+            Alıcı listesi bilinçli olarak katlanmış bir blokta.
+
+            İçerik SAYFADAN KALDIRILMADI, yalnızca gizlendi: `details` içeriği DOM'da
+            durur, arama motorları ve sayfa içi arama bulur, JavaScript gerekmez.
+            Böylece KVKK m.10/m.11 beyanı ve Play Data safety tutarlılığı korunur,
+            ama teknik alıcı adları politikanın okuma akışını kesmez.
+          */}
+          <details className="group mt-5 overflow-hidden rounded-lg border border-outline-variant bg-surface-lowest">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low">
+              Verilerin paylaşıldığı altyapı sağlayıcıları
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4 shrink-0 text-outline transition-transform group-open:rotate-45"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </summary>
+
+            <div className="overflow-x-auto border-t border-outline-variant">
             <table className="w-full min-w-[520px] border-collapse bg-surface-lowest text-left text-[14px]">
               <thead>
                 <tr className="border-b border-outline-variant bg-surface-low">
@@ -278,36 +304,34 @@ export default function PrivacyPolicy() {
                   <th className="px-4 py-3 font-semibold text-ink">Amaç</th>
                 </tr>
               </thead>
+              {/* Üç bildirim sağlayıcısı tek satırda: aynı veriyi aynı amaçla
+                  alıyorlar. Alıcı adları KALMALI — Play Data safety formu onları
+                  ayrı ayrı beyan ettiriyor ve iki beyan tutarlı olmak zorunda. */}
               <tbody className="text-ink-muted">
                 <tr className="border-b border-outline-variant">
                   <td className="px-4 py-3">Google Cloud (Almanya)</td>
                   <td className="px-4 py-3">Tüm uygulama verisi</td>
                   <td className="px-4 py-3">Barındırma ve veritabanı</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="px-4 py-3">Google Firebase (FCM)</td>
-                  <td className="px-4 py-3">Cihaz bildirim jetonu, bildirim metni</td>
-                  <td className="px-4 py-3">Android bildirim iletimi</td>
-                </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="px-4 py-3">Apple (APNs)</td>
-                  <td className="px-4 py-3">Cihaz bildirim jetonu, bildirim metni</td>
-                  <td className="px-4 py-3">iOS bildirim iletimi</td>
-                </tr>
                 <tr>
-                  <td className="px-4 py-3">Expo</td>
-                  <td className="px-4 py-3">Cihaz bildirim jetonu, bildirim metni</td>
-                  <td className="px-4 py-3">Bildirimlerin iletilmesi</td>
+                  <td className="px-4 py-3">
+                    Bildirim sağlayıcıları — Google (FCM), Apple (APNs), Expo
+                  </td>
+                  <td className="px-4 py-3">
+                    Cihaz bildirim jetonu, bildirim metni
+                  </td>
+                  <td className="px-4 py-3">Bildirimin cihaza iletilmesi</td>
                 </tr>
               </tbody>
             </table>
-          </div>
+            </div>
+          </details>
+
           <P>
             Uygulama verisi Avrupa Birliği içindeki (Almanya, Frankfurt)
-            sunucularda barındırılır. Bildirim iletimi sırasında cihaz jetonu ve
-            bildirim metni, ilgili sağlayıcıların altyapısı üzerinden geçtiği
-            için yurt dışına aktarılabilir. Bildirim metinlerinde müşteri telefon
-            numarası yer almaz.
+            sunucularda barındırılır; bildirim iletimi sırasında cihaz jetonu ve
+            bildirim metni yurt dışına aktarılabilir. Bildirim metinlerinde
+            müşteri telefon numarası yer almaz.
           </P>
 
           {/* 6 */}

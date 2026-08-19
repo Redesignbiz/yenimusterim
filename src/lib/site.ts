@@ -21,8 +21,10 @@ export const site = {
   },
 
   controller: {
-    legalName: 'REDESIGN BUSINESS LLC',
-    address: '112 Capitol Trail Suite A950, Newark, DE 19711, USA',
+    legalName: 'Redesign Business Danışmanlık, Eğitim ve Ticaret A.Ş.',
+    address:
+      'Fatih Sultan Mehmet Mah. Poligon Cad. Buyaka 2 Sitesi 3 Blok ' +
+      'No: 8 C İç Kapı No: 7, Ümraniye / İstanbul',
   },
 
   /** TODO: hukuk tarafıyla teyit et. */
