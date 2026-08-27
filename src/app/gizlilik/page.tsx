@@ -196,7 +196,7 @@ export default function PrivacyPolicy() {
               </>,
               <>
                 <strong className="font-semibold text-ink">Talep içeriği:</strong>{" "}
-                lastik tipi, ölçüsü ve adedi, tercih edilen aranma saati,
+                lastik tipi, ölçüsü ve adedi, aranma saati,
                 görüşme sonucu ve varsa notlar.
               </>,
               <>

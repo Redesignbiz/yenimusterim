@@ -22,7 +22,7 @@ Servis noktasının uygulamada gördüğü iş, iki farklı kayıt tipinden olu�
 ### Uygulamanın somut yetenekleri
 
 - **Talep otomatik olarak doğru noktaya düşer** — il/ilçe + marka kurallarıyla atanır, kimse elle dağıtmaz.
-- **Aranma saati müşterinin seçtiği saattir** — o saat gelince telefona push bildirim gider ("Şimdi aranmalı").
+- **Her talep tanımlı bir arama saatiyle gelir** — o saat gelince telefona push bildirim gider ("Şimdi aranmalı"). Saati müşteri seçmiyor.
 - **Tek dokunuşla arama / WhatsApp** — numara uygulamada maskeli, açıldığında erişim kayda geçer (KVKK izi).
 - **Görüşme sonucu tek ekrandan işaretlenir:** Randevu verildi · Fiyat verildi · Ulaşılamadı · Yanlış numara · Stok yok · Uzak lokasyon · Vazgeçmiş.
 - **Ulaşılamadıysa görev kapanmaz** — ertesi gün aynı saate otomatik ötelenir; toplam 2 deneme.
@@ -35,7 +35,7 @@ Servis noktasının uygulamada gördüğü iş, iki farklı kayıt tipinden olu�
 ### Landing'in anlatacağı tek cümle (öneri)
 
 > Chatbot'tan, çağrı merkezinden ve otopratik'ten gelen her talep, doğru servis noktasına,
-> müşterinin istediği saatte düşer — ve takip edilir.
+> tanımlı bir arama saatiyle düşer — ve takip edilir.
 
 ---
 
@@ -131,7 +131,8 @@ Gerekli adres ve süreler **[AÇIK]**.
 
 - Next.js 16.3 · React 19 · Tailwind v4 · TypeScript · App Router · `src/` · `@/*` alias
 - Tek dil: **Türkçe** (`<html lang="tr">`)
-- Route'lar: `/` (landing) · `/gizlilik` (politika)
+- Route'lar: `/` (marka landing'i) · `/app` (mobil uygulama landing'i) · `/iletisim`
+  · `/sss` · `/gizlilik` (politika) · `/hesap-silme`
 - SEO: title, description, OG görseli, `robots`, sitemap
 - Deploy hedefi: Vercel **[AÇIK — doğrula]**
 
