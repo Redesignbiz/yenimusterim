@@ -5,21 +5,25 @@ import { site } from "@/lib/site";
 /**
  * Kapanış. Form yok: bu projede backend de form uç noktası da yok, sessizce
  * düşen bir form ise adresten kötüdür. Birincil düğme iletişim sayfasına
- * (/iletisim) gidiyor, e-posta bağlantısı da onun altında açıkta duruyor.
+ * (/iletisim), ikincisi servis noktası uygulamasına (/app) gidiyor.
  */
 export function Closing() {
   return (
     <Section id="sonraki-adim" className="border-t border-outline-variant">
       <div className="rounded-lg border border-outline-variant bg-surface-lowest p-7 sm:p-10">
         <div className="max-w-2xl">
-          <p className="eyebrow mb-3 text-sm text-primary">Sonraki adım</p>
+          <p className="eyebrow mb-3 text-sm text-primary">
+            Birlikte kurgulayalım
+          </p>
           <h2 className="text-2xl font-bold leading-tight tracking-[-0.02em] text-ink sm:text-3xl">
-            Kendi ağınızda nasıl çalıştığını görün
+            Kendi satış ağınızda nasıl çalışacağını görün
           </h2>
           <p className="mt-5 text-base leading-relaxed text-ink-muted sm:text-lg">
-            Ne sattığınızı ve ağınızın nasıl kurulduğunu anlatın. Sitenizdeki
-            ilk konuşmadan merkez ekibinizin göreceği rapora kadar akışın
-            tamamını gösterelim.
+            {site.name} sisteminin dijital talepleri nasıl nitelendirdiğini,
+            doğru servis noktasına nasıl yönlendirdiğini ve süreci satışa kadar
+            nasıl takip ettiğini kendi yapınız üzerinden gösterelim. Kısa bir
+            görüşmede mevcut akışınızı dinleyip size özel senaryoyu birlikte
+            oluşturalım.
           </p>
 
           <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -27,7 +31,7 @@ export function Closing() {
               href="/iletisim"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
             >
-              Bize ulaşın
+              Demo talep edin
               <svg
                 viewBox="0 0 24 24"
                 className="size-4"
@@ -45,19 +49,9 @@ export function Closing() {
               href="/app"
               className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
             >
-              Servis noktası uygulaması
+              Servis noktası uygulamasını inceleyin
             </Link>
           </div>
-
-          <p className="mt-4 text-[14px] text-ink-muted">
-            Ya da doğrudan yazın:{" "}
-            <a
-              href={`mailto:${site.contact.support}`}
-              className="font-semibold text-primary underline underline-offset-4 transition-colors hover:text-primary-bright"
-            >
-              {site.contact.support}
-            </a>
-          </p>
         </div>
       </div>
     </Section>
