@@ -1,10 +1,5 @@
 import { Section, SectionHeading } from "@/components/Section";
 
-/**
- * Belirleyici olan sektör değil, satın almanın biçimi: seyrek alınır, birileri
- * takar ya da kurar, kategoriyi bilmeyen biri araştırır. Bölüm bu çerçeveyle
- * açılıyor, sektörler arkasından geliyor.
- */
 const industries = [
   { name: "Lastik ve oto servis", detail: "Ebat uyumu, stok ve randevu" },
   { name: "İklimlendirme", detail: "Yerinde keşif ve montaj" },
@@ -20,7 +15,7 @@ export function Industries() {
       <SectionHeading
         eyebrow="Nerede işe yarar"
         title="Sepetten satın alınamayan ürünler için"
-        lead="Beş on yılda bir alınan, bir profesyonelin takıp kurduğu, kategoriyi iyi bilmeyen birinin araştırdığı ürünler. Bu ziyaretçiler çoğunlukla form doldurmadan çıkar. Onları sayfada tutan şey konuşmak; satışı kapatan taraf ise servis noktası."
+        lead="Karar vermenin araştırma, uzman görüşü veya fiziksel hizmet gerektirdiği ürünlerde satış çoğu zaman web sitesinde tamamlanmaz. Ziyaretçi doğru ürünü bulmak, stok durumunu öğrenmek, fiyat almak ya da randevu oluşturmak için bir servis noktasıyla görüşmek ister. Yeni Müşterim bu ilgiyi kaybolmadan yakalar ve müşteriyi satın almaya en yakın noktaya taşır."
       />
 
       <ul className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-3">
@@ -37,9 +32,9 @@ export function Industries() {
       </ul>
 
       <p className="mt-8 text-[15px] leading-6 text-ink-muted">
-        Müşteriniz ürününüzü bir başkasının elinden alıyorsa, düzeltilmesi
-        gereken yer o el değiştirme anıdır. Belirleyici olan sektör değil,
-        ağın nasıl kurulduğu.
+        Satış web sitesinde tamamlanmıyorsa, kritik olan müşterinin ilgisini
+        doğru anda doğru servis noktasına aktarabilmektir. Yeni Müşterim,
+        online ilgiyi gerçek satış fırsatına dönüştürür.
       </p>
     </Section>
   );
