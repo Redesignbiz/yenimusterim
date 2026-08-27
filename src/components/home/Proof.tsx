@@ -4,9 +4,13 @@ import { site } from "@/lib/site";
  * Sayfadaki tek koyu bölüm. Referans işi taşıdığı için görsel kesintiyi hak
  * ediyor.
  *
+ * Marka adı METİNDE GEÇMEZ — "bir lastik üreticisi" diye anılıyor. Brisa /
+ * Lassa / Bridgestone adlarının sayfada kullanım izni docs/landing-brief.md'de
+ * hâlâ açık soru; izin geldiğinde ad buraya ve bağlantı metnine girer.
+ *
  * Burada geçen her rakam `site.metrics` içindeki dörtten biri — yani Redesign
  * Business'ın vaka çalışmasında zaten yayımlanmış olanlar. Bu bölüme başka bir
- * rakam girmez.
+ * rakam girmez; metin de o dördü tekrar yazmaz, kartlar zaten gösteriyor.
  *
  * `inverse-ink-muted` diye bir token yok (bkz. globals.css); ComingSoon'daki
  * gibi opaklıkla çözülüyor.
@@ -20,30 +24,26 @@ export function Proof() {
       <div className="mx-auto w-full max-w-5xl">
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <div>
-            <p className="eyebrow mb-3 text-sm text-primary-fixed-dim">Kanıt</p>
+            <p className="eyebrow mb-3 text-sm text-primary-fixed-dim">Etki</p>
             <h2 className="text-2xl font-bold leading-tight tracking-[-0.02em] text-inverse-ink sm:text-3xl">
-              Bir lastik üreticisinin servis noktası ağı için kuruldu
+              Daha Hızlı Servis Noktası Geri Dönüşü, Daha Yüksek Satış
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-inverse-ink/75 sm:text-lg">
-              {site.caseStudy.client} dijital kanallarda gerçek bir talep
-              üretiyordu ve bu talebi servis noktasına aktarırken kaybediyordu;
-              yanıt süresi günlerle ölçülüyordu. {site.name} bu boşluğu kapatmak
-              için kuruldu. Ölçüm de ilk günden sistemin içindeydi:
-              yönlendirilen ilk talepten itibaren hangi talebin satışa
-              dönüştüğü görünüyordu.
-            </p>
-            <p className="mt-5 text-base leading-relaxed text-inverse-ink/75 sm:text-lg">
-              Platform o ilk ağın ötesine geçti. Bugün otomotiv, tüketici
-              ürünleri ve servis noktası ağıyla satış yapan başka sektörlerde de
-              aynı işi yapıyor: dijital talebi sahadaki servis noktasına
-              ulaştırmak ve orada ne olduğunu ölçmek.
-            </p>
 
+            <p className="mt-5 text-base leading-relaxed text-inverse-ink/75 sm:text-lg">
+              Bir lastik firması, dijital pazarlama faaliyetleriyle önemli
+              miktarda müşteri ilgisi yaratmasına rağmen, bu ilgiyi satışa
+              dönüştürmekte zorlanıyordu. Web sitesinden gelen talepler servis
+              noktalarına iletiliyor ancak servis noktalarının bu talepleri
+              yönetebileceği ve önceliklendirebileceği bir sistem
+              bulunmadığından geri dönüşler günler sürebiliyordu. 
+              Yeni Müşterim, markanın servis noktası ağıyla olan ticari modeli
+              yeniden tasarladı.
+            </p>
             <a
               href={site.caseStudy.href}
               className="mt-7 inline-flex items-center gap-2 text-[15px] font-semibold text-primary-fixed-dim underline underline-offset-4 transition-colors hover:text-inverse-ink"
             >
-              {site.caseStudy.client} vaka çalışmasını okuyun
+              Vaka çalışmasını okuyun
               <svg
                 viewBox="0 0 24 24"
                 className="size-4"

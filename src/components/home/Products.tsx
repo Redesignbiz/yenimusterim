@@ -8,13 +8,12 @@ import { Section, SectionHeading } from "@/components/Section";
  */
 const products = [
   {
-    audience: "Sitenizdeki ziyaretçi",
+    audience: "Sitenizdeki ziyaretçi için",
     title: "Web sitenizde çalışan chatbot",
     points: [
-      "Ziyaretçinin ne aradığını soran hazır konuşma akışları",
-      "İhtiyaç ve satın alma niyeti konuşma içinde netleşir",
-      "Veri paylaşılmadan önce KVKK uyumlu iletişim izni",
-      "Form doldurma zorunluluğu yok",
+      "Ziyaretçinin ihtiyacını belirleyen diyalog akışı",
+      "Potansiyel müşterileri servis noktasına yönlendirme",
+      "KVKK uyumlu iletişim izni",
     ],
     icon: (
       <>
@@ -24,13 +23,11 @@ const products = [
     href: null,
   },
   {
-    audience: "Servis noktası ağınız",
-    title: "Servis noktası için mobil uygulama",
+    audience: "Servis noktası ağınız için",
+    title: "Yeni Müşterim mobil uygulaması",
     points: [
-      "Günün talepleri tek listede",
-      "Yeni talep düştüğünde bildirim",
-      "Uygulama içinden tek dokunuşla arama veya WhatsApp",
-      "Görüşme sonucu tek dokunuşla işaretlenir",
+      "Her yeni müşteri talebi için bildirim",
+      "Uygulama içinden arama veya WhatsApp yönlendirmesi",
     ],
     icon: (
       <>
@@ -41,13 +38,12 @@ const products = [
     href: "/app",
   },
   {
-    audience: "Merkez ekibiniz",
-    title: "Marka için dashboard",
+    audience: "Merkez ekibiniz için",
+    title: "Yönetim paneli",
     points: [
-      "Talep hacmi ve dönüşüm hunisi",
-      "Her servis noktasının yanıt süresi ve dönüşümü",
-      "Bölge ve kanal kırılımı",
-      "Hangi kanalın gerçekten talep getirdiğini gösteren rapor",
+      "Talep hacmi ve dönüşüm hunisi raporları",
+      "Her servis noktasının performans kayıtları",
+      "Bölge ve kanal kırılımlarına göre analiz",
     ],
     icon: (
       <>
@@ -109,7 +105,7 @@ export function Products() {
                 href={product.href}
                 className="mt-6 inline-flex items-center gap-2 text-[14px] font-semibold text-primary transition-colors hover:text-primary-bright"
               >
-                Mobil uygulamaya bakın
+                Mobil uygulamayı inceleyin
                 <svg
                   viewBox="0 0 24 24"
                   className="size-4"
