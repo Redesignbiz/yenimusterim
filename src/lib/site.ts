@@ -40,6 +40,48 @@ export const site = {
       'No: 8 C İç Kapı No: 7, Ümraniye / İstanbul',
   },
 
+  /**
+   * Yayımlanmış sonuç metrikleri. Yalnızca bu dördü dışarıda kullanılabilir:
+   * Redesign Business'ın Bridgestone vaka çalışmasında hâlihazırda yayımlanmış
+   * olan rakamlar bunlar.
+   *
+   * Buraya iç kaynaklı başka bir rakam EKLENMEZ. Arşivlerde geçen ham talep
+   * sayıları farklı bir şeyi farklı bir dönemde ölçüyor ve yayımlanmış oranla
+   * çelişir.
+   *
+   * `short` hero'daki tek satırlık şerit için, `label` kanıt bölümündeki kart
+   * için. İngilizce kaynakta son metrik "parties worldwide" diyor; Türkçesi de
+   * o belirsizliği koruyor, tek tek servis noktası sayısına daraltmıyor.
+   */
+  metrics: [
+    {
+      value: '%32',
+      short: 'talepten satışa',
+      label: 'Servis noktası ağı genelinde talepten satışa dönüşüm oranı',
+    },
+    {
+      value: '%40',
+      short: 'daha hızlı yanıt',
+      label: 'Dijital taleplere daha hızlı servis noktası yanıtı',
+    },
+    {
+      value: '%50',
+      short: 'nitelikli talep',
+      label: 'Platform genelinde nitelikli talep oranı',
+    },
+    {
+      value: '10.000+',
+      short: 'platform kullanıcısı',
+      label: 'Dünya genelinde platformu kullanan taraf sayısı',
+    },
+  ],
+
+  /** Referans vaka çalışması, Redesign Business sitesinde yayında. */
+  caseStudy: {
+    client: 'Bridgestone',
+    href: 'https://www.redesignbiz.com/work/bridgestone/',
+  },
+
   /** TODO: hukuk tarafıyla teyit et. */
   retention: {
     /** Hesap silme talebinin sonuçlandırılma süresi (KVKK azami 30 gün). */

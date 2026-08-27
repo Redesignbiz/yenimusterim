@@ -2,10 +2,11 @@ import { Section, SectionHeading } from "./Section";
 import { site } from "@/lib/site";
 
 /**
- * Header'daki "Bize ulaşın" butonunun hedefi (`/#iletisim`).
+ * Header'daki "Bize ulaşın" butonunun hedefi — kendi sayfası: /iletisim
+ * (src/app/iletisim/page.tsx). Landing'de bir bölüm olarak durmuyor artık.
  *
  * Buton eskiden doğrudan `mailto:` idi; tarayıcıda tanımlı posta istemcisi
- * olmayan kullanıcıda tıklama SESSİZCE hiçbir şey yapmıyordu. Bu bölüm adresleri
+ * olmayan kullanıcıda tıklama SESSİZCE hiçbir şey yapmıyordu. Bu sayfa adresleri
  * ekranda gösterir, `mailto` yalnızca kolaylık olarak üstüne binen bir bağlantı.
  */
 export function Contact() {
@@ -48,8 +49,9 @@ export function Contact() {
   ];
 
   return (
-    <Section id="iletisim" className="border-t border-outline-variant">
+    <Section>
       <SectionHeading
+        as="h1"
         eyebrow="İletişim"
         title="Bize ulaşın"
         lead="Uygulama, katılım koşulları ve yayın takvimi hakkındaki sorular aşağıdaki kanallardan iletilebilir."

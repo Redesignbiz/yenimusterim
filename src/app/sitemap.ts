@@ -9,7 +9,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      // Mobil uygulama landing'i.
+      url: `${site.url}/app`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${site.url}/sss`,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${site.url}/iletisim`,
       changeFrequency: "monthly",
       priority: 0.6,
     },

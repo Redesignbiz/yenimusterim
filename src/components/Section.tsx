@@ -17,23 +17,30 @@ export function Section({
   );
 }
 
+/**
+ * `as`: bölüm başlığı varsayılan olarak `h2` — landing'de tek `h1` Hero'nun.
+ * Bölüm kendi sayfasında tek başına durduğunda (bkz. /iletisim) `h1` verilir,
+ * yoksa sayfa `h1`siz kalır.
+ */
 export function SectionHeading({
   eyebrow,
   title,
   lead,
+  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: string;
   lead?: string;
+  as?: "h1" | "h2";
 }) {
   return (
     <div className="max-w-2xl">
       {eyebrow && (
         <p className="eyebrow mb-3 text-sm text-primary">{eyebrow}</p>
       )}
-      <h2 className="text-2xl font-bold leading-tight tracking-[-0.02em] text-ink sm:text-3xl">
+      <Heading className="text-2xl font-bold leading-tight tracking-[-0.02em] text-ink sm:text-3xl">
         {title}
-      </h2>
+      </Heading>
       {lead && (
         <p className="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
           {lead}

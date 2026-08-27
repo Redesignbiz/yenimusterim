@@ -1,11 +1,12 @@
 import { Section, SectionHeading } from "./Section";
 
 /**
- * Talebin bayiye ulaşana kadarki yolu — bayinin bakış açısından.
+ * Talebin servis noktasına ulaşana kadarki yolu — servis noktasının bakış
+ * açısından.
  *
  * Akış LeadHanger platform konseptinden alındı (nitelendirme → rıza → akıllı
- * eşleştirme → aktarım), ama anlatı bayiye dönük: "senin ekranına düşene kadar
- * ne oluyor ve bu neden senin işine yarıyor".
+ * eşleştirme → aktarım), ama anlatı servis noktasına dönük: "senin ekranına
+ * düşene kadar ne oluyor ve bu neden senin işine yarıyor".
  */
 const steps = [
   {
