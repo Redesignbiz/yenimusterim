@@ -1,4 +1,6 @@
 import Image from "next/image";
+/* Static import — gerekçesi home/Hero.tsx'in başında. */
+import heroScreen from "@/assets/hero.webp";
 
 export function Hero() {
   return (
@@ -26,7 +28,7 @@ export function Hero() {
           {/* `priority`: sayfanın en büyük görseli ve ekranın üst kısmında —
               tembel yüklenirse LCP ölçümü gecikir. */}
           <Image
-            src="/images/hero.webp"
+            src={heroScreen}
             alt="Yeni Müşterim uygulamasının özet ekranı: günün talep ve randevu sayıları ile haftalık performans"
             width={1125}
             height={2250}

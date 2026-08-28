@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { site } from "@/lib/site";
+/* Static import — gerekçesi home/Hero.tsx'in başında. */
+import appIcon from "@/assets/app-icon.svg";
 
 /**
  * Mağaza rozetleri BİLİNÇLİ olarak link değil.
@@ -16,7 +18,7 @@ export function ComingSoon() {
           {/* `unoptimized`: Next'in görsel iyileştiricisi SVG'yi varsayılan olarak
               işlemez; bayrak olmadan istek 400 döner. */}
           <Image
-            src="/images/app-icon.svg"
+            src={appIcon}
             alt="Yeni Müşterim uygulama simgesi"
             width={96}
             height={96}

@@ -1,5 +1,28 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
+
+/*
+ * SİTEDEKİ GÖRSELLERİN KURALI — diğer bileşenler buraya atıf yapıyor.
+ *
+ * Görseller `src/assets/` altında durur ve `src="/images/..."` yerine static
+ * import ile verilir. Sebep önbellek:
+ *
+ * `public/` altındaki bir dosyaya string yolla bakıldığında URL dosya değişse
+ * de sabit kalıyor (`/_next/image?url=/images/Hero_BG.webp`) ve yanıt Next
+ * 16'da 4 saat önbelleğe alınıyor — `minimumCacheTTL` varsayılanı 60 saniyeden
+ * 4 saate çıktı (bkz. docs/01-app/02-guides/upgrading/version-16.md). Sonuç:
+ * görsel aynı adla değiştirildiğinde ne localhost'ta ne de siteyi son 4 saatte
+ * açmış ziyaretçide güncelleniyor. Logo'nun bir kez sessizce eski sürümde
+ * kalması da bu sınıf bir sorundu (bkz. Logo.tsx).
+ *
+ * Static import dosya içeriğini hash'leyip URL'e koyuyor: dosya değiştiği an
+ * URL de değişiyor. Dev'de HMR görseli kendiliğinden yeniliyor, yayında da
+ * `immutable` önbellek kullanılabiliyor. Dosya adını değiştirmek gerekmiyor.
+ *
+ * `public/` yalnızca sabit URL'e mecbur olan şeyler için kalır.
+ */
+import heroBg from "@/assets/Hero_BG.webp";
 
 /**
  * Sağ kolon görsel değil, işaretlemeyle çizildi.
@@ -90,13 +113,50 @@ function LeadCard() {
 }
 
 export function Hero() {
+  /*
+   * Hero ekranın tamamını kaplıyor: `100svh` eksi header (globals.css,
+   * `--header-h`). Bu bir alt sınır — içerik sığmazsa section uzar, kesilmez.
+   *
+   * `svh` bilinçli: `dvh` mobilde adres çubuğu gizlenip görünürken hero'nun
+   * yüksekliğini oynatıyor ve sayfa kaydırmada zıplıyor. `svh` en küçük
+   * viewport'u baz aldığı için taşma da olmuyor.
+   */
   return (
     <section
       id="top"
-      className="border-b border-outline-variant px-4 pt-12 pb-14 sm:px-6 sm:pt-20 sm:pb-20"
+      className="relative isolate flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-hidden border-b border-outline-variant px-4 pt-12 pb-14 sm:px-6 sm:pt-20 sm:pb-20"
     >
-      <div className="mx-auto w-full max-w-5xl">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+      {/*
+        Arka plan yalnızca hero'yu kaplıyor: `relative` + `fill` ikilisi katmanı
+        section'ın sınırlarına bağlıyor, `overflow-hidden` de kırpılan tarafın
+        alt bölümlere sızmasını engelliyor.
+
+        Görsel 3548×1774 (2:1), hero ise ekran oranını takip ediyor; bu yüzden
+        `cover` ile ölçekleniyor. Hero her zaman görselden daha dar oranlı
+        olduğu için kırpma yatayda oluyor: `object-right` desenin yoğun tarafını
+        sağda tutuyor, kırpılan sol kenar da görselin boş tarafı.
+
+        `priority`: ana sayfanın en büyük görseli bu — tembel yüklenirse LCP
+        ölçümü gecikir.
+      */}
+      <Image
+        src={heroBg}
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="-z-10 object-cover object-right"
+      />
+
+      {/*
+        Ekran yüksekliği içerikten fazla olduğunda artan boşluğun nereye
+        gideceği belirli olsun diye dikey eksen flex'e bırakıldı: ana blok
+        (`flex-1` + `content-center`) kalan alanı alıp içeriğini ortalıyor,
+        metrik şeridi de kendiliğinden alta oturuyor. `content-center`
+        olmadan grid satırları gerilip aralarında ölçüsüz boşluk açılıyor.
+      */}
+      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col">
+        <div className="grid flex-1 content-center items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
           <div>
             <p className="eyebrow inline-flex items-start gap-2 rounded-full border border-primary-fixed-dim bg-primary-fixed px-3.5 py-1.5 text-[13px] text-on-primary-fixed">
               <span

@@ -47,6 +47,19 @@
   --radius-xl: 24px;
 }
 
+/*
+ * Sticky header'ın yüksekliği. Hero kendini ekran yüksekliğine oturtmak için
+ * bu değeri düşüyor (bkz. home/Hero.tsx).
+ *
+ * Header'ın yüksekliği içerikten geliyor, sabitlenmiş değil; buradaki sayı
+ * onun hesabı: py-3.5 (28px) + buton satırı (text-sm 20px + py-2 16px = 36px)
+ * + border-b (1px). Header.tsx'te dolgu, yazı boyu veya buton ölçüsü
+ * değişirse bu değer de güncellenir.
+ */
+:root {
+  --header-h: 65px;
+}
+
 html {
   scroll-behavior: smooth;
   /* Sticky header'ın çapa hedeflerini kesmemesi için. */
