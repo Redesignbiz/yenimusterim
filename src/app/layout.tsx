@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
+import { CookieConsent } from "@/components/CookieConsent";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -57,6 +58,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-surface text-ink font-[family-name:var(--font-sans)]">
         {children}
+        {/* Bildirim `children`dan sonra: küçük pencere modal değil, odak
+            hapsetmiyor; klavye sırası sayfa içeriğinin ardından ona ulaşıyor. */}
+        <CookieConsent />
       </body>
     </html>
   );

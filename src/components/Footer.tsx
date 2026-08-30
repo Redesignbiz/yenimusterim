@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { CookieConsentButton } from "./CookieConsent";
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -33,6 +34,7 @@ export function Footer() {
             >
               Hesap silme
             </Link>
+            <CookieConsentButton className="text-left text-[14px] font-semibold text-ink-muted transition-colors hover:text-ink sm:text-right" />
             <a
               href={`mailto:${site.contact.support}`}
               className="text-[14px] font-semibold text-ink-muted transition-colors hover:text-ink"
