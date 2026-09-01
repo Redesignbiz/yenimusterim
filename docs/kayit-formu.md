@@ -45,6 +45,15 @@ birlikte gelen boş sayfa o zaman silinebilir.
    varsayılan `Code.gs` içeriğini **[`kayit-formu.gs`](kayit-formu.gs)**
    dosyasının tamamıyla değiştir. Kod bu dokümanda tekrarlanmıyor ki iki kopya
    zamanla birbirinden ayrışmasın.
+
+   Editör "Adsız proje" adıyla açılıyor; sol üstteki başlığa tıklayıp
+   **Yeni Müşterim — kayıt alıcısı** yaz. Bu ad yalnızca Apps Script
+   listesinde görünüyor, çalışmayı etkilemiyor. Dosya adı `Code.gs` kalabilir;
+   `doPost`un hangi dosyada durduğunun önemi yok.
+
+   Yapıştırdıktan sonra **⌘S** (veya araç çubuğundaki disket) ile kaydet.
+   Kaydetmek yayına almıyor — yayın 2. adımdaki Deploy; editörü kapatmadan
+   oraya geçebilirsin.
 2. Dosyanın başındaki `AYARLAR.TOKEN` değerini üret ve `BURAYA_URETILEN_SIR`
    yazan yere yapıştır — tahmin edilebilir bir değer olmasın:
 
