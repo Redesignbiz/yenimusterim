@@ -2,7 +2,8 @@
  * Yeni Müşterim — kayıt başvurusu alıcısı.
  *
  * İki aşama alır: 'adim1' satırı açar, 'tamamlandi' aynı satırı basvuruId ile
- * bulup tamamlar. Her iki aşamada da bildirim e-postası gider. İstek yalnızca
+ * bulup tamamlar. Bildirim e-postası yalnızca satır ilk açıldığında gider.
+ * İstek yalnızca
  * yenimusterim.com sunucusundan geliyor; kimlik doğrulama paylaşılan sır
  * (AYARLAR.TOKEN) ile yapılıyor.
  */
@@ -51,6 +52,7 @@ function doPost(e) {
     const simdi = veri.gonderimZamani ? new Date(veri.gonderimZamani) : new Date();
 
     const satirNo = satiriBul(sayfa, veri.basvuruId);
+    const ilkKayit = satirNo === 0;
     const mevcut =
       satirNo > 0
         ? sayfa.getRange(satirNo, 1, 1, BASLIKLAR.length).getValues()[0]
@@ -82,10 +84,13 @@ function doPost(e) {
       sayfa.appendRow(satir);
     }
 
-    // Her iki aşamada da bildirim gidiyor: ilk adımı tamamlayan bir servis
-    // noktasına ikinci adımı beklemeden dönülebilsin. Aynı başvuru için iki
-    // e-posta gelir, konu satırı hangisi olduğunu söylüyor.
-    bildirimGonder(veri, tamamlandi);
+    // Bildirim YALNIZCA satır ilk kez açıldığında: her başvuru için tek
+    // e-posta. Tamamlanma ayrı bir mail üretmiyor, tabloda `Durum` kolonundan
+    // görülüyor; kullanıcı ikinci adımdan geri dönüp tekrar "Devam Et"e
+    // basarsa satır güncelleniyor ama yeni bir bildirim gitmiyor.
+    if (ilkKayit) {
+      bildirimGonder(veri);
+    }
 
     return yanit({ ok: true });
   } catch (hata) {
@@ -109,47 +114,31 @@ function satiriBul(sayfa, basvuruId) {
   return 0;
 }
 
-function bildirimGonder(veri, tamamlandi) {
-  // İşletme profili soruları ikinci adımda yanıtlanıyor; ilk adımın
-  // bildiriminde o satırları basmanın anlamı yok, hepsi boş olurdu.
-  const profil = tamamlandi
-    ? [
-        '',
-        'Bölge: ' + veri.bolge,
-        'Kapasite: ' + veri.kapasite,
-        'Müşteri profili: ' + veri.musteriProfili,
-        'Hizmetler: ' + veri.hizmetler,
-        'Dijital pazarlama: ' + (veri.dijitalPazarlama || '—'),
-      ]
-    : ['', 'İşletme profili soruları henüz yanıtlanmadı.'];
-
+function bildirimGonder(veri) {
+  // İşletme profili soruları ikinci adımda yanıtlanıyor; bu bildirim ilk adımda
+  // gittiği için o satırların hepsi boş olurdu, yerine nereye bakılacağı yazıyor.
   MailApp.sendEmail({
     to: AYARLAR.ALICI,
     bcc: AYARLAR.BCC,
     // Yanıt doğrudan başvurana gitsin.
     replyTo: veri.email,
     subject:
-      (tamamlandi ? 'Yeni kayıt başvurusu: ' : 'Kayıt başvurusu başladı: ') +
-      veri.sirket +
-      ' (' +
-      veri.il +
-      '/' +
-      veri.ilce +
-      ')',
+      'Yeni bir talep geldi: ' + veri.sirket + ' (' + veri.il + '/' + veri.ilce + ')',
     body: [
-      tamamlandi
-        ? 'Servis noktası kayıt başvurusu tamamlandı.'
-        : 'Servis noktası kayıt formunun ilk adımını tamamladı. Başvuru ikinci adım gönderilirse aynı satırda güncellenir.',
+      'Bir servis noktası kayıt formunu doldurdu ve iletişim bilgilerini bıraktı.',
       '',
       'Şirket: ' + veri.sirket,
       'İl / ilçe: ' + veri.il + ' / ' + veri.ilce,
       'Sorumlu: ' + veri.ad + ' ' + veri.soyad,
       'E-posta: ' + veri.email,
       'Telefon: ' + veri.telefon,
-    ]
-      .concat(profil)
-      .concat(['', 'Başvuru listesi: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()])
-      .join('\n'),
+      '',
+      'İşletme profili soruları ikinci adımda yanıtlanıyor; yanıtlar geldiğinde',
+      'aynı satır güncellenir ve durumu Yeni olur. Bu başvuru için başka bir',
+      'e-posta gönderilmez.',
+      '',
+      'Başvuru listesi: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl(),
+    ].join('\n'),
   });
 }
 
