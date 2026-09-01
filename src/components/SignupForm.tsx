@@ -28,8 +28,13 @@ import { adim1Kaydet, kayitBasvurusuGonder } from '@/app/app/kayit/actions';
  *
  * İKİ ADIM, TEK FORM. Adımlar ayrı `<form>` değil: adım 1'in alanları ikinci
  * adımda CSS ile gizleniyor ama DOM'da kalıyor, böylece gönderimde tek
- * FormData'da toplanıyorlar ve kullanıcı geri döndüğünde yazdıkları yerinde
- * duruyor.
+ * FormData'da toplanıyorlar.
+ *
+ * İkinci adımdan birinciye DÖNÜLEMİYOR: ilk adımın verisi kaydedilip
+ * bildirimi gönderildiği için sonradan değiştirilmesi, haber verilen bilgiyle
+ * tablodaki kaydı ayrıştırırdı. Tek istisna, sunucudan ilk adımın bir alanına
+ * hata dönmesi — o zaman düzeltilecek yer orası olduğu için form kullanıcıyı
+ * geri götürüyor.
  *
  * Adım 1 tamamlandığında veri BEKLENMEDEN kaydediliyor (`adim1Kaydet`):
  * kullanıcı ikinci adımı yarıda bıraksa bile iletişim bilgisi tabloya düşmüş
@@ -214,11 +219,6 @@ function KayitFormu({
   function devamEt(olay: React.MouseEvent<HTMLButtonElement>) {
     const form = olay.currentTarget.form;
     if (form) adim1denGec(form);
-  }
-
-  function geriDon(olay: React.MouseEvent<HTMLButtonElement>) {
-    setAdim(1);
-    olay.currentTarget.form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function gonderimiDenetle(olay: React.SyntheticEvent<HTMLFormElement>) {
@@ -419,7 +419,7 @@ function KayitFormu({
         {/* Onay ADIM 1'de: veri bu adımın sonunda kaydediliyor. */}
         <Onay hata={hatalar.onay} />
 
-        <div className="mt-8">
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           <button
             type="button"
             onClick={devamEt}
@@ -439,6 +439,12 @@ function KayitFormu({
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </button>
+
+          {/* Bu adımın bilgileri devam edildiği anda kaydedilip bildiriliyor;
+              sonrasında düzeltme imkânı olmadığı için önceden söyleniyor. */}
+          <p className="text-[13px] text-ink-muted">
+            Devam ettikten sonra bu bilgiler değiştirilemez.
+          </p>
         </div>
       </div>
 
@@ -502,15 +508,6 @@ function KayitFormu({
             className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright disabled:cursor-not-allowed disabled:opacity-60"
           >
             {pending ? 'Gönderiliyor…' : 'Gönder'}
-          </button>
-
-          <button
-            type="button"
-            onClick={geriDon}
-            disabled={pending}
-            className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low disabled:opacity-60"
-          >
-            Geri
           </button>
 
           {/* Boşken de DOM'da duruyor: `aria-live` yalnızca var olan bir bölgeye
