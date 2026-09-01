@@ -69,9 +69,12 @@ export default function PrivacyPolicy() {
             taleplerini ve randevularını takip etmesi için geliştirilmiş bir
             işletme uygulamasıdır. Halka açık bir tüketici uygulaması değildir:{" "}
             <strong className="font-semibold text-ink">
-              uygulamada kayıt (üye olma) adımı yoktur
-            </strong>
-            , hesaplar yalnızca yetkili yönetici tarafından tanımlanır.
+              uygulama içinde kendi kendine hesap oluşturma adımı yoktur.
+            </strong>{" "}
+            Kayıt olmak isteyen kullanıcı web sitesindeki kayıt formuna
+            yönlendirilir; başvurunun incelenmesi sonucunda hesap yetkili
+            yönetici tarafından tanımlanır. Bu formda işlenen veriler bölüm
+            12&apos;de açıklanmıştır.
           </P>
 
           {/* İçindekiler — 12 bölümlük bir metinde hesap silme başlığının
@@ -96,7 +99,11 @@ export default function PrivacyPolicy() {
                 { id: "haklar", label: "9. KVKK kapsamındaki haklarınız" },
                 { id: "cocuklar", label: "10. Çocukların verileri" },
                 { id: "degisiklikler", label: "11. Politikadaki değişiklikler" },
-                { id: "iletisim", label: "12. İletişim" },
+                {
+                  id: "basvuru",
+                  label: "12. Web sitesi üzerinden iletilen kayıt başvuruları",
+                },
+                { id: "iletisim", label: "13. İletişim" },
               ].map((item) => (
                 <li key={item.id}>
                   <a
@@ -428,7 +435,7 @@ export default function PrivacyPolicy() {
               "Her kullanıcı yalnızca üyesi olduğu servis noktasının kayıtlarını görebilir. Bu sınır ekranda değil sunucuda uygulanır.",
               "Müşteri telefon numarasına erişim kayıt altına alınır ve denetlenebilir.",
               "Başka bir servis noktasına devredilen talebin telefon numarası, önceki kullanıcıya kalıcı olarak kapatılır.",
-              "Uygulamada kayıt (self-servis üyelik) yoktur; hesaplar yalnızca yetkili yönetici tarafından açılır.",
+              "Uygulama içinde kendi kendine hesap oluşturma yoktur; kayıt olmak isteyen kullanıcı başvuru formuna yönlendirilir ve hesap, başvurunun incelenmesi sonucunda yalnızca yetkili yönetici tarafından açılır.",
             ]}
           />
 
@@ -509,8 +516,95 @@ export default function PrivacyPolicy() {
             değişikliklerde uygulama üzerinden ayrıca bilgilendirme yapılır.
           </P>
 
-          {/* 12 */}
-          <H2 id="iletisim">12. İletişim</H2>
+          {/*
+            12 — /app/kayit formu eklendiğinde yazıldı.
+
+            Bu bölüm formun ALANLARIYLA BİRLİKTE değişir: forma yeni bir alan
+            eklendiğinde veya başvurunun yazıldığı yer değiştiğinde (bugün
+            Google Workspace hesap tablosu — bkz. docs/kayit-formu.md) aşağıdaki
+            veri kategorileri, alıcı ve amaç listesi de güncellenir. Politika
+            ürünün bugün fiilen yaptığı işlemeyi anlatır.
+          */}
+          <H2 id="basvuru">
+            12. Web sitesi üzerinden iletilen kayıt başvuruları
+          </H2>
+          <P>
+            {site.url.replace("https://", "")}/app/kayit adresindeki kayıt
+            başvurusu formu, uygulamaya dahil olmak isteyen servis noktalarının
+            başvurusunu almak için kullanılır. Kayıt olmak isteyen kullanıcı,
+            uygulama içinden veya web sitesinden bu forma yönlendirilir; form
+            doldurulduktan sonra başvuru incelenir ve uygun bulunması hâlinde
+            hesap tanımlanır. Form aracılığıyla aşağıdaki kişisel veriler
+            işlenir:
+          </P>
+          <UL
+            items={[
+              <>
+                <strong className="font-semibold text-ink">Kimlik verisi:</strong>{" "}
+                başvuruda belirtilen şirket sorumlusunun adı ve soyadı.
+              </>,
+              <>
+                <strong className="font-semibold text-ink">İletişim verisi:</strong>{" "}
+                e-posta adresi ve telefon numarası.
+              </>,
+              <>
+                <strong className="font-semibold text-ink">
+                  Mesleki deneyim verisi:
+                </strong>{" "}
+                temsil edilen şirketin adı ile faaliyet gösterilen il ve ilçe.
+              </>,
+              <>
+                <strong className="font-semibold text-ink">
+                  İşletme profiline ilişkin beyanlar:
+                </strong>{" "}
+                işletmenin konumlandığı bölge türü, aynı anda hizmet
+                verilebilen araç sayısı, ağırlıklı müşteri profili, sunulan
+                hizmetler ve dijital pazarlama faaliyetlerinin durumu.
+              </>,
+            ]}
+          />
+          <P>
+            Bu veriler; kayıt başvurusunun değerlendirilmesi, başvuru sahibiyle
+            iletişim kurulması ve başvurunun uygun bulunması hâlinde uygulama
+            hesabının tanımlanması amaçlarıyla, bu amaçlarla sınırlı olarak
+            işlenir. İşleme, formun gönderilmesinden önce alınan{" "}
+            <em>açık rızaya</em> (KVKK m.5/1) ve başvurunun kabulü hâlinde{" "}
+            <em>
+              sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması
+            </em>{" "}
+            (KVKK m.5/2) hukuki sebebine dayanır. Başvuru verileri reklam,
+            pazarlama veya satış amacıyla kullanılmaz.
+          </P>
+          <P>
+            Form iki adımdan oluşur. Birinci adımda yer alan kimlik, iletişim ve
+            mesleki deneyim verileri, bu adım tamamlanıp{" "}
+            <strong className="font-semibold text-ink">
+              açık rıza verildiği anda kaydedilir
+            </strong>
+            ; ikinci adımdaki işletme profili soruları yanıtlanmasa dahi bu
+            kayıt, yukarıdaki amaçlarla ve aşağıdaki saklama süresi boyunca
+            saklanır.
+          </P>
+          <P>
+            Başvurunun kabul edilmesi hâlinde kayıt, hesap bilgilerine dönüşür ve
+            bölüm 6&apos;daki saklama süreleri uygulanır. Kabul edilmeyen veya
+            sonuçlandırılmayan başvurulara ait kayıtlar, başvurunun
+            sonuçlandırıldığı tarihten itibaren en fazla{" "}
+            {site.retention.applicationMonths} ay boyunca saklanır ve sürenin
+            sonunda silinir veya anonim hâle getirilir. Başvuru sahibi verdiği
+            açık rızayı her zaman geri alabilir; bu hâlde başvuru kaydı silinir
+            ve süreç sona erer. Talepler{" "}
+            <a
+              className="text-primary underline underline-offset-4"
+              href={`mailto:${site.contact.privacy}`}
+            >
+              {site.contact.privacy}
+            </a>{" "}
+            adresine iletilir.
+          </P>
+
+          {/* 13 */}
+          <H2 id="iletisim">13. İletişim</H2>
           <P>
             Bu politikayla veya kişisel verilerinizle ilgili her türlü soru ve
             talebiniz için:

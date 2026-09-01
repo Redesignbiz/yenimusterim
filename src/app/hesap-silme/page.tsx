@@ -60,8 +60,8 @@ export default function AccountDeletion() {
             </h2>
             <p className="mt-2 text-[15px] leading-7 text-ink-muted">
               {site.name} işletme kullanımına yönelik bir uygulamadır ve
-              hesaplar self-servis kayıt yoluyla değil, yetkili yönetici
-              tarafından oluşturulur. Bir hesabın silinmesi, bağlı olduğu servis
+              hesaplar, kayıt başvurusunun incelenmesi sonrasında yetkili
+              yönetici tarafından oluşturulur. Bir hesabın silinmesi, bağlı olduğu servis
               noktasının operasyonunu ve devredilmemiş talepleri de etkilediği
               için işlem, kimlik doğrulaması yapılarak talep üzerine yürütülür.
             </p>

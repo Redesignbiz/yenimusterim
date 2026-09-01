@@ -33,6 +33,23 @@ export const site = {
     phone: '' as string,
   },
 
+  /**
+   * Mağaza adresleri. Bir mağazanın adresi BOŞ olduğu sürece o rozet
+   * tıklanabilir olmaz (bkz. StoreLinks.tsx): link vermek kullanıcıyı boş bir
+   * arama sonucuna götürür. Adres girildiği anda rozet kendiliğinden bağlantıya
+   * dönüşür, kod değişikliği gerekmez.
+   *
+   * `as string` gerekçesi `contact.phone` ile aynı: nesne `as const` olduğu için
+   * tip aksi hâlde `''` literaline daralır ve koşullu dal ölü kod sayılır.
+   */
+  stores: {
+    /** Google Play — 31 Ağustos 2026 itibarıyla yayında. */
+    googlePlay:
+      'https://play.google.com/store/apps/details?id=com.brisa.dealer' as string,
+    /** App Store — henüz yayında değil. */
+    appStore: '' as string,
+  },
+
   controller: {
     legalName: 'Redesign Business Danışmanlık, Eğitim ve Ticaret A.Ş.',
     address:
@@ -88,9 +105,14 @@ export const site = {
     deletionDays: 30,
     /** Kapatılan hesabın işlem kayıtlarının saklanma süresi. */
     logYears: 10,
+    /**
+     * Kabul edilmeyen veya sonuçlandırılmayan kayıt başvurularının (/app/kayit)
+     * saklanma süresi. Politikada üst sınır olarak geçiyor.
+     */
+    applicationMonths: 12,
   },
 
   /** Politikanın yürürlük tarihi — metinde ve `dateModified`'da kullanılır. */
-  policyUpdatedAt: '2026-08-18',
-  policyUpdatedLabel: '18 Ağustos 2026',
+  policyUpdatedAt: '2026-08-31',
+  policyUpdatedLabel: '31 Ağustos 2026',
 } as const;

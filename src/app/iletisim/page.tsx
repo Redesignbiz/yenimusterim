@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Bize ulaşın",
   description:
-    "Uygulama, katılım koşulları ve yayın takvimi hakkındaki sorular aşağıdaki kanallardan iletilebilir.",
+    "Uygulama, kayıt başvurusu ve katılım koşulları hakkındaki sorular aşağıdaki kanallardan iletilebilir.",
   alternates: { canonical: "/iletisim" },
 };
 

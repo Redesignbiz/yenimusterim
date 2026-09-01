@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { site } from "@/lib/site";
 /* Static import — gerekçesi home/Hero.tsx'in başında. */
 import heroScreen from "@/assets/hero.webp";
 
@@ -22,6 +24,43 @@ export function Hero() {
             bellidir.
           </p>
 
+          {/*
+            Birincil düğme kayıt başvurusu (/app/kayit): hero'yu okuyan servis
+            noktasının çoğunun henüz hesabı yok, indirme tek başına işine
+            yaramıyor. İndirme bağlantısı ikincil ve yalnızca adresi tanımlı
+            mağaza için basılıyor (bkz. site.stores, StoreLinks.tsx).
+          */}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              href="/app/kayit"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
+            >
+              Kayıt olun
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+
+            {site.stores.googlePlay && (
+              <a
+                href={site.stores.googlePlay}
+                target="_blank"
+                rel="noopener"
+                className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
+              >
+                Google Play&apos;den indirin
+              </a>
+            )}
+          </div>
         </div>
 
         <div className="lg:pl-6">

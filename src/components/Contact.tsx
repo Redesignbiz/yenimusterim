@@ -54,7 +54,7 @@ export function Contact() {
         as="h1"
         eyebrow="İletişim"
         title="Bize ulaşın"
-        lead="Uygulama, katılım koşulları ve yayın takvimi hakkındaki sorular aşağıdaki kanallardan iletilebilir."
+        lead="Uygulama, kayıt başvurusu ve katılım koşulları hakkındaki sorular aşağıdaki kanallardan iletilebilir."
       />
 
       {/*
