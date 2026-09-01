@@ -2,7 +2,7 @@
  * Yeni Müşterim — kayıt başvurusu alıcısı.
  *
  * İki aşama alır: 'adim1' satırı açar, 'tamamlandi' aynı satırı basvuruId ile
- * bulup tamamlar ve bildirim e-postasını gönderir. İstek yalnızca
+ * bulup tamamlar. Her iki aşamada da bildirim e-postası gider. İstek yalnızca
  * yenimusterim.com sunucusundan geliyor; kimlik doğrulama paylaşılan sır
  * (AYARLAR.TOKEN) ile yapılıyor.
  */
@@ -82,12 +82,10 @@ function doPost(e) {
       sayfa.appendRow(satir);
     }
 
-    // Bildirim yalnızca tamamlanmış başvuruda: her yarım form için e-posta
-    // göndermek gelen kutusunu gürültüye boğardı, yarım kalanlar tabloda
-    // 'Yarım' durumuyla zaten görünüyor.
-    if (tamamlandi) {
-      bildirimGonder(veri);
-    }
+    // Her iki aşamada da bildirim gidiyor: ilk adımı tamamlayan bir servis
+    // noktasına ikinci adımı beklemeden dönülebilsin. Aynı başvuru için iki
+    // e-posta gelir, konu satırı hangisi olduğunu söylüyor.
+    bildirimGonder(veri, tamamlandi);
 
     return yanit({ ok: true });
   } catch (hata) {
@@ -111,31 +109,47 @@ function satiriBul(sayfa, basvuruId) {
   return 0;
 }
 
-function bildirimGonder(veri) {
+function bildirimGonder(veri, tamamlandi) {
+  // İşletme profili soruları ikinci adımda yanıtlanıyor; ilk adımın
+  // bildiriminde o satırları basmanın anlamı yok, hepsi boş olurdu.
+  const profil = tamamlandi
+    ? [
+        '',
+        'Bölge: ' + veri.bolge,
+        'Kapasite: ' + veri.kapasite,
+        'Müşteri profili: ' + veri.musteriProfili,
+        'Hizmetler: ' + veri.hizmetler,
+        'Dijital pazarlama: ' + (veri.dijitalPazarlama || '—'),
+      ]
+    : ['', 'İşletme profili soruları henüz yanıtlanmadı.'];
+
   MailApp.sendEmail({
     to: AYARLAR.ALICI,
     bcc: AYARLAR.BCC,
     // Yanıt doğrudan başvurana gitsin.
     replyTo: veri.email,
     subject:
-      'Yeni kayıt başvurusu: ' + veri.sirket + ' (' + veri.il + '/' + veri.ilce + ')',
+      (tamamlandi ? 'Yeni kayıt başvurusu: ' : 'Kayıt başvurusu başladı: ') +
+      veri.sirket +
+      ' (' +
+      veri.il +
+      '/' +
+      veri.ilce +
+      ')',
     body: [
-      'Servis noktası kayıt başvurusu tamamlandı.',
+      tamamlandi
+        ? 'Servis noktası kayıt başvurusu tamamlandı.'
+        : 'Servis noktası kayıt formunun ilk adımını tamamladı. Başvuru ikinci adım gönderilirse aynı satırda güncellenir.',
       '',
       'Şirket: ' + veri.sirket,
       'İl / ilçe: ' + veri.il + ' / ' + veri.ilce,
       'Sorumlu: ' + veri.ad + ' ' + veri.soyad,
       'E-posta: ' + veri.email,
       'Telefon: ' + veri.telefon,
-      '',
-      'Bölge: ' + veri.bolge,
-      'Kapasite: ' + veri.kapasite,
-      'Müşteri profili: ' + veri.musteriProfili,
-      'Hizmetler: ' + veri.hizmetler,
-      'Dijital pazarlama: ' + (veri.dijitalPazarlama || '—'),
-      '',
-      'Başvuru listesi: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl(),
-    ].join('\n'),
+    ]
+      .concat(profil)
+      .concat(['', 'Başvuru listesi: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()])
+      .join('\n'),
   });
 }
 

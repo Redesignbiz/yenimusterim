@@ -2,7 +2,7 @@
 
 `/app/kayit` formunun (`src/app/app/kayit/`) sunucu tarafı, başvuruyu Google
 Apps Script ile yayımlanmış bir web app'e POST eder. Script başvuruyu bir Google
-Sheets tablosuna yazar ve başvuru tamamlandığında bildirim e-postasını gönderir.
+Sheets tablosuna yazar ve her iki aşamada da bildirim e-postasını gönderir.
 
 Bu yol, başvuruların **takip edilebilir bir liste** olarak birikmesi için
 seçildi: hangi başvurunun incelendiği, hangisinin hesabı açıldığı tabloda bir
@@ -16,11 +16,13 @@ istemciye hiç inmiyor; aksi hâlde tabloya dışarıdan satır yazılabilirdi.
 
 | Aşama | Ne zaman | Ne olur |
 |---|---|---|
-| `adim1` | Kullanıcı "Devam Et"e bastığında | Satır tabloya **hemen** yazılır, durumu `Yarım`. E-posta gönderilmez. |
-| `tamamlandi` | Adım 2 gönderildiğinde | Aynı satır `basvuruId` ile bulunup tamamlanır, durumu `Yeni` olur ve bildirim e-postası gider. |
+| `adim1` | Kullanıcı "Devam Et"e bastığında | Satır tabloya **hemen** yazılır, durumu `Yarım`, ve "Kayıt başvurusu başladı" konulu bildirim gider. |
+| `tamamlandi` | Adım 2 gönderildiğinde | Aynı satır `basvuruId` ile bulunup tamamlanır, durumu `Yeni` olur ve "Yeni kayıt başvurusu" konulu ikinci bildirim gider. |
 
-Böylece ikinci adımı yarıda bırakan bir servis noktasının iletişim bilgisi de
-elde kalıyor. `basvuruId`, form ilk adımı geçerken tarayıcıda üretilen ve
+Böylece ikinci adımı yarıda bırakan bir servis noktası sessiz kalmıyor:
+iletişim bilgisi hem tabloya düşüyor hem de bildirim olarak geliyor, ikinci
+adım hiç gelmese de dönüş yapılabiliyor. Aynı başvuru için iki e-posta gelir;
+hangisi olduğu konu satırında yazıyor. `basvuruId`, form ilk adımı geçerken tarayıcıda üretilen ve
 gönderim boyunca taşınan kimlik.
 
 İlk aşamanın kaydı **beklenmeden** yapılıyor: başarısız olursa kullanıcı bunu
@@ -140,11 +142,12 @@ Deneme satırını tablodan silmek yeterli.
 
 ## Bilinmesi gerekenler
 
-- **Yarım başvurular.** `Yarım` durumundaki satırlar için bildirim gitmez;
-  bunları görmek tabloya bakmayı gerektirir. Takip edilecekse tabloda o duruma
-  filtre kurmak yeterli.
+- **Yarım başvurular.** `Yarım` durumunda kalan satırlar hem bildirimle haber
+  veriliyor hem tabloda duruyor; toplu bakmak için o duruma filtre kurmak
+  yeterli.
 - **Kota.** Workspace hesabında `MailApp.sendEmail` günlük 1.500 e-posta ile
-  sınırlı. Başvuru hacmi bu sınırın çok altında.
+  sınırlı. Tamamlanan her başvuru iki e-posta demek; başvuru hacmi yine bu
+  sınırın çok altında.
 - **Kişisel veri.** Tablo kimlik ve iletişim verisi tutuyor; erişimi başvuruyu
   değerlendiren kişilerle sınırlı kalmalı ve dosya bağlantı ile paylaşılmamalı.
   Gizlilik politikasının 12. bölümü bu işlemeyi anlatıyor
