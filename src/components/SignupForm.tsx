@@ -48,6 +48,30 @@ const ADIM2_SIRASI: readonly Alan[] = [
   'dijitalPazarlama',
 ];
 
+/**
+ * React'in tuttuğu seçim değerleri. Metin alanları uncontrolled kalıyor —
+ * onların `value` attribute'u DOM'da duruyor ve sıfırlamaya dayanıyor.
+ */
+type Secimler = {
+  il: string;
+  bolge: string;
+  kapasite: string;
+  musteriProfili: string;
+  dijitalPazarlama: string;
+  hizmetler: string[];
+};
+
+function secimleriKur(values: KayitState['values']): Secimler {
+  return {
+    il: values?.il ?? '',
+    bolge: values?.bolge ?? '',
+    kapasite: values?.kapasite ?? '',
+    musteriProfili: values?.musteriProfili ?? '',
+    dijitalPazarlama: values?.dijitalPazarlama ?? '',
+    hizmetler: [...(values?.hizmetler ?? [])],
+  };
+}
+
 const ALAN_SINIFI =
   'w-full rounded-DEFAULT border bg-surface-lowest px-3.5 py-2.5 text-[15px] text-ink ' +
   'transition-colors placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary/25';
@@ -68,14 +92,44 @@ function kimlikUret(): string {
   return `b-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
+/**
+ * Formun dış kabuğu. Tek işi, "Formu yeniden doldurun" seçildiğinde `key`
+ * değiştirip asıl formu sıfırdan monte etmek: `useActionState` durumunu
+ * temizlemenin başka yolu yok, elle sıfırlansa gönderim durumu ile alanlar
+ * ayrışabilirdi.
+ */
 export function SignupForm() {
+  const [anahtar, setAnahtar] = useState(0);
+
+  /* Kimlik kabukta duruyor, formda değil: yeniden doldurma aynı başvuruyu
+     sürdürsün, tabloda ikinci bir yarım satır açmasın. */
+  const [basvuruId, setBasvuruId] = useState('');
+
+  return (
+    <KayitFormu
+      key={anahtar}
+      basvuruId={basvuruId}
+      setBasvuruId={setBasvuruId}
+      yenidenBasla={() => setAnahtar((n) => n + 1)}
+    />
+  );
+}
+
+function KayitFormu({
+  basvuruId,
+  setBasvuruId,
+  yenidenBasla,
+}: {
+  basvuruId: string;
+  setBasvuruId: (id: string) => void;
+  yenidenBasla: () => void;
+}) {
   const [state, formAction, pending] = useActionState<KayitState, FormData>(
     kayitBasvurusuGonder,
     KAYIT_BASLANGIC,
   );
 
   const [adim, setAdim] = useState<1 | 2>(1);
-  const [basvuruId, setBasvuruId] = useState('');
 
   /*
    * Eksik alanlar, sunucuya gidilmeden işaretleniyor. İstemci hatası sunucudan
@@ -86,13 +140,28 @@ export function SignupForm() {
   const hatalar: Hatalar = { ...state.errors, ...istemciHatalari };
   const hataVar = Object.values(hatalar).some(Boolean);
 
-  /* "Diğer" seçildiğinde yanında açılan serbest metin alanları. */
-  const [bolgeDigerAcik, setBolgeDigerAcik] = useState(
-    state.values?.bolge === DIGER,
-  );
-  const [hizmetDigerAcik, setHizmetDigerAcik] = useState(
-    (state.values?.hizmetler ?? []).includes(DIGER),
-  );
+  /*
+   * SEÇİM ALANLARI CONTROLLED. React, `defaultValue` ve `defaultChecked`
+   * değerlerini `select` ile radio/checkbox'ta DOM attribute'u olarak yazmıyor;
+   * metin alanları gibi `value="…"` taşımadıkları için gönderim sonrası formun
+   * sıfırlanması onları boşaltıyordu (il alanının "Seçin"e dönmesi buydu).
+   * Değeri React tuttuğu sürece sıfırlama sonrasında da yerinde kalıyorlar.
+   */
+  const [secimler, setSecimler] = useState(() => secimleriKur(state.values));
+
+  /*
+   * Sunucu yeni değerlerle dönerse seçimler onlarla eşitleniyor. Render
+   * sırasında yapılan bu düzeltme, React'in `useEffect`e tercih ettiği kalıp:
+   * ekrana bir kez eski değerle basılıp sonra düzeltilmiyor.
+   */
+  const [oncekiValues, setOncekiValues] = useState(state.values);
+  if (state.values !== oncekiValues) {
+    setOncekiValues(state.values);
+    setSecimler(secimleriKur(state.values));
+  }
+
+  const bolgeDigerAcik = secimler.bolge === DIGER;
+  const hizmetDigerAcik = secimler.hizmetler.includes(DIGER);
 
   /**
    * Eksik alana odaklanır. Gizli bir adımdan görünür adıma geçildiğinde element
@@ -201,10 +270,21 @@ export function SignupForm() {
       return;
     }
 
-    /* "Diğer" seçeneklerinin serbest metin alanı burada açılıp kapanıyor. */
-    if (hedef.name === 'bolge') setBolgeDigerAcik(hedef.value === DIGER);
-    if (hedef.name === 'hizmetler' && hedef.value === DIGER) {
-      setHizmetDigerAcik((hedef as HTMLInputElement).checked);
+    /* Seçim alanlarının değeri React'te tutuluyor; "Diğer" kutularının açılıp
+       kapanması da buradan türüyor. */
+    if (hedef.name === 'hizmetler' && hedef instanceof HTMLInputElement) {
+      const secildi = hedef.checked;
+      const deger = hedef.value;
+      setSecimler((onceki) => ({
+        ...onceki,
+        hizmetler: secildi
+          ? [...onceki.hizmetler, deger]
+          : onceki.hizmetler.filter((h) => h !== deger),
+      }));
+    } else if (hedef.name in secimler) {
+      const ad = hedef.name as keyof Secimler;
+      const deger = hedef.value;
+      setSecimler((onceki) => ({ ...onceki, [ad]: deger }));
     }
 
     const ad = hedef.name as Alan;
@@ -215,6 +295,17 @@ export function SignupForm() {
 
   if (state.status === 'success') {
     return <BasvuruAlindi email={state.gonderilenEmail} />;
+  }
+
+  /*
+   * Başvuru iletilemediğinde forma dönülmüyor. Gönderim sonrası form
+   * sıfırlandığı için kullanıcı yarısı boşalmış bir formla karşılaşıyor, üstelik
+   * hata alanlardan birine ait olmadığından düzeltilecek bir şey de yok:
+   * yapabileceği tek şey tekrar denemek ya da yazmak, ekran da bu ikisini
+   * veriyor.
+   */
+  if (state.message) {
+    return <BasvuruIletilemedi mesaj={state.message} yenidenBasla={yenidenBasla} />;
   }
 
   return (
@@ -230,18 +321,6 @@ export function SignupForm() {
       <input type="hidden" name="basvuruId" value={basvuruId} />
 
       <AdimGostergesi adim={adim} />
-
-      {/* Süreç hatası (webhook erişilemedi gibi) formun başında duruyor: alan
-          hatası olmadığı için aşağıda gösterilecek bir yeri yok ve kullanıcının
-          gönder düğmesine tekrar basmadan önce görmesi gerekiyor. */}
-      {state.message && (
-        <p
-          role="alert"
-          className="mb-8 rounded-DEFAULT border border-danger bg-danger-fixed px-4 py-3 text-[14px] leading-6 text-on-danger-fixed"
-        >
-          {state.message}
-        </p>
-      )}
 
       {/* ADIM 1 — gizlendiğinde de DOM'da kalıyor, bkz. bileşen başındaki not. */}
       <div className={adim === 1 ? 'block' : 'hidden'}>
@@ -260,7 +339,7 @@ export function SignupForm() {
             name="il"
             label="İl"
             autoComplete="address-level1"
-            defaultValue={state.values?.il}
+            deger={secimler.il}
             hata={hatalar.il}
             secenekler={iller}
           />
@@ -365,12 +444,12 @@ export function SignupForm() {
 
       {/* ADIM 2 */}
       <div className={adim === 2 ? 'block' : 'hidden'}>
-        <div className="space-y-10">
+        <div className="space-y-14">
           <SecimGrubu
             name="bolge"
             soru="İşletmeniz hangi tür bölgede konumlanıyor?"
             secenekler={BOLGE_SECENEKLERI}
-            secili={state.values?.bolge}
+            secili={secimler.bolge}
             hata={hatalar.bolge}
             digerAcik={bolgeDigerAcik}
             digerAlani="bolgeDiger"
@@ -381,7 +460,7 @@ export function SignupForm() {
             name="kapasite"
             soru="Aynı anda kaç araca hizmet verebiliyorsunuz?"
             secenekler={KAPASITE_SECENEKLERI}
-            secili={state.values?.kapasite}
+            secili={secimler.kapasite}
             hata={hatalar.kapasite}
           />
 
@@ -389,7 +468,7 @@ export function SignupForm() {
             name="musteriProfili"
             soru="Müşteri profilinizi en iyi hangisi tanımlar?"
             secenekler={MUSTERI_PROFILI_SECENEKLERI}
-            secili={state.values?.musteriProfili}
+            secili={secimler.musteriProfili}
             hata={hatalar.musteriProfili}
           />
 
@@ -399,7 +478,7 @@ export function SignupForm() {
             soru="İşletmenizde hangi hizmetleri sunuyorsunuz?"
             yardim="Birden fazla seçenek işaretleyebilirsiniz."
             secenekler={HIZMET_SECENEKLERI}
-            seciliCoklu={state.values?.hizmetler}
+            seciliCoklu={secimler.hizmetler}
             hata={hatalar.hizmetler}
             digerAcik={hizmetDigerAcik}
             digerAlani="hizmetlerDiger"
@@ -411,7 +490,7 @@ export function SignupForm() {
             name="dijitalPazarlama"
             soru="Dijital pazarlama faaliyetlerinizi nasıl tanımlarsınız?"
             secenekler={DIJITAL_PAZARLAMA_SECENEKLERI}
-            secili={state.values?.dijitalPazarlama}
+            secili={secimler.dijitalPazarlama}
             hata={hatalar.dijitalPazarlama}
           />
         </div>
@@ -485,6 +564,7 @@ function FormAlani({
   hata,
   yardim,
   secenekler,
+  deger,
   className = '',
   type = 'text',
   ...rest
@@ -494,6 +574,8 @@ function FormAlani({
   hata?: string;
   yardim?: string;
   secenekler?: readonly string[];
+  /** Yalnızca `select` için: değeri React tutuyor, bkz. Secimler. */
+  deger?: string;
   className?: string;
   type?: 'text' | 'email' | 'tel';
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'name' | 'type' | 'className'>) {
@@ -512,7 +594,11 @@ function FormAlani({
         <select
           id={id}
           name={name}
-          defaultValue={(rest.defaultValue as string) ?? ''}
+          value={deger ?? ''}
+          /* Değişim formun ortak `onChange` dinleyicisinde işleniyor; React'in
+             controlled alan için kendi prop'unu görmesi gerektiğinden burada
+             boş bir el kalıyor. */
+          onChange={() => {}}
           aria-invalid={hata ? true : undefined}
           aria-describedby={aciklamalar || undefined}
           className={`${alanSinifi(Boolean(hata))} mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23727786%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:18px_18px] bg-[right_0.875rem_center] bg-no-repeat pr-11`}
@@ -594,7 +680,7 @@ function SecimGrubu({
 
   return (
     <fieldset aria-describedby={aciklamalar || undefined}>
-      <legend className="text-[15px] font-semibold text-ink">
+      <legend className="text-[17px] font-semibold leading-snug text-ink sm:text-[19px]">
         {soru}
         {istegeBagli && (
           <span className="ml-2 font-normal text-ink-muted">(isteğe bağlı)</span>
@@ -602,12 +688,12 @@ function SecimGrubu({
       </legend>
 
       {yardim && (
-        <p id={yardimId} className="mt-1.5 text-[13px] leading-5 text-ink-muted">
+        <p id={yardimId} className="mt-2 text-[14px] leading-5 text-ink-muted">
           {yardim}
         </p>
       )}
 
-      <div className="mt-4 space-y-2.5">
+      <div className="mt-5 space-y-2.5">
         {secenekler.map((secenek) => (
           <label
             key={secenek}
@@ -619,9 +705,11 @@ function SecimGrubu({
               type={coklu ? 'checkbox' : 'radio'}
               name={name}
               value={secenek}
-              defaultChecked={
+              checked={
                 coklu ? (seciliCoklu ?? []).includes(secenek) : secili === secenek
               }
+              /* Bkz. FormAlani'ndaki not: değişim formun ortak dinleyicisinde. */
+              onChange={() => {}}
               aria-invalid={hata ? true : undefined}
               className="mt-0.5 size-[18px] shrink-0 accent-primary"
             />
@@ -703,6 +791,63 @@ function Onay({ hata }: { hata?: string }) {
           {hata}
         </p>
       )}
+    </div>
+  );
+}
+
+/**
+ * Başvuru kaydedilemediğinde formun yerini alan blok. İki çıkış sunuyor:
+ * formu sıfırdan doldurmak veya siteye dönmek. Destek adresi de burada, çünkü
+ * sorun sürerse başvurunun ulaşabileceği tek yol o.
+ */
+function BasvuruIletilemedi({
+  mesaj,
+  yenidenBasla,
+}: {
+  mesaj: string;
+  yenidenBasla: () => void;
+}) {
+  return (
+    <div
+      role="alert"
+      className="mt-10 rounded-lg border border-danger bg-surface-lowest p-7 sm:p-10"
+    >
+      <span className="flex size-11 items-center justify-center rounded-full bg-danger-fixed">
+        <svg
+          viewBox="0 0 24 24"
+          className="size-5 text-danger"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+        >
+          <path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+        </svg>
+      </span>
+
+      <h2 className="mt-5 text-xl font-bold tracking-[-0.02em] text-ink sm:text-2xl">
+        Başvuru iletilemedi
+      </h2>
+
+      <p className="mt-4 text-[15px] leading-7 text-ink-muted">{mesaj}</p>
+
+      <div className="mt-8 flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          onClick={yenidenBasla}
+          className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
+        >
+          Formu yeniden doldurun
+        </button>
+        <Link
+          href="/"
+          className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
+        >
+          Ana sayfaya dönün
+        </Link>
+      </div>
     </div>
   );
 }
