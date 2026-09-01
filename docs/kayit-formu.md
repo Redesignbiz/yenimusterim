@@ -16,7 +16,7 @@ istemciye hiç inmiyor; aksi hâlde tabloya dışarıdan satır yazılabilirdi.
 
 | Aşama | Ne zaman | Ne olur |
 |---|---|---|
-| `adim1` | Kullanıcı "Devam edin"e bastığında | Satır tabloya **hemen** yazılır, durumu `Yarım`. E-posta gönderilmez. |
+| `adim1` | Kullanıcı "Devam Et"e bastığında | Satır tabloya **hemen** yazılır, durumu `Yarım`. E-posta gönderilmez. |
 | `tamamlandi` | Adım 2 gönderildiğinde | Aynı satır `basvuruId` ile bulunup tamamlanır, durumu `Yeni` olur ve bildirim e-postası gider. |
 
 Böylece ikinci adımı yarıda bırakan bir servis noktasının iletişim bilgisi de

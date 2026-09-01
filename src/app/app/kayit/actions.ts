@@ -131,7 +131,7 @@ function govdeyeCevir(
 }
 
 /**
- * Adım 1'in kaydı. Kullanıcı "Devam edin"e bastığında çağrılıyor ve YANITI
+ * Adım 1'in kaydı. Kullanıcı "Devam Et"e bastığında çağrılıyor ve YANITI
  * BEKLENMİYOR: kayıt bir yan etki, ikinci adıma geçişi geciktirmemeli. Bu
  * yüzden hata da döndürmüyor — başarısızlık log'a yazılır, kullanıcının verisi
  * ikinci adımın gönderiminde zaten yeniden gidiyor.
@@ -200,6 +200,6 @@ export async function kayitBasvurusuGonder(
 function iletilemediMesaji(): string {
   return (
     'Başvuru şu anda iletilemedi. Kısa süre sonra tekrar deneyin; ' +
-    `sorun sürerse bilgilerinizi ${site.contact.support} adresine yazabilirsiniz.`
+    `sorunun devam etmesi durumunda bize ${site.contact.support} adresinden ulaşabilirsiniz.`
   );
 }

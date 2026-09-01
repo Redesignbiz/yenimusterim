@@ -224,7 +224,7 @@ function KayitFormu({
   function gonderimiDenetle(olay: React.SyntheticEvent<HTMLFormElement>) {
     const form = olay.currentTarget;
 
-    /* Adım 1'de Enter'a basılması gönderim değil, "Devam edin" demektir:
+    /* Adım 1'de Enter'a basılması gönderim değil, "Devam Et" demektir:
        aksi hâlde form ikinci adımın eksikleriyle reddedilir ve kullanıcı
        hataları gizli adımda göremez. */
     if (adim === 1) {
@@ -425,7 +425,7 @@ function KayitFormu({
             onClick={devamEt}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
           >
-            Devam edin
+            Devam Et
             <svg
               viewBox="0 0 24 24"
               className="size-4"
@@ -501,7 +501,7 @@ function KayitFormu({
             disabled={pending}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {pending ? 'Gönderiliyor…' : 'Başvuruyu gönderin'}
+            {pending ? 'Gönderiliyor…' : 'Gönder'}
           </button>
 
           <button
@@ -839,13 +839,13 @@ function BasvuruIletilemedi({
           onClick={yenidenBasla}
           className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
         >
-          Formu yeniden doldurun
+          Formu yeniden doldur
         </button>
         <Link
           href="/"
           className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
         >
-          Ana sayfaya dönün
+          Ana sayfaya dön
         </Link>
       </div>
     </div>
