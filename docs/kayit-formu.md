@@ -31,11 +31,15 @@ yeniden gider.
 
 ## 1. Tabloyu ve script'i kur
 
-1. Google Drive'da yeni bir Sheets dosyası aç: **Yeni Müşterim — kayıt
-   başvuruları**.
-2. **Uzantılar → Apps Script** menüsünden script editörünü aç, varsayılan
-   `Code.gs` içeriğini aşağıdaki kodla değiştir.
-3. `AYARLAR.TOKEN` değerini üret ve yapıştır — tahmin edilebilir bir değer
+Tablo hazır ve Drive'da **Yeni Musterim** klasöründe duruyor:
+[Yeni Müşterim — kayıt başvuruları](https://docs.google.com/spreadsheets/d/1_GssHcstVee98jWWBnyhRtBHOTY5b0M0V6yppoQnprA/edit)
+(`1_GssHcstVee98jWWBnyhRtBHOTY5b0M0V6yppoQnprA`). İçi boş: `Başvurular`
+sayfasını ve başlık satırını script ilk çalıştığında kendisi açıyor, dosyayla
+birlikte gelen boş sayfa o zaman silinebilir.
+
+1. Tabloyu aç, **Uzantılar → Apps Script** menüsünden script editörüne geç ve
+   varsayılan `Code.gs` içeriğini aşağıdaki kodla değiştir.
+2. `AYARLAR.TOKEN` değerini üret ve yapıştır — tahmin edilebilir bir değer
    olmasın:
 
    ```bash
