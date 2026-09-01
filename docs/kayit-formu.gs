@@ -3,9 +3,9 @@
  *
  * İki aşama alır: 'adim1' satırı açar, 'tamamlandi' aynı satırı basvuruId ile
  * bulup tamamlar. Bildirim e-postası yalnızca satır ilk açıldığında gider.
- * İstek yalnızca
- * yenimusterim.com sunucusundan geliyor; kimlik doğrulama paylaşılan sır
- * (AYARLAR.TOKEN) ile yapılıyor.
+ *
+ * İstek yalnızca yenimusterim.com sunucusundan geliyor; kimlik doğrulama
+ * paylaşılan sır (AYARLAR.TOKEN) ile yapılıyor.
  */
 const AYARLAR = {
   // Vercel'deki SIGNUP_WEBHOOK_TOKEN ile BİREBİR aynı olmalı.
