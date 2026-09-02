@@ -33,17 +33,10 @@ export function StoreLinks() {
             className="mx-auto mb-8 size-20 sm:size-24"
           />
 
-          <p className="eyebrow inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[13px] text-inverse-ink">
-            <span className="size-1.5 rounded-full bg-primary-fixed-dim" aria-hidden />
-            {playYayinda && appStoreYayinda
-              ? "Mağazalarda yayında"
-              : "Google Play'de yayında"}
-          </p>
-
-          <h2 className="mx-auto mt-6 max-w-2xl text-2xl font-bold leading-tight tracking-[-0.02em] text-inverse-ink sm:text-4xl">
+          <h2 className="mx-auto max-w-2xl text-2xl font-bold leading-tight tracking-[-0.02em] text-inverse-ink sm:text-4xl">
             {appStoreYayinda
               ? `${site.name} uygulamasını indirin`
-              : `${site.name} uygulaması Google Play'de indirmeye hazır`}
+              : `${site.name} uygulamasını indirin`}
           </h2>
 
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-inverse-ink/75">
@@ -51,7 +44,6 @@ export function StoreLinks() {
             yapılır. Kayıt olmak isteyen servis noktaları başvuru formunu
             doldurur; başvuru incelendikten sonra hesap merkez tarafından
             tanımlanır ve giriş bilgileri e-posta ile iletilir.
-            {!appStoreYayinda && " iPhone sürümü hazırlanıyor."}
           </p>
 
           <div className="mt-8">
