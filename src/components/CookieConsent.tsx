@@ -2,9 +2,9 @@
 
 import { useSyncExternalStore } from "react";
 import {
-  clearClarityCookies,
+  clearAnalyticsCookies,
   readConsent,
-  startClarity,
+  startAnalytics,
   writeConsent,
   type ConsentChoice,
 } from "@/lib/consent";
@@ -78,18 +78,18 @@ export function CookieConsent() {
     setSnapshot(false);
 
     if (choice === "granted") {
-      // Opt-out olduğu için araç zaten çalışıyor; bu çağrı yalnızca daha önce
-      // reddedip sonra izin veren ziyaretçi için iş yapıyor.
-      startClarity();
+      // Opt-out olduğu için araçlar zaten çalışıyor; bu çağrı yalnızca daha
+      // önce reddedip sonra izin veren ziyaretçi için iş yapıyor.
+      startAnalytics();
       return;
     }
 
     /*
-     * Ret geldiğinde script bu sayfada çoktan yüklü ve Clarity'nin kaldırma
-     * API'si yok. Toplamayı gerçekten durdurmanın tek güvenilir yolu sayfayı
-     * yeniden yüklemek; çerezler de öncesinde siliniyor.
+     * Ret geldiğinde script'ler bu sayfada çoktan yüklü ve ikisinin de
+     * kaldırma API'si yok. Toplamayı gerçekten durdurmanın tek güvenilir yolu
+     * sayfayı yeniden yüklemek; çerezler de öncesinde siliniyor.
      */
-    clearClarityCookies();
+    clearAnalyticsCookies();
     window.location.reload();
   }
 

@@ -11,6 +11,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gizlilik" },
 };
 
+/*
+ * Google Analytics'in oturum çerezinin adı ölçüm kimliğinden türüyor: `G-`
+ * öneki atılıp `_ga_` ile birleşiyor (bkz. lib/consent.ts, aynı türetme çerez
+ * silinirken de yapılıyor). Ziyaretçi tarayıcısının çerez listesinde adın tam
+ * hâlini göreceği için politikada da türetilmiş ad yazıyor. Ölçüm kimliği
+ * tanımsızsa gtag.js hiç yüklenmiyor; o hâlde jenerik biçim gösteriliyor.
+ */
+const GA_SESSION_COOKIE = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  ? `_ga_${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID.replace(/^G-/, "")}`
+  : "_ga_ ile başlayan çerez";
+
 function H2({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <h2
@@ -250,10 +261,10 @@ export default function PrivacyPolicy() {
             Bu bölüm ve 3–11 arası MOBİL UYGULAMAYI anlatır; analitik yok.
             Web sitesindeki ziyaret analizi bölüm 13'te, ayrı başlık altında.
 
-            Ayrı tutulmalarının nedeni: Clarity yalnızca bu web sitesinde
-            çalışıyor (src/instrumentation-client.ts), uygulamanın kod tabanında
-            karşılığı yok. Buraya bir analitik alt başlığı eklemek, uygulamada
-            olmayan bir işlemeyi beyan etmek olurdu.
+            Ayrı tutulmalarının nedeni: analitik araçlar yalnızca bu web
+            sitesinde çalışıyor (src/instrumentation-client.ts), uygulamanın kod
+            tabanında karşılığı yok. Buraya bir analitik alt başlığı eklemek,
+            uygulamada olmayan bir işlemeyi beyan etmek olurdu.
           */}
 
           {/* 3 */}
@@ -606,18 +617,25 @@ export default function PrivacyPolicy() {
           </P>
 
           {/*
-            13 — Microsoft Clarity devreye alındığında yazıldı
-            (src/instrumentation-client.ts, src/lib/consent.ts).
+            13 — Microsoft Clarity devreye alındığında yazıldı, Google Analytics
+            4 eklendiğinde genişletildi (src/instrumentation-client.ts,
+            src/lib/consent.ts).
 
-            Bu bölüm ARACIN YAPILANDIRMASIYLA BİRLİKTE değişir: başka bir
-            analitik aracı eklendiğinde, Clarity'nin maskeleme kipi
-            değiştirildiğinde veya rıza modeli opt-in'e çevrildiğinde aşağıdaki
-            veri kategorileri, çerez listesi, hukuki sebep ve tercih değiştirme
-            anlatısı da güncellenir.
+            Bu bölüm ARAÇLARIN YAPILANDIRMASIYLA BİRLİKTE değişir: bir analitik
+            aracı eklendiğinde veya çıkarıldığında, Clarity'nin maskeleme kipi
+            değiştirildiğinde, GA4 mülkünde saklama süresi ya da reklam
+            özellikleri ayarı değiştirildiğinde veya rıza modeli opt-in'e
+            çevrildiğinde aşağıdaki veri kategorileri, çerez listesi, hukuki
+            sebep, süreler ve tercih değiştirme anlatısı da güncellenir.
 
-            Çerez listesindeki adlar ve amaçlar Microsoft'un yayımladığı çerez
-            listesinden alındı; ömür sütunu YOK, çünkü o kaynak süre vermiyor ve
-            doğrulanmamış bir süre yazmak politikayı savunulamaz hâle getirir.
+            Çerez listesindeki adlar ve amaçlar sağlayıcıların yayımladığı çerez
+            listelerinden alındı; ömür sütunu YOK, çünkü Microsoft'un listesi
+            süre vermiyor ve doğrulanmamış bir süre yazmak politikayı
+            savunulamaz hâle getirir.
+
+            GA4'ün 14 aylık saklama süresi ve reklam özelliklerinin kapalı
+            olduğu bilgisi mülk ayarlarından alındı; panelde değişirse buradaki
+            ifadeler de değişir.
           */}
           <H2 id="cerezler">
             13. Web sitesinde kullanılan çerezler ve ziyaret analizi
@@ -629,12 +647,19 @@ export default function PrivacyPolicy() {
             açıklanmıştır.
           </P>
           <P>
-            Web sitesinin kullanımının ölçülmesi amacıyla, Microsoft Corporation
-            tarafından sağlanan{" "}
+            Web sitesinin kullanımının ölçülmesi amacıyla iki hizmetten
+            yararlanılır: Microsoft Corporation tarafından sağlanan{" "}
             <strong className="font-semibold text-ink">Microsoft Clarity</strong>{" "}
-            hizmeti kullanılır. Hizmet, ziyaret sırasında sayfa üzerinde
-            gerçekleşen etkileşimleri kaydeder ve bu kayıtlardan ısı haritası ile
-            oturum tekrarı üretir. Bu kapsamda aşağıdaki kişisel veriler işlenir:
+            ve Google Ireland Limited tarafından sağlanan{" "}
+            <strong className="font-semibold text-ink">
+              Google Analytics 4
+            </strong>
+            . Clarity, ziyaret sırasında sayfa üzerinde gerçekleşen etkileşimleri
+            kaydeder ve bu kayıtlardan ısı haritası ile oturum tekrarı üretir.
+            Google Analytics 4 ise ziyaretin siteye hangi kaynaktan geldiğini,
+            hangi sayfaların görüntülendiğini ve sayfa üzerinde hangi adımların
+            tamamlandığını ölçer. Her iki hizmet kapsamında aşağıdaki kişisel
+            veriler işlenir:
           </P>
           <UL
             items={[
@@ -645,8 +670,9 @@ export default function PrivacyPolicy() {
                 IP adresi ve bu adres üzerinden belirlenen ülke, bölge ve şehir
                 bilgisi; ziyaret edilen sayfaların adresleri ile siteye giriş ve
                 çıkış sayfası; ziyaretin ve her sayfa görüntülemesinin süresi;
-                siteye yönlendiren bağlantının adresi; tarayıcı, işletim sistemi,
-                cihaz türü ve ekran çözünürlüğü bilgileri.
+                siteye yönlendiren bağlantının adresi ile bu bağlantıda yer alan
+                kampanya parametreleri; tarayıcı, işletim sistemi, cihaz türü,
+                tarayıcı dili ve ekran çözünürlüğü bilgileri.
               </>,
               <>
                 <strong className="font-semibold text-ink">
@@ -654,8 +680,11 @@ export default function PrivacyPolicy() {
                 </strong>{" "}
                 tıklama, kaydırma, imleç hareketi, metin seçimi, pencere
                 boyutlandırma ve sayfa yenileme gibi etkileşimlerin zamanı ve
-                sayfa üzerindeki konumu; sayfada oluşan betik hataları ve sayfa
-                yüklenme performansına ilişkin ölçümler.
+                sayfa üzerindeki konumu; sayfa görüntülemesi, sayfanın belirli
+                bir oranına kadar kaydırılması, site dışına açılan bağlantıların
+                tıklanması ve dosya indirilmesi gibi olayların kaydı; sayfada
+                oluşan betik hataları ve sayfa yüklenme performansına ilişkin
+                ölçümler.
               </>,
               <>
                 <strong className="font-semibold text-ink">
@@ -668,14 +697,21 @@ export default function PrivacyPolicy() {
             ]}
           />
           <P>
-            Form alanlarına ve açılır listelere girilen içerik, hizmet
-            sağlayıcının maskeleme uygulaması gereği{" "}
+            Google Analytics 4 bakımından IP adresi, hizmet sağlayıcının
+            beyanına göre kayıt altına alınmaz; yalnızca ziyaretin geldiği ülke,
+            bölge ve şehir bilgisinin belirlenmesi amacıyla işlenir.
+          </P>
+          <P>
+            Form alanlarına ve açılır listelere girilen içerik, Clarity&apos;nin
+            maskeleme uygulaması gereği{" "}
             <strong className="font-semibold text-ink">
               kayda alınmaz ve sağlayıcının sunucularına hiç gönderilmez.
             </strong>{" "}
-            Buna göre bölüm 12&apos;de açıklanan kayıt başvurusu formuna girilen
-            ad soyad, e-posta adresi ve telefon numarası oturum kayıtlarında yer
-            almaz.
+            Google Analytics 4 kapsamında da form alanlarının içeriği toplanmaz;
+            yalnızca formla etkileşime girildiği olay olarak kaydedilir. Buna
+            göre bölüm 12&apos;de açıklanan kayıt başvurusu formuna girilen ad
+            soyad, e-posta adresi ve telefon numarası bu hizmetlerin
+            kayıtlarında yer almaz.
           </P>
           <P>
             Bu veriler; web sitesinin performansının ve kullanılabilirliğinin
@@ -684,9 +720,11 @@ export default function PrivacyPolicy() {
             amaçlarıyla, bu amaçlarla sınırlı olarak işlenir. İşleme, KVKK m.5/2
             uyarınca <em>veri sorumlusunun meşru menfaati</em> hukuki sebebine
             dayanır. Veriler tarafımızca reklam veya pazarlama amacıyla
-            kullanılmaz ve üçüncü kişilere satılmaz; hizmet sağlayıcıya, reklam
-            amaçlı veri saklamanın reddedildiğini ve yalnızca analitik amaçlı
-            saklamaya izin verildiğini bildiren bir rıza sinyali iletilir.
+            kullanılmaz ve üçüncü kişilere satılmaz; her iki hizmet sağlayıcıya
+            da reklam amaçlı veri saklamanın reddedildiğini ve yalnızca analitik
+            amaçlı saklamaya izin verildiğini bildiren bir rıza sinyali iletilir.
+            Google Analytics 4 mülkünde reklam kişiselleştirme ve Google
+            sinyalleri özellikleri kapalıdır.
           </P>
 
           <h3 className="mt-8 text-[17px] font-semibold text-ink">
@@ -715,10 +753,11 @@ export default function PrivacyPolicy() {
             </summary>
 
             <div className="overflow-x-auto border-t border-outline-variant">
-              <table className="w-full min-w-[520px] border-collapse bg-surface-lowest text-left text-[14px]">
+              <table className="w-full min-w-[640px] border-collapse bg-surface-lowest text-left text-[14px]">
                 <thead>
                   <tr className="border-b border-outline-variant bg-surface-low">
                     <th className="px-4 py-3 font-semibold text-ink">Çerez</th>
+                    <th className="px-4 py-3 font-semibold text-ink">Hizmet</th>
                     <th className="px-4 py-3 font-semibold text-ink">
                       Tanımlandığı alan adı
                     </th>
@@ -728,6 +767,7 @@ export default function PrivacyPolicy() {
                 <tbody className="text-ink-muted">
                   <tr className="border-b border-outline-variant">
                     <td className="px-4 py-3">_clck</td>
+                    <td className="px-4 py-3">Microsoft Clarity</td>
                     <td className="px-4 py-3">
                       {site.url.replace("https://", "")} (birinci taraf)
                     </td>
@@ -737,6 +777,7 @@ export default function PrivacyPolicy() {
                   </tr>
                   <tr className="border-b border-outline-variant">
                     <td className="px-4 py-3">_clsk</td>
+                    <td className="px-4 py-3">Microsoft Clarity</td>
                     <td className="px-4 py-3">
                       {site.url.replace("https://", "")} (birinci taraf)
                     </td>
@@ -747,6 +788,7 @@ export default function PrivacyPolicy() {
                   </tr>
                   <tr className="border-b border-outline-variant">
                     <td className="px-4 py-3">CLID</td>
+                    <td className="px-4 py-3">Microsoft Clarity</td>
                     <td className="px-4 py-3">clarity.ms (üçüncü taraf)</td>
                     <td className="px-4 py-3">
                       Ziyaretçinin, bu hizmeti kullanan bir siteye ilk kez ne
@@ -755,6 +797,7 @@ export default function PrivacyPolicy() {
                   </tr>
                   <tr className="border-b border-outline-variant">
                     <td className="px-4 py-3">MUID</td>
+                    <td className="px-4 py-3">Microsoft Clarity</td>
                     <td className="px-4 py-3">clarity.ms (üçüncü taraf)</td>
                     <td className="px-4 py-3">
                       Microsoft sitelerini ziyaret eden tarayıcıları ayırt eder;
@@ -762,12 +805,35 @@ export default function PrivacyPolicy() {
                       işletimsel amaçlarla kullanılır
                     </td>
                   </tr>
-                  <tr>
+                  <tr className="border-b border-outline-variant">
                     <td className="px-4 py-3">ANONCHK, MR, SM</td>
+                    <td className="px-4 py-3">Microsoft Clarity</td>
                     <td className="px-4 py-3">clarity.ms (üçüncü taraf)</td>
                     <td className="px-4 py-3">
                       MUID çerezinin yenilenmesine ve Microsoft alan adları
                       arasında eşlenmesine ilişkin teknik değerleri taşır
+                    </td>
+                  </tr>
+                  <tr className="border-b border-outline-variant">
+                    <td className="px-4 py-3">_ga</td>
+                    <td className="px-4 py-3">Google Analytics 4</td>
+                    <td className="px-4 py-3">
+                      {site.url.replace("https://", "")} (birinci taraf)
+                    </td>
+                    <td className="px-4 py-3">
+                      Ziyaretçiyi ayırt etmek için kullanılan takma adlı istemci
+                      kimliğini saklar
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">{GA_SESSION_COOKIE}</td>
+                    <td className="px-4 py-3">Google Analytics 4</td>
+                    <td className="px-4 py-3">
+                      {site.url.replace("https://", "")} (birinci taraf)
+                    </td>
+                    <td className="px-4 py-3">
+                      Oturumun durumunu saklar ve aynı oturumda ölçülen olayları
+                      birbirine bağlar
                     </td>
                   </tr>
                 </tbody>
@@ -787,22 +853,38 @@ export default function PrivacyPolicy() {
             b) Yurt dışına aktarım
           </h3>
           <P>
-            Hizmet, Microsoft Corporation tarafından Türkiye dışında bulunan
-            sunucular üzerinden sunulmaktadır. Bu bölümde sayılan veriler,
-            Microsoft Corporation&apos;a <em>veri işleyen</em> sıfatıyla
-            aktarılır ve aktarım sırasında yurt dışına çıkar. Aktarım, KVKK
-            m.9&apos;da öngörülen şartlar çerçevesinde gerçekleştirilir.
+            Microsoft Clarity, Microsoft Corporation tarafından Türkiye dışında
+            bulunan sunucular üzerinden sunulmaktadır. Bu hizmet kapsamında
+            sayılan veriler, Microsoft Corporation&apos;a <em>veri işleyen</em>{" "}
+            sıfatıyla aktarılır ve aktarım sırasında yurt dışına çıkar.
+          </P>
+          <P>
+            Google Analytics 4 kapsamında işlenen veriler, Google Ireland
+            Limited&apos;a <em>veri işleyen</em> sıfatıyla aktarılır; hizmetin
+            işletilmesinde Google LLC&apos;nin de yer aldığı altyapı
+            kullanıldığından veriler Türkiye dışına çıkar.
+          </P>
+          <P>
+            Her iki aktarım da KVKK m.9&apos;da öngörülen şartlar çerçevesinde
+            gerçekleştirilir.
           </P>
 
           <h3 className="mt-8 text-[17px] font-semibold text-ink">
             c) Saklama süresi
           </h3>
           <P>
-            Oturum kayıtları, hizmet sağlayıcı tarafından kayıt tarihinden
-            itibaren 30 gün boyunca saklanır. Bu kayıtlar arasından işaretlenen
-            veya örnekleme yoluyla seçilen kayıtlar ile ısı haritası verileri en
-            fazla 9 ay boyunca saklanır. Sürelerin sonunda ilgili kayıtlara
-            erişim sona erer.
+            Microsoft Clarity&apos;de oturum kayıtları, hizmet sağlayıcı
+            tarafından kayıt tarihinden itibaren 30 gün boyunca saklanır. Bu
+            kayıtlar arasından işaretlenen veya örnekleme yoluyla seçilen
+            kayıtlar ile ısı haritası verileri en fazla 9 ay boyunca saklanır.
+            Sürelerin sonunda ilgili kayıtlara erişim sona erer.
+          </P>
+          <P>
+            Google Analytics 4&apos;te olay ve kullanıcı düzeyindeki kayıtlar,
+            mülk ayarında tanımlı süre olan 14 ay boyunca saklanır ve sürenin
+            sonunda hizmet sağlayıcı tarafından silinir. Bu kayıtlardan üretilen
+            ve tek bir ziyaretçiyle ilişkilendirilemeyen toplu raporlama
+            verileri, bu sürenin ardından da erişilebilir kalır.
           </P>
 
           <h3 className="mt-8 text-[17px] font-semibold text-ink">
@@ -816,12 +898,13 @@ export default function PrivacyPolicy() {
           <div className="mt-5 rounded-lg border border-outline-variant bg-surface-lowest p-5">
             <CookieConsentButton className="rounded-full bg-primary px-4 py-1.5 text-[14px] font-semibold text-white transition-colors hover:bg-primary-bright" />
             <p className="mt-4 text-[14px] leading-6 text-ink-muted">
-              Ret verildiğinde sayfa yeniden yüklenir, ölçüm betiği bir daha
-              çalıştırılmaz ve bu alan adında yazılmış _clck ile _clsk çerezleri
-              silinir. clarity.ms alan adında tanımlanmış çerezler site üzerinden
-              silinemez; bunlar tarayıcınızın çerez ayarlarından temizlenebilir.
-              Tarayıcınızın çerezleri tümüyle engelleyen ayarı kullanıldığında
-              hizmet çerez yazmaz.
+              Ret verildiğinde sayfa yeniden yüklenir, ölçüm betikleri bir daha
+              çalıştırılmaz ve bu alan adında yazılmış _clck, _clsk, _ga ile{" "}
+              {GA_SESSION_COOKIE} çerezleri silinir. clarity.ms alan adında
+              tanımlanmış çerezler site üzerinden silinemez; bunlar
+              tarayıcınızın çerez ayarlarından temizlenebilir. Tarayıcınızın
+              çerezleri tümüyle engelleyen ayarı kullanıldığında hizmetler çerez
+              yazmaz.
             </p>
           </div>
           <P>
