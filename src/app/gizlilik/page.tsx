@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CookieConsentButton } from "@/components/CookieConsent";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Gizlilik Politikası",
-  description: `${site.name} mobil uygulamasının kişisel verileri nasıl işlediğini, sakladığını ve hesap silme talebinin nasıl yapılacağını açıklar.`,
+  description: `${site.name} mobil uygulamasının ve web sitesinin kişisel verileri nasıl işlediğini, sakladığını, hangi çerezleri kullandığını ve hesap silme talebinin nasıl yapılacağını açıklar.`,
   alternates: { canonical: "/gizlilik" },
 };
 
@@ -61,7 +62,10 @@ export default function PrivacyPolicy() {
             Bu politika, <strong className="font-semibold text-ink">{site.name}</strong>{" "}
             mobil uygulamasının hangi kişisel verileri işlediğini, bu verileri
             neden ve ne kadar süreyle sakladığını, kimlerle paylaştığını ve
-            hesabınızın nasıl silineceğini açıklar.
+            hesabınızın nasıl silineceğini açıklar. Web sitesi üzerinden
+            iletilen kayıt başvuruları bölüm 12&apos;de, web sitesinde
+            kullanılan çerezler ve ziyaret analizi bölüm 13&apos;te ele
+            alınmıştır.
           </P>
 
           <P>
@@ -77,7 +81,7 @@ export default function PrivacyPolicy() {
             12&apos;de açıklanmıştır.
           </P>
 
-          {/* İçindekiler — 12 bölümlük bir metinde hesap silme başlığının
+          {/* İçindekiler — 14 bölümlük bir metinde hesap silme başlığının
               kaydırarak aranmaması için; bulunabilirlik Play Console gerekliliği. */}
           <nav
             aria-label="Bölümler"
@@ -103,7 +107,12 @@ export default function PrivacyPolicy() {
                   id: "basvuru",
                   label: "12. Web sitesi üzerinden iletilen kayıt başvuruları",
                 },
-                { id: "iletisim", label: "13. İletişim" },
+                {
+                  id: "cerezler",
+                  label:
+                    "13. Web sitesinde kullanılan çerezler ve ziyaret analizi",
+                },
+                { id: "iletisim", label: "14. İletişim" },
               ].map((item) => (
                 <li key={item.id}>
                   <a
@@ -238,20 +247,13 @@ export default function PrivacyPolicy() {
           </P>
 
           {/*
-            ANALİTİK BÖLÜMÜ BİLİNÇLİ OLARAK YOK.
+            Bu bölüm ve 3–11 arası MOBİL UYGULAMAYI anlatır; analitik yok.
+            Web sitesindeki ziyaret analizi bölüm 13'te, ayrı başlık altında.
 
-            Google Analytics ve Microsoft Clarity planlanıyor ama henüz kodda
-            değil; kullanıldığını yazmak yanlış beyan olurdu. "Analitik
-            kullanılmamaktadır" demek de yanlış — devreye alınınca metin bir anda
-            gerçeğe aykırı hâle gelir ve kimse politikayı güncellemeyi hatırlamaz.
-            Bu yüzden politika analitik konusunda SESSİZ: ne olumlu ne olumsuz
-            beyan var. Madde 3'teki "reklam yazılımları" satırı yalnızca reklam
-            SDK'larını kapsar, analitiği kapsamaz.
-
-            Araçlar devreye alındığında eklenmesi gerekenler: bölüm 2'ye kullanım
-            ve performans verileri alt başlığı, bölüm 4'e amaç ve hukuki sebep,
-            bölüm 5 tablosuna analiz sağlayıcıları satırı ve yurt dışı aktarım
-            paragrafı. Clarity için maskeleme yapılandırması da şart.
+            Ayrı tutulmalarının nedeni: Clarity yalnızca bu web sitesinde
+            çalışıyor (src/instrumentation-client.ts), uygulamanın kod tabanında
+            karşılığı yok. Buraya bir analitik alt başlığı eklemek, uygulamada
+            olmayan bir işlemeyi beyan etmek olurdu.
           */}
 
           {/* 3 */}
@@ -603,8 +605,239 @@ export default function PrivacyPolicy() {
             adresine iletilir.
           </P>
 
-          {/* 13 */}
-          <H2 id="iletisim">13. İletişim</H2>
+          {/*
+            13 — Microsoft Clarity devreye alındığında yazıldı
+            (src/instrumentation-client.ts, src/lib/consent.ts).
+
+            Bu bölüm ARACIN YAPILANDIRMASIYLA BİRLİKTE değişir: başka bir
+            analitik aracı eklendiğinde, Clarity'nin maskeleme kipi
+            değiştirildiğinde veya rıza modeli opt-in'e çevrildiğinde aşağıdaki
+            veri kategorileri, çerez listesi, hukuki sebep ve tercih değiştirme
+            anlatısı da güncellenir.
+
+            Çerez listesindeki adlar ve amaçlar Microsoft'un yayımladığı çerez
+            listesinden alındı; ömür sütunu YOK, çünkü o kaynak süre vermiyor ve
+            doğrulanmamış bir süre yazmak politikayı savunulamaz hâle getirir.
+          */}
+          <H2 id="cerezler">
+            13. Web sitesinde kullanılan çerezler ve ziyaret analizi
+          </H2>
+          <P>
+            Bu bölüm yalnızca {site.url.replace("https://", "")} adresindeki web
+            sitesi bakımından geçerlidir. Mobil uygulamada işlenen veriler bölüm
+            2&apos;de, uygulamanın erişmediği veriler bölüm 3&apos;te
+            açıklanmıştır.
+          </P>
+          <P>
+            Web sitesinin kullanımının ölçülmesi amacıyla, Microsoft Corporation
+            tarafından sağlanan{" "}
+            <strong className="font-semibold text-ink">Microsoft Clarity</strong>{" "}
+            hizmeti kullanılır. Hizmet, ziyaret sırasında sayfa üzerinde
+            gerçekleşen etkileşimleri kaydeder ve bu kayıtlardan ısı haritası ile
+            oturum tekrarı üretir. Bu kapsamda aşağıdaki kişisel veriler işlenir:
+          </P>
+          <UL
+            items={[
+              <>
+                <strong className="font-semibold text-ink">
+                  İşlem güvenliği verisi:
+                </strong>{" "}
+                IP adresi ve bu adres üzerinden belirlenen ülke, bölge ve şehir
+                bilgisi; ziyaret edilen sayfaların adresleri ile siteye giriş ve
+                çıkış sayfası; ziyaretin ve her sayfa görüntülemesinin süresi;
+                siteye yönlendiren bağlantının adresi; tarayıcı, işletim sistemi,
+                cihaz türü ve ekran çözünürlüğü bilgileri.
+              </>,
+              <>
+                <strong className="font-semibold text-ink">
+                  Etkileşim verisi:
+                </strong>{" "}
+                tıklama, kaydırma, imleç hareketi, metin seçimi, pencere
+                boyutlandırma ve sayfa yenileme gibi etkileşimlerin zamanı ve
+                sayfa üzerindeki konumu; sayfada oluşan betik hataları ve sayfa
+                yüklenme performansına ilişkin ölçümler.
+              </>,
+              <>
+                <strong className="font-semibold text-ink">
+                  Çerez kayıtları:
+                </strong>{" "}
+                ziyaretçiyi ve oturumu birbirinden ayırt etmek amacıyla
+                tarayıcıya yazılan, kimliğinizi doğrudan göstermeyen takma adlı
+                kimlikler.
+              </>,
+            ]}
+          />
+          <P>
+            Form alanlarına ve açılır listelere girilen içerik, hizmet
+            sağlayıcının maskeleme uygulaması gereği{" "}
+            <strong className="font-semibold text-ink">
+              kayda alınmaz ve sağlayıcının sunucularına hiç gönderilmez.
+            </strong>{" "}
+            Buna göre bölüm 12&apos;de açıklanan kayıt başvurusu formuna girilen
+            ad soyad, e-posta adresi ve telefon numarası oturum kayıtlarında yer
+            almaz.
+          </P>
+          <P>
+            Bu veriler; web sitesinin performansının ve kullanılabilirliğinin
+            ölçülmesi, ziyaretçilerin sayfa içeriğiyle nasıl etkileşime girdiğinin
+            anlaşılması ve site yapısının bu ölçüme göre geliştirilmesi
+            amaçlarıyla, bu amaçlarla sınırlı olarak işlenir. İşleme, KVKK m.5/2
+            uyarınca <em>veri sorumlusunun meşru menfaati</em> hukuki sebebine
+            dayanır. Veriler tarafımızca reklam veya pazarlama amacıyla
+            kullanılmaz ve üçüncü kişilere satılmaz; hizmet sağlayıcıya, reklam
+            amaçlı veri saklamanın reddedildiğini ve yalnızca analitik amaçlı
+            saklamaya izin verildiğini bildiren bir rıza sinyali iletilir.
+          </P>
+
+          <h3 className="mt-8 text-[17px] font-semibold text-ink">
+            a) Kullanılan çerezler
+          </h3>
+
+          {/*
+            Katlanmış blok gerekçesi bölüm 5'teki tabloyla aynı: içerik DOM'da
+            durur, arama motorları ve sayfa içi arama bulur, JavaScript
+            gerekmez; ama teknik çerez adları politikanın okuma akışını kesmez.
+          */}
+          <details className="group mt-4 overflow-hidden rounded-lg border border-outline-variant bg-surface-lowest">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low">
+              Çerez adları ve amaçları
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4 shrink-0 text-outline transition-transform group-open:rotate-45"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </summary>
+
+            <div className="overflow-x-auto border-t border-outline-variant">
+              <table className="w-full min-w-[520px] border-collapse bg-surface-lowest text-left text-[14px]">
+                <thead>
+                  <tr className="border-b border-outline-variant bg-surface-low">
+                    <th className="px-4 py-3 font-semibold text-ink">Çerez</th>
+                    <th className="px-4 py-3 font-semibold text-ink">
+                      Tanımlandığı alan adı
+                    </th>
+                    <th className="px-4 py-3 font-semibold text-ink">Amaç</th>
+                  </tr>
+                </thead>
+                <tbody className="text-ink-muted">
+                  <tr className="border-b border-outline-variant">
+                    <td className="px-4 py-3">_clck</td>
+                    <td className="px-4 py-3">
+                      {site.url.replace("https://", "")} (birinci taraf)
+                    </td>
+                    <td className="px-4 py-3">
+                      Ziyaretçiye ait takma adlı kimliği ve tercihleri saklar
+                    </td>
+                  </tr>
+                  <tr className="border-b border-outline-variant">
+                    <td className="px-4 py-3">_clsk</td>
+                    <td className="px-4 py-3">
+                      {site.url.replace("https://", "")} (birinci taraf)
+                    </td>
+                    <td className="px-4 py-3">
+                      Aynı ziyaretçinin farklı sayfa görüntülemelerini tek bir
+                      oturum kaydında birleştirir
+                    </td>
+                  </tr>
+                  <tr className="border-b border-outline-variant">
+                    <td className="px-4 py-3">CLID</td>
+                    <td className="px-4 py-3">clarity.ms (üçüncü taraf)</td>
+                    <td className="px-4 py-3">
+                      Ziyaretçinin, bu hizmeti kullanan bir siteye ilk kez ne
+                      zaman girdiğini belirler
+                    </td>
+                  </tr>
+                  <tr className="border-b border-outline-variant">
+                    <td className="px-4 py-3">MUID</td>
+                    <td className="px-4 py-3">clarity.ms (üçüncü taraf)</td>
+                    <td className="px-4 py-3">
+                      Microsoft sitelerini ziyaret eden tarayıcıları ayırt eder;
+                      hizmet sağlayıcının beyanına göre reklam, site analizi ve
+                      işletimsel amaçlarla kullanılır
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3">ANONCHK, MR, SM</td>
+                    <td className="px-4 py-3">clarity.ms (üçüncü taraf)</td>
+                    <td className="px-4 py-3">
+                      MUID çerezinin yenilenmesine ve Microsoft alan adları
+                      arasında eşlenmesine ilişkin teknik değerleri taşır
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <P>
+            Analitik tercihiniz, tarayıcınızın yerel depolama alanında{" "}
+            <strong className="font-semibold text-ink">ym-cerez-rizasi</strong>{" "}
+            anahtarıyla saklanır. Bu kayıt, tercihin sonraki ziyaretlerde de
+            geçerli olması için zorunludur; sunucumuza gönderilmez ve başka bir
+            amaçla kullanılmaz.
+          </P>
+
+          <h3 className="mt-8 text-[17px] font-semibold text-ink">
+            b) Yurt dışına aktarım
+          </h3>
+          <P>
+            Hizmet, Microsoft Corporation tarafından Türkiye dışında bulunan
+            sunucular üzerinden sunulmaktadır. Bu bölümde sayılan veriler,
+            Microsoft Corporation&apos;a <em>veri işleyen</em> sıfatıyla
+            aktarılır ve aktarım sırasında yurt dışına çıkar. Aktarım, KVKK
+            m.9&apos;da öngörülen şartlar çerçevesinde gerçekleştirilir.
+          </P>
+
+          <h3 className="mt-8 text-[17px] font-semibold text-ink">
+            c) Saklama süresi
+          </h3>
+          <P>
+            Oturum kayıtları, hizmet sağlayıcı tarafından kayıt tarihinden
+            itibaren 30 gün boyunca saklanır. Bu kayıtlar arasından işaretlenen
+            veya örnekleme yoluyla seçilen kayıtlar ile ısı haritası verileri en
+            fazla 9 ay boyunca saklanır. Sürelerin sonunda ilgili kayıtlara
+            erişim sona erer.
+          </P>
+
+          <h3 className="mt-8 text-[17px] font-semibold text-ink">
+            d) Tercihinizi değiştirme
+          </h3>
+          <P>
+            Ziyaret analizi, sitenin sol alt köşesinde açılan çerez
+            bildirimindeki <strong className="font-semibold text-ink">Reddet</strong>{" "}
+            düğmesiyle kapatılır. Bildirimi her sayfadan yeniden açabilirsiniz:
+          </P>
+          <div className="mt-5 rounded-lg border border-outline-variant bg-surface-lowest p-5">
+            <CookieConsentButton className="rounded-full bg-primary px-4 py-1.5 text-[14px] font-semibold text-white transition-colors hover:bg-primary-bright" />
+            <p className="mt-4 text-[14px] leading-6 text-ink-muted">
+              Ret verildiğinde sayfa yeniden yüklenir, ölçüm betiği bir daha
+              çalıştırılmaz ve bu alan adında yazılmış _clck ile _clsk çerezleri
+              silinir. clarity.ms alan adında tanımlanmış çerezler site üzerinden
+              silinemez; bunlar tarayıcınızın çerez ayarlarından temizlenebilir.
+              Tarayıcınızın çerezleri tümüyle engelleyen ayarı kullanıldığında
+              hizmet çerez yazmaz.
+            </p>
+          </div>
+          <P>
+            Bu bölümde açıklanan işleme faaliyetine ilişkin taleplerinizi de,
+            bölüm 9&apos;da belirtilen usulle{" "}
+            <a
+              className="text-primary underline underline-offset-4"
+              href={`mailto:${site.contact.privacy}`}
+            >
+              {site.contact.privacy}
+            </a>{" "}
+            adresine iletebilirsiniz.
+          </P>
+
+          {/* 14 */}
+          <H2 id="iletisim">14. İletişim</H2>
           <P>
             Bu politikayla veya kişisel verilerinizle ilgili her türlü soru ve
             talebiniz için:

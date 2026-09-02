@@ -113,6 +113,6 @@ export const site = {
   },
 
   /** Politikanın yürürlük tarihi — metinde ve `dateModified`'da kullanılır. */
-  policyUpdatedAt: '2026-08-31',
-  policyUpdatedLabel: '31 Ağustos 2026',
+  policyUpdatedAt: '2026-09-02',
+  policyUpdatedLabel: '2 Eylül 2026',
 } as const;

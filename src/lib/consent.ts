@@ -8,9 +8,12 @@ import Clarity from "@microsoft/clarity";
  * önce rıza vermiş ziyaretçi için) ve `components/CookieConsent.tsx` (ziyaretçi
  * kararı o an verdiğinde).
  *
- * KVKK'nın Çerez Uygulamaları Rehberi'nin gereği: zorunlu olmayan analitik
- * çerezler açık rıza ALINMADAN çalıştırılmaz. Bu yüzden model "önce yükle,
- * sonra rızayı bildir" değil — rıza yoksa script hiç enjekte edilmez.
+ * Model OPT-OUT: kayıtlı bir ret yoksa araç çalışır (bkz.
+ * `instrumentation-client.ts`). KVKK'nın Çerez Uygulamaları Rehberi zorunlu
+ * olmayan analitik çerezler için önceden alınmış açık rıza istiyor; buradaki
+ * akış o eşiği karşılamıyor, ziyaretçiye bildirim ve her zaman erişilebilir
+ * bir kapatma yolu sunuyor. Opt-in'e geçilirse değişecek yer
+ * `instrumentation-client.ts` içindeki koşul ve bildirimin düğme metinleri.
  */
 
 export const CONSENT_STORAGE_KEY = "ym-cerez-rizasi";

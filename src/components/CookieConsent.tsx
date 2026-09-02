@@ -134,9 +134,10 @@ export function CookieConsent() {
 
 /**
  * Metin "dilediğiniz zaman kapatabilirsiniz" diyor; bu cümlenin doğru olması
- * için bildirimi yeniden açan bir giriş noktası gerekiyor. Footer'da her
- * sayfada duruyor. Footer bir server component olduğundan `onClick` taşıyan
- * parça ayrı.
+ * için bildirimi yeniden açan bir giriş noktası gerekiyor. O nokta gizlilik
+ * politikasının 13. bölümü — ziyaretçi oraya her sayfanın footer'ındaki
+ * Gizlilik Politikası bağlantısından ulaşıyor. Politika sayfası bir server
+ * component olduğundan `onClick` taşıyan parça ayrı.
  */
 export function CookieConsentButton({ className }: { className?: string }) {
   return (
@@ -145,7 +146,7 @@ export function CookieConsentButton({ className }: { className?: string }) {
       onClick={() => window.dispatchEvent(new Event(REOPEN_EVENT))}
       className={className}
     >
-      Çerez tercihi
+      Çerez tercihini değiştir
     </button>
   );
 }
