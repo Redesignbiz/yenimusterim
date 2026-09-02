@@ -167,7 +167,10 @@ export type KayitState = {
   status: 'idle' | 'error' | 'success';
   /** Alan bazlı hatalar; ilgili alanın altında gösterilir. */
   errors?: Hatalar;
-  /** Forma değil sürecin tamamına ait hata (webhook erişilemedi gibi). */
+  /**
+   * Forma değil sürecin tamamına ait hata. Kayıt katmanı bağlanmadığı için
+   * bugün hiç set edilmiyor; `BasvuruIletilemedi` ekranı onu bekliyor.
+   */
   message?: string;
   /**
    * React 19, `action` bir fonksiyon olduğunda gönderim sonrası formu sıfırlıyor.
@@ -175,21 +178,11 @@ export type KayitState = {
    * döndürülüp `defaultValue` / `defaultChecked` olarak basılıyor.
    */
   values?: Degerler;
-  /** Başarı ekranında hangi adrese yazılacağının söylenmesi için. */
-  gonderilenEmail?: string;
 };
 
 export const KAYIT_BASLANGIC: KayitState = { status: 'idle' };
 
 /* --------------------------------------------------- okuma ve doğrulama */
-
-/**
- * Başvurunun hangi aşamada kaydedildiği. Adım 1 tamamlandığında satır tabloya
- * `adim1` olarak düşüyor; kullanıcı adım 2'yi de gönderirse aynı satır
- * `tamamlandi` ile güncelleniyor (eşleşme `basvuruId` üzerinden — bkz.
- * docs/kayit-formu.md).
- */
-export type Asama = 'adim1' | 'tamamlandi';
 
 /** Tek satırlık metin: kenar boşlukları, satır sonları ve iç boşluk tekrarları temizlenir. */
 export function temizle(deger: FormDataEntryValue | null, azamiUzunluk: number): string {

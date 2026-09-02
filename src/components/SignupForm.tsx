@@ -21,7 +21,7 @@ import {
   type Hatalar,
   type KayitState,
 } from '@/lib/kayit';
-import { adim1Kaydet, kayitBasvurusuGonder } from '@/app/app/kayit/actions';
+import { kayitBasvurusuGonder } from '@/app/app/kayit/actions';
 
 /**
  * Servis noktası kayıt başvurusu formu — /app/kayit sayfasının içeriği.
@@ -30,18 +30,13 @@ import { adim1Kaydet, kayitBasvurusuGonder } from '@/app/app/kayit/actions';
  * adımda CSS ile gizleniyor ama DOM'da kalıyor, böylece gönderimde tek
  * FormData'da toplanıyorlar.
  *
- * İkinci adımdan birinciye DÖNÜLEMİYOR: ilk adımın verisi kaydedilip
- * bildirimi gönderildiği için sonradan değiştirilmesi, haber verilen bilgiyle
- * tablodaki kaydı ayrıştırırdı. Tek istisna, sunucudan ilk adımın bir alanına
- * hata dönmesi — o zaman düzeltilecek yer orası olduğu için form kullanıcıyı
- * geri götürüyor.
+ * İkinci adımdan birinciye dönülebiliyor; alanlar DOM'da kaldığı için yazılanlar
+ * yerinde duruyor. Sunucudan ilk adımın bir alanına hata dönerse form
+ * kullanıcıyı kendiliğinden oraya götürüyor.
  *
- * Adım 1 tamamlandığında veri BEKLENMEDEN kaydediliyor (`adim1Kaydet`):
- * kullanıcı ikinci adımı yarıda bıraksa bile iletişim bilgisi tabloya düşmüş
- * oluyor. Bu yüzden KVKK onayı da adım 1'de — veri o adımda gönderiliyor.
- *
- * Doğrulama kuralları sunucuyla ORTAK (`@/lib/kayit`), iki yerde ayrı ayrı
- * yazılmıyor; sunucu aynı kontrolleri kabul kararı için yeniden çalıştırıyor.
+ * FORM VERİYİ HİÇBİR YERE YAZMIYOR. Bu katman yalnızca önyüz: adımlar,
+ * doğrulama ve sonuç ekranları. Başvurunun nereye kaydedileceği ayrı bir iş —
+ * bağlanacağı yer `app/kayit/actions.ts`.
  */
 
 /** Adım 2 sorularının form sırası — eksik alana odaklanırken kullanılıyor. */
@@ -89,14 +84,6 @@ function alanSinifi(hataVarMi: boolean) {
   }`;
 }
 
-/** `crypto.randomUUID` güvenli bağlam istiyor; olmadığı yerde yedek kimlik. */
-function kimlikUret(): string {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-    return crypto.randomUUID();
-  }
-  return `b-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
-}
-
 /**
  * Formun dış kabuğu. Tek işi, "Formu yeniden doldurun" seçildiğinde `key`
  * değiştirip asıl formu sıfırdan monte etmek: `useActionState` durumunu
@@ -106,29 +93,15 @@ function kimlikUret(): string {
 export function SignupForm() {
   const [anahtar, setAnahtar] = useState(0);
 
-  /* Kimlik kabukta duruyor, formda değil: yeniden doldurma aynı başvuruyu
-     sürdürsün, tabloda ikinci bir yarım satır açmasın. */
-  const [basvuruId, setBasvuruId] = useState('');
-
   return (
     <KayitFormu
       key={anahtar}
-      basvuruId={basvuruId}
-      setBasvuruId={setBasvuruId}
       yenidenBasla={() => setAnahtar((n) => n + 1)}
     />
   );
 }
 
-function KayitFormu({
-  basvuruId,
-  setBasvuruId,
-  yenidenBasla,
-}: {
-  basvuruId: string;
-  setBasvuruId: (id: string) => void;
-  yenidenBasla: () => void;
-}) {
+function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
   const [state, formAction, pending] = useActionState<KayitState, FormData>(
     kayitBasvurusuGonder,
     KAYIT_BASLANGIC,
@@ -189,7 +162,7 @@ function KayitFormu({
     }, 0);
   }
 
-  /** Adım 1 → adım 2. Eksik varsa geçilmiyor; yoksa veri kaydedilip ilerleniyor. */
+  /** Adım 1 → adım 2. Eksik varsa geçilmiyor. */
   function adim1denGec(form: HTMLFormElement) {
     const veri = new FormData(form);
     const bulunan = adim1Hatalari(formuOku(veri), iller);
@@ -202,16 +175,6 @@ function KayitFormu({
     }
 
     setIstemciHatalari({});
-
-    const id = basvuruId || kimlikUret();
-    if (!basvuruId) setBasvuruId(id);
-    veri.set('basvuruId', id);
-
-    /* Yanıt BEKLENMİYOR: kayıt bir yan etki, ikinci adıma geçişi
-       geciktirmemeli. Başarısızlık sunucu log'una düşer ve veri, ikinci adımın
-       gönderiminde zaten yeniden gider. */
-    void adim1Kaydet(veri);
-
     setAdim(2);
     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
@@ -219,6 +182,11 @@ function KayitFormu({
   function devamEt(olay: React.MouseEvent<HTMLButtonElement>) {
     const form = olay.currentTarget.form;
     if (form) adim1denGec(form);
+  }
+
+  function geriDon(olay: React.MouseEvent<HTMLButtonElement>) {
+    setAdim(1);
+    olay.currentTarget.form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function gonderimiDenetle(olay: React.SyntheticEvent<HTMLFormElement>) {
@@ -294,7 +262,7 @@ function KayitFormu({
   }
 
   if (state.status === 'success') {
-    return <BasvuruAlindi email={state.gonderilenEmail} />;
+    return <BasvuruAlindi />;
   }
 
   /*
@@ -318,7 +286,6 @@ function KayitFormu({
       noValidate
       className="relative mt-10 scroll-mt-24"
     >
-      <input type="hidden" name="basvuruId" value={basvuruId} />
 
       <AdimGostergesi adim={adim} />
 
@@ -419,7 +386,7 @@ function KayitFormu({
         {/* Onay ADIM 1'de: veri bu adımın sonunda kaydediliyor. */}
         <Onay hata={hatalar.onay} />
 
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div className="mt-8">
           <button
             type="button"
             onClick={devamEt}
@@ -439,12 +406,6 @@ function KayitFormu({
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </button>
-
-          {/* Bu adımın bilgileri devam edildiği anda kaydedilip bildiriliyor;
-              sonrasında düzeltme imkânı olmadığı için önceden söyleniyor. */}
-          <p className="text-[13px] text-ink-muted">
-            Devam ettikten sonra bu bilgiler değiştirilemez.
-          </p>
         </div>
       </div>
 
@@ -508,6 +469,15 @@ function KayitFormu({
             className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright disabled:cursor-not-allowed disabled:opacity-60"
           >
             {pending ? 'Gönderiliyor…' : 'Gönder'}
+          </button>
+
+          <button
+            type="button"
+            onClick={geriDon}
+            disabled={pending}
+            className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low disabled:opacity-60"
+          >
+            Geri
           </button>
 
           {/* Boşken de DOM'da duruyor: `aria-live` yalnızca var olan bir bölgeye
@@ -850,7 +820,7 @@ function BasvuruIletilemedi({
 }
 
 /** Gönderim başarılı olduğunda formun yerini alan blok. */
-function BasvuruAlindi({ email }: { email?: string }) {
+function BasvuruAlindi() {
   return (
     <div
       role="status"
@@ -876,14 +846,7 @@ function BasvuruAlindi({ email }: { email?: string }) {
       </h2>
 
       <p className="mt-4 text-[15px] leading-7 text-ink-muted">
-        Bilgileriniz merkez ekibine iletildi. Başvurunuz değerlendirildikten
-        sonra uygulamaya giriş bilgileri{' '}
-        {email ? (
-          <strong className="font-semibold text-ink">{email}</strong>
-        ) : (
-          'bıraktığınız e-posta'
-        )}{' '}
-        adresine gönderilir.
+        Başvurunuz değerlendirildikten sonra sizinle iletişime geçeceğiz.
       </p>
 
       <p className="mt-4 text-[15px] leading-7 text-ink-muted">

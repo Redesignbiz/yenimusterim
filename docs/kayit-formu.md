@@ -1,5 +1,14 @@
 # Kayıt başvurusu formu — başvuruların düştüğü yer
 
+> **Bu kurgu henüz DEVREDE DEĞİL.** Form bugün yalnızca önyüz: doğrulama yapıp
+> "Başvurunuz alındı" ekranını gösteriyor, veriyi hiçbir yere yazmıyor. Aşağısı
+> kaydın nasıl bağlanacağını anlatan hazır plan; bağlanacağı yer
+> `src/app/app/kayit/actions.ts`. Formun yayına alınması bu adımın
+> tamamlanmasına bağlı.
+>
+> Aşağıdaki iki aşamalı akış (`adim1` / `tamamlandi`) da o plana ait: bugünkü
+> form adım 1'de hiçbir şey kaydetmiyor.
+
 `/app/kayit` formunun (`src/app/app/kayit/`) sunucu tarafı, başvuruyu Google
 Apps Script ile yayımlanmış bir web app'e POST eder. Script başvuruyu bir Google
 Sheets tablosuna yazar ve başvuru başına bir bildirim e-postası gönderir.
