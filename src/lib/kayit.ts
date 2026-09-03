@@ -226,10 +226,20 @@ function listedeMi(liste: readonly string[], deger: string) {
  * alanda aynı, doluysa neyin yanlış olduğu söyleniyor — "Bu alan zorunludur"
  * yazısını dolu bir alanın altına koymak kullanıcıyı yanıltırdı.
  *
- * `iller` parametre olarak alınıyor: bu dosyanın il listesine bağımlı olmasına
- * gerek yok, çağıran taraf hangi listeye karşı doğrulayacağını veriyor.
+ * `iller` ve `ilceIlinMi` parametre olarak alınıyor: bu dosyanın referans verisine
+ * bağımlı olmasına gerek yok, çağıran taraf hangi listeye karşı doğrulayacağını veriyor.
+ *
+ * ⛔ `ilceIlinMi` ZORUNLU, opsiyonel DEĞİL — ve bu bilinçli. Varsayılanı olsaydı
+ * (ör. "her ilçeyi kabul et") bir çağıran onu geçmeyi unutup ilçe doğrulamasını
+ * sessizce atlayabilirdi; iki çağıran var (form ve server action) ve ikisinin farklı
+ * doğrulaması, forma elle istek atan birinin ilçe kontrolünü tamamen aşması demekti.
+ * Zorunlu parametre bunu derleme hatasına çeviriyor.
  */
-export function adim1Hatalari(degerler: Degerler, iller: readonly string[]): Hatalar {
+export function adim1Hatalari(
+  degerler: Degerler,
+  iller: readonly string[],
+  ilceIlinMi: (il: string, ilce: string) => boolean,
+): Hatalar {
   const hatalar: Hatalar = {};
   const { sirket = '', il = '', ilce = '', ad = '', soyad = '', email = '', telefon = '' } =
     degerler;
@@ -240,8 +250,23 @@ export function adim1Hatalari(degerler: Degerler, iller: readonly string[]): Hat
   if (il === '') hatalar.il = ZORUNLU_ALAN_MESAJI;
   else if (!listedeMi(iller, il)) hatalar.il = 'Listeden il seçin.';
 
-  if (ilce === '') hatalar.ilce = ZORUNLU_ALAN_MESAJI;
-  else if (ilce.length < 2) hatalar.ilce = 'İlçe adını eksiksiz yazın.';
+  /*
+    ⛔ İLÇE ARTIK SERBEST METİN DEĞİL, LİSTEDEN SEÇİLİYOR (3 Eyl 2026) — bu yüzden
+    kontrol "en az 2 karakter" değil "o ilin ilçesi mi".
+
+    Gerekçesi ölçülebilir: backend gelen ilçeyi kanonikleştiriyor ama tanımadığı bir
+    yazımı olduğu gibi saklıyor, ve o satıra yazılmış hiçbir atama kuralı tutmuyor —
+    yani "Kadikoy" yazan bir başvuru sessizce hiçbir kurala eşleşmeyen bir bayi kaydına
+    dönüşürdü. Listeden seçilen ad uçta TAM EŞLEŞME buluyor.
+
+    İl boşsa ilçe hatası BASILMIYOR: kullanıcı henüz il seçmediği için ilçe kutusu da
+    kapalı, ve iki alanın altına birden hata yazmak eksiğin hangisi olduğunu belirsiz
+    yapardı. İl hatası zaten basılıyor.
+  */
+  if (il !== '') {
+    if (ilce === '') hatalar.ilce = SECIM_MESAJI;
+    else if (!ilceIlinMi(il, ilce)) hatalar.ilce = 'Listeden ilçe seçin.';
+  }
 
   if (ad === '') hatalar.ad = ZORUNLU_ALAN_MESAJI;
   else if (ad.length < 2) hatalar.ad = 'Adı eksiksiz yazın.';

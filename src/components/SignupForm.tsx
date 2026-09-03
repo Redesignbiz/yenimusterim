@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useActionState, useId, useState } from 'react';
+import { ilceIlinMi, ilceleriGetir } from '@/lib/ilceler';
 import { iller } from '@/lib/iller';
 import { site } from '@/lib/site';
 import {
@@ -34,9 +35,11 @@ import { kayitBasvurusuGonder } from '@/app/app/kayit/actions';
  * yerinde duruyor. Sunucudan ilk adımın bir alanına hata dönerse form
  * kullanıcıyı kendiliğinden oraya götürüyor.
  *
- * FORM VERİYİ HİÇBİR YERE YAZMIYOR. Bu katman yalnızca önyüz: adımlar,
- * doğrulama ve sonuç ekranları. Başvurunun nereye kaydedileceği ayrı bir iş —
- * bağlanacağı yer `app/kayit/actions.ts`.
+ * ⛔ FORM ARTIK VERİYİ KAYDEDİYOR (2 Eyl 2026). Burada bir süre "form veriyi hiçbir
+ * yere yazmıyor, bu katman yalnızca önyüz" yazıyordu; o doğruydu ve artık değil.
+ * Gönderim `app/kayit/actions.ts` → `lib/brisa.ts` → Brisa backend'indeki
+ * `POST /api/dealer-applications`. Bu bileşenin işi hâlâ yalnız önyüz: adımlar,
+ * doğrulama ve sonuç ekranları.
  */
 
 /** Adım 2 sorularının form sırası — eksik alana odaklanırken kullanılıyor. */
@@ -54,6 +57,9 @@ const ADIM2_SIRASI: readonly Alan[] = [
  */
 type Secimler = {
   il: string;
+  /* İlçe de seçim alanı oldu (3 Eyl 2026): il değişince temizlenmesi gerekiyor ve
+     uncontrolled bir `<select>`in değerini dışarıdan sıfırlamanın yolu yok. */
+  ilce: string;
   bolge: string;
   kapasite: string;
   musteriProfili: string;
@@ -64,6 +70,7 @@ type Secimler = {
 function secimleriKur(values: KayitState['values']): Secimler {
   return {
     il: values?.il ?? '',
+    ilce: values?.ilce ?? '',
     bolge: values?.bolge ?? '',
     kapasite: values?.kapasite ?? '',
     musteriProfili: values?.musteriProfili ?? '',
@@ -165,7 +172,7 @@ function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
   /** Adım 1 → adım 2. Eksik varsa geçilmiyor. */
   function adim1denGec(form: HTMLFormElement) {
     const veri = new FormData(form);
-    const bulunan = adim1Hatalari(formuOku(veri), iller);
+    const bulunan = adim1Hatalari(formuOku(veri), iller, ilceIlinMi);
     if (veri.get('onay') !== 'evet') bulunan.onay = ONAY_MESAJI;
 
     if (Object.keys(bulunan).length > 0) {
@@ -204,7 +211,7 @@ function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
     const veri = new FormData(form);
     const degerler = formuOku(veri);
     const bulunan: Hatalar = {
-      ...adim1Hatalari(degerler, iller),
+      ...adim1Hatalari(degerler, iller, ilceIlinMi),
       ...adim2Hatalari(degerler),
     };
     if (veri.get('onay') !== 'evet') bulunan.onay = ONAY_MESAJI;
@@ -252,7 +259,16 @@ function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
     } else if (hedef.name in secimler) {
       const ad = hedef.name as keyof Secimler;
       const deger = hedef.value;
-      setSecimler((onceki) => ({ ...onceki, [ad]: deger }));
+      setSecimler((onceki) => ({
+        ...onceki,
+        [ad]: deger,
+        /* ⛔ İL DEĞİŞİNCE İLÇE TEMİZLENİR. Kalması, seçili görünen ilçenin artık
+           başka bir ile ait olması demekti: kullanıcı Ankara/Çankaya seçip ili
+           İzmir'e çevirdiğinde kutuda "Çankaya" duruyor ama listede yok, ve
+           doğrulama "Listeden ilçe seçin" derken ekranda seçili bir değer
+           görünüyordu. Dashboard'daki `LocationFields` aynı kuralı uyguluyor. */
+        ...(ad === 'il' && deger !== onceki.il ? { ilce: '' } : null),
+      }));
     }
 
     const ad = hedef.name as Alan;
@@ -311,12 +327,28 @@ function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
             secenekler={iller}
           />
 
+          {/*
+            İl seçilmeden ilçe listesi anlamsız: kutu KAPALI ve boş seçeneği ne
+            yapılması gerektiğini söylüyor. Boş bir açılır liste göstermek,
+            kullanıcıya hiç seçenek yokmuş gibi görünürdü.
+          */}
           <FormAlani
             name="ilce"
             label="İlçe"
             autoComplete="address-level2"
-            defaultValue={state.values?.ilce}
+            deger={secimler.ilce}
             hata={hatalar.ilce}
+            secenekler={ilceleriGetir(secimler.il)}
+            pasif={secimler.il === ''}
+            bosEtiket={secimler.il === '' ? 'Önce il seçin' : 'Seçin'}
+            /* ⛔ Aynı bilgi İKİ YERDE ve bu bir erişilebilirlik gereği, tekrar değil:
+               `bosEtiket` kapalı kutunun İÇİNDE duruyor ve `disabled` bir `select`
+               klavye odağı ALMADIĞI için ekran okuyucu kullanıcısı ona hiç ulaşmıyor.
+               `yardim` metni belge akışında bir `<p>` olarak basılıyor, yani alan
+               sırayla okunurken duyuluyor. */
+            yardim={
+              secimler.il === '' ? 'İlçe listesi için önce il seçin.' : undefined
+            }
           />
 
           <div className="sm:col-span-2">
@@ -383,7 +415,13 @@ function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
           />
         </div>
 
-        {/* Onay ADIM 1'de: veri bu adımın sonunda kaydediliyor. */}
+        {/*
+          Onay ADIM 1'de duruyor ama artık "veri bu adımın sonunda kaydediliyor" diye
+          bir gerekçesi YOK — o gerekçe devreye alınmayan iki aşamalı kurguya aitti.
+          Burada kalmasının sebebi: rıza, kimlik ve iletişim verilerinin girildiği
+          adımda istenmeli; kullanıcı neyi onayladığını gördüğü yerde onaylıyor.
+          Kayıt tek seferde, ikinci adımın gönderiminde oluşuyor.
+        */}
         <Onay hata={hatalar.onay} />
 
         <div className="mt-8">
@@ -532,6 +570,8 @@ function FormAlani({
   yardim,
   secenekler,
   deger,
+  pasif = false,
+  bosEtiket = 'Seçin',
   className = '',
   type = 'text',
   ...rest
@@ -543,6 +583,10 @@ function FormAlani({
   secenekler?: readonly string[];
   /** Yalnızca `select` için: değeri React tutuyor, bkz. Secimler. */
   deger?: string;
+  /** Yalnızca `select`: bağlı olduğu alan seçilmeden kutu kapalı durur. */
+  pasif?: boolean;
+  /** Yalnızca `select`: boş seçeneğin metni ("Seçin" / "Önce il seçin"). */
+  bosEtiket?: string;
   className?: string;
   type?: 'text' | 'email' | 'tel';
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'name' | 'type' | 'className'>) {
@@ -562,6 +606,7 @@ function FormAlani({
           id={id}
           name={name}
           value={deger ?? ''}
+          disabled={pasif}
           /* Değişim formun ortak `onChange` dinleyicisinde işleniyor; React'in
              controlled alan için kendi prop'unu görmesi gerektiğinden burada
              boş bir el kalıyor. */
@@ -571,7 +616,7 @@ function FormAlani({
           className={`${alanSinifi(Boolean(hata))} mt-2 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23727786%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:18px_18px] bg-[right_0.875rem_center] bg-no-repeat pr-11`}
         >
           <option value="" disabled>
-            Seçin
+            {bosEtiket}
           </option>
           {secenekler.map((secenek) => (
             <option key={secenek} value={secenek}>

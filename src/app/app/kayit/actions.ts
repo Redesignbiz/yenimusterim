@@ -1,6 +1,7 @@
 'use server';
 
 import { basvuruyuGonder } from '@/lib/brisa';
+import { ilceIlinMi } from '@/lib/ilceler';
 import { iller } from '@/lib/iller';
 import {
   ONAY_MESAJI,
@@ -46,7 +47,7 @@ export async function kayitBasvurusuGonder(
   }
 
   const errors: Hatalar = {
-    ...adim1Hatalari(degerler, iller),
+    ...adim1Hatalari(degerler, iller, ilceIlinMi),
     ...adim2Hatalari(degerler),
   };
   if (formData.get('onay') !== 'evet') errors.onay = ONAY_MESAJI;

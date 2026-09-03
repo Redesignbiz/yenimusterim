@@ -588,15 +588,29 @@ export default function PrivacyPolicy() {
             (KVKK m.5/2) hukuki sebebine dayanır. Başvuru verileri reklam,
             pazarlama veya satış amacıyla kullanılmaz.
           </P>
+          {/*
+            ⛔ 3 Eyl 2026'da DÜZELTİLDİ. Burada şu yazıyordu: "Birinci adımda yer alan
+            kimlik, iletişim ve mesleki deneyim verileri, bu adım tamamlanıp açık rıza
+            verildiği anda kaydedilir; ikinci adımdaki sorular yanıtlanmasa dahi bu kayıt
+            saklanır."
+
+            O cümle devreye ALINMAYAN iki aşamalı Sheets kurgusunu anlatıyordu
+            (`adim1` / `tamamlandi` — bkz. docs/kayit-formu.md). Gerçekte form tek
+            gönderimde iki adımın tamamını yolluyor: adım 1'in sonunda hiçbir şey
+            kaydedilmiyor ve kullanıcı adım 2'de vazgeçerse HİÇBİR veri saklanmıyor.
+
+            Yön önemli: politika gerçekleşenden DAHA FAZLA işleme iddia ediyordu. Kullanıcı
+            aleyhine bir işleme değil, ama yanlış bir açıklama — ve bu bölümün kendi
+            başındaki not "politika ürünün bugün fiilen yaptığı işlemeyi anlatır" diyor.
+          */}
           <P>
-            Form iki adımdan oluşur. Birinci adımda yer alan kimlik, iletişim ve
-            mesleki deneyim verileri, bu adım tamamlanıp{" "}
+            Form iki adımdan oluşur ve başvuru{" "}
             <strong className="font-semibold text-ink">
-              açık rıza verildiği anda kaydedilir
+              tek seferde, ikinci adım tamamlanıp gönderildiğinde kaydedilir
             </strong>
-            ; ikinci adımdaki işletme profili soruları yanıtlanmasa dahi bu
-            kayıt, yukarıdaki amaçlarla ve aşağıdaki saklama süresi boyunca
-            saklanır.
+            . Birinci adımı doldurup ikinci adımda vazgeçmeniz hâlinde girdiğiniz veriler
+            kaydedilmez; gönderim tamamlanmadan tarayıcınızdan ayrılmanız durumunda da
+            hiçbir kayıt oluşmaz.
           </P>
           <P>
             Başvurunun kabul edilmesi hâlinde kayıt, hesap bilgilerine dönüşür ve

@@ -9,10 +9,14 @@
  * Sunucu tarafındaki doğrulama da bu listeyi kullanıyor (bkz. app/kayit/actions.ts):
  * forma elle gönderilen bir il adı listede yoksa başvuru kabul edilmiyor.
  *
- * İLÇE LİSTESİ BİLİNÇLİ OLARAK YOK. 970'i aşan ilçe adını elle taşımak, ilk
- * yazımda ve her idari değişiklikte hataya açık; formda ilçe bu yüzden serbest
- * metin alanı. İl bazlı ilçe listesi güvenilir bir kaynaktan (NVİ/TÜİK) alınıp
- * eklenirse alan `select`e çevrilir.
+ * ⛔ İLÇE LİSTESİ ARTIK VAR: `ilceler.ts` (3 Eyl 2026). Buradaki not bir süre "ilçe
+ * bilinçli olarak serbest metin, güvenilir bir kaynak bulunursa `select`e çevrilir"
+ * diyordu — o kaynak bulundu (Brisa monorepo'sundaki `shared/src/locations.ts`, NVİ
+ * tabanlı 2025 veri seti) ve alan `select`e çevrildi. İlçe adları ELLE YAZILMADI,
+ * o kaynaktan üretildi.
+ *
+ * ⚠ İki dosyanın il adları BİREBİR AYNI olmak zorunda (sıra dahil ölçüldü): `ilceler.ts`
+ * bu adları anahtar olarak kullanıyor, eşleşmezse il seçilince ilçe listesi boş kalır.
  */
 export const iller = [
   'Adana',
