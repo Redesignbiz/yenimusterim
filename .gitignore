@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# Anahtar ADLARI commit'lenir, degerleri asla: BRISA_API_BASE'in nereye isaret etmesi
+# gerektigi yeni bir makinede kurulumun ilk sorusu ve cevabi depoda durmali.
+!.env.example
 
 # vercel
 .vercel

@@ -1,13 +1,24 @@
 # Kayıt başvurusu formu — başvuruların düştüğü yer
 
-> **Bu kurgu henüz DEVREDE DEĞİL.** Form bugün yalnızca önyüz: doğrulama yapıp
-> "Başvurunuz alındı" ekranını gösteriyor, veriyi hiçbir yere yazmıyor. Aşağısı
-> kaydın nasıl bağlanacağını anlatan hazır plan; bağlanacağı yer
-> `src/app/app/kayit/actions.ts`. Formun yayına alınması bu adımın
-> tamamlanmasına bağlı.
+> ⛔ **BU KURGU DEVREYE ALINMADI VE ALINMAYACAK — 2 Eylül 2026.** Form artık başvuruyu
+> **Brisa backend'ine** gönderiyor: `POST /api/dealer-applications` → `dealer_applications`
+> tablosunda `PENDING` → admin dashboard'daki **Bayi Başvuruları** ekranı.
+> Bağlantı `src/lib/brisa.ts` + `src/app/app/kayit/actions.ts` içinde.
 >
-> Aşağıdaki iki aşamalı akış (`adim1` / `tamamlandi`) da o plana ait: bugünkü
-> form adım 1'de hiçbir şey kaydetmiyor.
+> **Neden Sheets değil:** onaylanan başvurunun sistemde bir **bayi kaydına** dönmesi
+> gerekiyor (`dealers` satırı, il/ilçe kanonikleştirilmiş, atama kurallarının hedefi
+> olabilecek). Bir tablo satırı bunu yapamaz; onay, bayi ekleme ve başvuruyu ona bağlama
+> **tek transaction** olmak zorunda, yoksa iki kez onaylanan bir başvuru iki bayi açar.
+> Sheets ayrıca ikinci bir doğruluk kaynağı olurdu: "bu servis noktası kayıtlı mı"
+> sorusunun cevabı hem tabloda hem veritabanında durur ve ilk düzenlemede ayrışırlardı.
+>
+> ⚠ **Aşağısı TARİHSEL KAYIT.** Silinmedi çünkü `kayit-formu.gs` diskte duruyor ve o
+> script'in ne yaptığını açıklayan tek metin bu; okuyan biri onu canlı bir kurulum
+> sanmasın diye başlığa bu not kondu. Yeni bir başvuru kanalı gerekirse bu dosya değil
+> `src/lib/brisa.ts` esas alınır.
+>
+> ⚠ Aşağıdaki iki aşamalı akış (`adim1` / `tamamlandi`) da o plana ait ve bugünkü formda
+> karşılığı YOK: form tek gönderimde iki adımın tamamını yolluyor.
 
 `/app/kayit` formunun (`src/app/app/kayit/`) sunucu tarafı, başvuruyu Google
 Apps Script ile yayımlanmış bir web app'e POST eder. Script başvuruyu bir Google
