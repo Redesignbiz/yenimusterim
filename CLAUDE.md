@@ -28,7 +28,7 @@ gerektiren) satış servis noktasında gerçekleştiği için Yeni Müşterim m�
 Markanın çalıştığı paydaş **her zaman "servis noktası"** diye anılır.
 
 Önyüzde geçmez: bayi · nokta · satış noktası · dealer.
-
+ 
 Ürünün İngilizce adı **LeadHanger**. İngilizce kaynaklarda geçen LeadHanger,
 Yeni Müşterim'dir; oradaki "dealer" da servis noktasıdır.
 
