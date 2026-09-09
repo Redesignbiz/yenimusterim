@@ -27,8 +27,10 @@ export function Hero() {
           {/*
             Birincil düğme kayıt başvurusu (/app/kayit): hero'yu okuyan servis
             noktasının çoğunun henüz hesabı yok, indirme tek başına işine
-            yaramıyor. İndirme bağlantısı ikincil ve yalnızca adresi tanımlı
-            mağaza için basılıyor (bkz. site.stores, StoreLinks.tsx).
+            yaramıyor. İkincil düğme mağaza yerine sayfadaki indirme bölümüne
+            götürüyor: uygulama iki mağazada da yayında, hero'da tek mağazanın
+            adını vermek diğer cihazı dışarıda bırakır. Adreslerin ikisi de
+            boşaltılırsa düğme basılmaz (bkz. site.stores, StoreLinks.tsx).
           */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
@@ -50,14 +52,12 @@ export function Hero() {
               </svg>
             </Link>
 
-            {site.stores.googlePlay && (
+            {(site.stores.appStore || site.stores.googlePlay) && (
               <a
-                href={site.stores.googlePlay}
-                target="_blank"
-                rel="noopener"
+                href="#indir"
                 className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
               >
-                Google Play&apos;den indirin
+                Uygulamayı indirin
               </a>
             )}
           </div>

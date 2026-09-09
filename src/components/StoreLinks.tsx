@@ -6,13 +6,13 @@ import appIcon from "@/assets/app-icon.svg";
 
 /**
  * Mağaza bölümü. Bileşen eskiden `ComingSoon` adıyla duruyordu; uygulama
- * 31 Ağustos 2026'da Google Play'de yayına girdiği için bölümün işi artık
- * "yakında" duyurusu değil, indirme adresini vermek.
+ * Google Play'de (31 Ağustos 2026) ve App Store'da (8 Eylül 2026) yayına
+ * girdiği için bölümün işi artık "yakında" duyurusu değil, indirme adresini
+ * vermek.
  *
  * Rozetin link olup olmayacağını `site.stores` belirliyor: adresi olan mağaza
- * bağlantıya dönüşür, olmayan (bugün App Store) "yakında" etiketiyle `div`
- * olarak kalır. Böylece iOS sürümü yayına girdiğinde tek satır adres girmek
- * yetiyor.
+ * bağlantıya dönüşür, adresi boşaltılan rozet "Yakında" etiketiyle `div` olarak
+ * kalır. Bugün iki adres de tanımlı, iki rozet de link.
  */
 export function StoreLinks() {
   const playYayinda = Boolean(site.stores.googlePlay);
@@ -34,9 +34,7 @@ export function StoreLinks() {
           />
 
           <h2 className="mx-auto max-w-2xl text-2xl font-bold leading-tight tracking-[-0.02em] text-inverse-ink sm:text-4xl">
-            {appStoreYayinda
-              ? `${site.name} uygulamasını indirin`
-              : `${site.name} uygulamasını indirin`}
+            {site.name} uygulamasını indirin
           </h2>
 
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-inverse-ink/75">
