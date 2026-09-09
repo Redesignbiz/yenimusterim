@@ -11,9 +11,8 @@ const products = [
     audience: "Sitenizdeki ziyaretçi için",
     title: "Web sitenizde çalışan chatbot",
     points: [
-      "Ziyaretçinin ihtiyacını belirleyen diyalog akışı",
-      "Potansiyel müşterileri servis noktasına yönlendirme",
-      "KVKK uyumlu iletişim izni",
+      "Ziyaretçinin ihtiyacını ve satın alma niyetini belirleyen konuşma akışı",
+      "Potansiyel müşterileri doğru servis noktasına yönlendirme",
     ],
     icon: (
       <>
@@ -26,8 +25,8 @@ const products = [
     audience: "Servis noktası ağınız için",
     title: "Yeni Müşterim mobil uygulaması",
     points: [
-      "Her yeni müşteri talebi için bildirim",
-      "Uygulama içinden arama veya WhatsApp yönlendirmesi",
+      "Her yeni müşteri talebi için anlık mobil bildirim",
+      "Uygulama içinden tek dokunuşla arama veya WhatsApp yönlendirmesi",
     ],
     icon: (
       <>
@@ -41,9 +40,8 @@ const products = [
     audience: "Merkez ekibiniz için",
     title: "Yönetim paneli",
     points: [
-      "Talep hacmi ve dönüşüm hunisi raporları",
-      "Her servis noktasının performans kayıtları",
-      "Bölge ve kanal kırılımlarına göre analiz",
+      "Talep hacmi ve dönüşüm oranı raporları",
+      "Servis noktası bazında performans takibi",
     ],
     icon: (
       <>
@@ -60,10 +58,9 @@ export function Products() {
     <Section id="platform" className="border-t border-outline-variant">
       <SectionHeading
         eyebrow="Platform"
-        title="Bir konuşma, bir mobil uygulama, bir dashboard"
-        lead="Üçü aynı sistemin parçası. Ziyaretçiyle konuşan taraf, onu arayan taraf ve sonucu ölçen taraf aynı veriye bakıyor; bir talebin ne zaman geldiği ve sonunda ne olduğu tek yerde görünüyor."
+        title="Tek sistem, üç ekran"
+        lead="Ziyaretçiyle konuşan, servis noktasını arayan ve sonucu ölçen taraf aynı veriye bakar. Bir talebin nereden geldiği ve sonunda ne olduğu tek yerde görünür."
       />
-
       <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant lg:grid-cols-3">
         {products.map((product) => (
           <div

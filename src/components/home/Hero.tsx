@@ -167,11 +167,11 @@ export function Hero() {
             </p>
 
             <h1 className="mt-6 text-[32px] font-bold leading-[1.1] tracking-[-0.035em] text-ink sm:text-[46px]">
-              Potansiyel Müşterileri Doğru Servis Noktasıyla Buluşturun.
+              Potansiyel Müşterilerinizi Yetkili Servis Noktalarıyla Buluşturun.
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
-              {site.name}, web sitesi ve mobil uygulama üzerinden potansiyel müşteri taleplerini yöneten; ihtiyaç ve satın alma niyetini belirleyerek müşterileri en uygun servis noktasıyla buluşturan bir satış çözümüdür.
+              {site.name}, web sitenizden ve çağrı merkezinden gelen ziyaretçilerin ihtiyaç ve satın alma niyetlerini belirler, potansiyel müşterileri yetkili servis noktalarına anında ulaştırır; talepler satışa dönüşene kadar takip eder.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">

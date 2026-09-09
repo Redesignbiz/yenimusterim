@@ -15,13 +15,11 @@ export function Hero() {
           </p>
 
           <h1 className="mt-6 text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-ink sm:text-[44px]">
-            Doğru müşteri, doğru zamanda servis noktanızda
+            Hizmetinize gerçekten ihtiyacı olan müşteriyi yakalayın.
           </h1>
 
           <p className="mt-6 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg">
-            Her talep, daha en baştan doğru bilgiyle gelir: müşterinin ne
-            istediği, görüşmeye ne kadar hazır olduğu ve ne zaman aranacağı
-            bellidir.
+            Müşterinin ihtiyacı netleştiğinde, artık sadece gezinmiyor; çözüm arıyordur. Yeni Müşterim, bu talebi doğru zamanda servis noktanıza ulaştırır.
           </p>
 
           {/*

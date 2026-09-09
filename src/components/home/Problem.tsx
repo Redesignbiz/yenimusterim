@@ -8,15 +8,15 @@ import { Section, SectionHeading } from "@/components/Section";
 const failures = [
   {
     title: "Ziyaretçi kendi başına kalıyor",
-    body: "Aradığı ürünü sitede bulur; o ürünü kimin takacağını ya da hangi servis noktasında bulacağını bulamaz. Karşısına çıkan tek şey bir iletişim formudur.",
+    body: "Aradığı ürünü sitede bulur; o ürünün hangi servis noktasından bulabileceğini kendisi araştırmak zorunda kalır.",
   },
   {
-    title: "Form kaydının sahibi olmuyor",
-    body: "Kayıt ortak bir gelen kutusuna e-posta olarak gelir. Kimin arayacağı ve hangi talebin hâlâ açık olduğu belli değildir; yanıt süresi günlerle ölçülür.",
+    title: "Talebin gerçek sahibi olmuyor",
+    body: "Müşterinin doldurduğu iletişim formu ortak bir gelen kutusuna düşer. Müşteriyi kimin ne zaman arayacağı belli değildir.",
   },
   {
-    title: "Aktarımdan sonrası görünmüyor",
-    body: "Pazarlama kaç talep ürettiğini gösterebilir. Servis noktasının o talebe ne yaptığını kimse gösteremez; tartışma her seferinde burada tıkanır.",
+    title: "Sonuç görünür değil",
+    body: "Kaç talep geldiği, bunlardan kaçının satışa döndüğü hiçbir zaman bilinmiyor.",
   },
 ];
 
@@ -25,8 +25,8 @@ export function Problem() {
     <Section id="sorun">
       <SectionHeading
         eyebrow="Bugünkü durum"
-        title="Ziyaretçi karar vermeye hazır geliyor, ürünü nereden alacağını bulamadan çıkıyor."
-        lead="Takılması ya da montajı gereken bir ürün sepetten satın alınamaz; o satışı servis noktası yapar. Ziyaretçiyi siteye getirmenin parası çoktan ödenmiştir, ama sitede onu servis noktasına ulaştıran bir şey yoktur. Karar vermeye hazır gelen kişi ya eski bir iletişim formuna yönlendirilir ya da kendi başına servis noktası aramaya bırakılır."
+        title="Ziyaretçiler web sitenize karar vermeye hazır geliyor, %95'i ürünü nereden alacağını bulamadan çıkıyor."
+        lead="Montaj gerektiren ürünlerde satış sepette değil, servis noktasında tamamlanır. Müşteriyi web sitesine getirmek için yatırım yapılır; ancak satın alma niyeti oluştuğunda onu doğru servis noktasına taşıyan bağlantı çoğu zaman kopar. Karar vermeye hazır müşteri ya eski tip bir iletişim formuyla karşılaşır ya da uygun servis noktasını kendi başına aramak zorunda kalır."
       />
 
       <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant lg:grid-cols-3">

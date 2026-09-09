@@ -73,9 +73,9 @@ export function Industries() {
   return (
     <Section id="sektorler" className="border-t border-outline-variant">
       <SectionHeading
-        eyebrow="Nerede işe yarar"
-        title="Sepetten satın alınamayan ürünler için"
-        lead="Karar vermenin araştırma, uzman görüşü veya fiziksel hizmet gerektirdiği ürünlerde satış çoğu zaman web sitesinde tamamlanmaz. Ziyaretçi doğru ürünü bulmak, stok durumunu öğrenmek, fiyat almak ya da randevu oluşturmak için bir servis noktasıyla görüşmek ister. Yeni Müşterim bu ilgiyi kaybolmadan yakalar ve müşteriyi satın almaya en yakın noktaya taşır."
+        eyebrow="Sektörler"
+        title="Servis ağıyla fark yarattığımız sektörler"
+        lead="Karar sürecinde uzman görüşü, ölçü ya da yerinde hizmet gereken sektörlerde, satışı servis noktanız tamamlar."
       />
 
       <ul className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-3">
