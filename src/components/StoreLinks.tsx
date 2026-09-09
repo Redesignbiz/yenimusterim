@@ -3,21 +3,34 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 /* Static import — gerekçesi home/Hero.tsx'in başında. */
 import appIcon from "@/assets/app-icon.svg";
+/*
+ * Rozetler mağazaların kendi marka paketlerinden geliyor: Google'ın "Get it on
+ * Google Play" dosyası (Turkish / color) olduğu gibi, Apple'ın "Download on the
+ * App Store" dosyası ise (US-UK / Black lockup) yalnızca üst satırı Türkçeleşmiş
+ * hâliyle. Gövde, elma, kenarlık, köşe yarıçapı ve iki satırın punto/konumu
+ * Apple'ın dosyasından; üst satırdaki "Download on the" glifleri, aynı paketin
+ * Türkçe dosyasındaki "İndirin" glifleriyle değiştirildi ve o satırın kendi
+ * yerine taşındı. Tek elle ayar, bu satırın baseline hizasından 2,8 birim
+ * (rozet yüksekliğinin %7'si) yukarı alınması: "İndirin" İngilizce metinden
+ * kısa ve yüksek olduğu için iki satır arası dar kalıyordu.
+ *
+ * Paketin Türkçe dosyası doğrudan kullanılmadı: orada dizilim ters — büyük "App
+ * Store'dan" üstte, küçük "İndirin" altta — ve yanındaki Google rozetiyle hizası
+ * kaçıyor.
+ */
+import appStoreBadge from "@/assets/store-badge-app-store-tr.svg";
+import googlePlayBadge from "@/assets/store-badge-google-play-tr.svg";
 
 /**
- * Mağaza bölümü. Bileşen eskiden `ComingSoon` adıyla duruyordu; uygulama
- * Google Play'de (31 Ağustos 2026) ve App Store'da (8 Eylül 2026) yayına
- * girdiği için bölümün işi artık "yakında" duyurusu değil, indirme adresini
- * vermek.
+ * Mağaza bölümü. Bileşen eskiden `ComingSoon` adıyla duruyordu; uygulama iki
+ * mağazada da yayına girdiği için bölümün işi artık "yakında" duyurusu değil,
+ * indirme adresini vermek.
  *
- * Rozetin link olup olmayacağını `site.stores` belirliyor: adresi olan mağaza
- * bağlantıya dönüşür, adresi boşaltılan rozet "Yakında" etiketiyle `div` olarak
- * kalır. Bugün iki adres de tanımlı, iki rozet de link.
+ * Rozetin basılıp basılmayacağını `site.stores` belirliyor: adresi boş olan
+ * mağazanın rozeti hiç render edilmez. Linksiz rozet göstermek hem ziyaretçiyi
+ * boşa çıkarır hem de rozet kurallarına aykırı.
  */
 export function StoreLinks() {
-  const playYayinda = Boolean(site.stores.googlePlay);
-  const appStoreYayinda = Boolean(site.stores.appStore);
-
   return (
     <section id="indir" className="border-t border-outline-variant px-4 py-16 sm:px-6 sm:py-24">
       <div className="mx-auto w-full max-w-5xl">
@@ -44,6 +57,9 @@ export function StoreLinks() {
             tanımlanır ve giriş bilgileri e-posta ile iletilir.
           </p>
 
+          {/* Rozetler kayıt düğmesinin ÜSTÜNDE: bölümün başlığı indirmeyi
+              söylüyor, indirme adresi de hemen onun altında duruyor. Kayıt
+              düğmesi hesabı olmayan servis noktası için ikinci adım. */}
           <div className="mt-8">
             <Link
               href="/app/kayit"
@@ -65,22 +81,16 @@ export function StoreLinks() {
             </Link>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <StoreBadge
-              store="App Store"
-              prefix={appStoreYayinda ? "İndirin" : "Yakında"}
               href={site.stores.appStore}
-              icon={
-                <path d="M16.4 12.7c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.6-1.9-1.5-.2-3 .9-3.7.9s-2-.9-3.2-.9c-1.7 0-3.2 1-4 2.5-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.3 1.3-2.6 1.3-2.7 0 0-2.4-.9-2.4-3.6ZM14 5.6c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4Z" />
-              }
+              src={appStoreBadge}
+              alt="App Store'dan indirin"
             />
             <StoreBadge
-              store="Google Play"
-              prefix={playYayinda ? "İndirin" : "Yakında"}
               href={site.stores.googlePlay}
-              icon={
-                <path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1 9.3-9.3v-.2L3.6 2.3Zm12.5 6.2L4.8 2.1l8.4 8.4 2.9-2Zm3.5 2c.7.4 1.1.9 1.1 1.5s-.4 1.1-1 1.5l-2.5 1.4-3.1-2.9 3.1-3.1 2.4 1.6ZM4.8 21.9l11.3-6.4-2.9-2.9-8.4 9.3Z" />
-              }
+              src={googlePlayBadge}
+              alt="Google Play'den indirin"
             />
           </div>
 
@@ -91,44 +101,23 @@ export function StoreLinks() {
 }
 
 /**
- * Adresi olan rozet `a`, olmayan `div` olarak basılır: yayında olmayan bir
- * mağazaya link vermek kullanıcıyı boş arama sonucuna götürür.
+ * Adresi olmayan mağazanın rozeti hiç basılmaz.
+ *
+ * İki rozet de 48px yüksekliğinde (`h-12`); genişlik dosyaların kendi oranından
+ * geliyor. `unoptimized` gerekçesi bölümün başındaki uygulama simgesiyle aynı:
+ * Next'in görsel iyileştiricisi SVG'yi işlemez, bayrak olmadan istek 400 döner.
  */
 function StoreBadge({
-  store,
-  prefix,
   href,
-  icon,
+  src,
+  alt,
 }: {
-  store: string;
-  prefix: string;
   href?: string;
-  icon: React.ReactNode;
+  src: React.ComponentProps<typeof Image>["src"];
+  alt: string;
 }) {
-  const govde = (
-    <>
-      <svg
-        viewBox="0 0 24 24"
-        className="size-6 text-inverse-ink/60"
-        fill="currentColor"
-        aria-hidden
-      >
-        {icon}
-      </svg>
-      <span className="text-left leading-tight">
-        <span className="block text-[11px] text-inverse-ink/55">{prefix}</span>
-        <span className="block text-[15px] font-semibold text-inverse-ink/80">
-          {store}
-        </span>
-      </span>
-    </>
-  );
-
-  const sinif =
-    "flex items-center gap-3 rounded-DEFAULT border border-white/20 bg-white/5 px-5 py-3";
-
   if (!href) {
-    return <div className={sinif}>{govde}</div>;
+    return null;
   }
 
   return (
@@ -136,9 +125,9 @@ function StoreBadge({
       href={href}
       target="_blank"
       rel="noopener"
-      className={`${sinif} transition-colors hover:border-white/40 hover:bg-white/10`}
+      className="transition-opacity hover:opacity-80"
     >
-      {govde}
+      <Image src={src} alt={alt} unoptimized className="h-12 w-auto" />
       <span className="sr-only">— yeni sekmede açılır</span>
     </a>
   );
