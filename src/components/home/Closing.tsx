@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Section } from "@/components/Section";
-import { site } from "@/lib/site";
 
 /**
  * Kapanış. Form yok: bu projede backend de form uç noktası da yok, sessizce
