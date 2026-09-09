@@ -47,11 +47,6 @@ export function Problem() {
           </div>
         ))}
       </div>
-
-      <p className="mt-8 border-l-2 border-primary pl-5 text-[17px] leading-7 font-medium text-ink sm:text-lg">
-        Peşine düşen olmadığı için o ziyaretçi büyük olasılıkla bir rakiple
-        konuşuyor — genellikle yerelde daha hızlı yanıt verenle.
-      </p>
     </Section>
   );
 }
