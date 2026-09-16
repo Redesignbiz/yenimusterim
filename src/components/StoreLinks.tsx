@@ -1,34 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { StoreBadges } from "@/components/StoreBadges";
 /* Static import — gerekçesi home/Hero.tsx'in başında. */
 import appIcon from "@/assets/app-icon.svg";
-/*
- * Rozetler mağazaların kendi marka paketlerinden geliyor: Google'ın "Get it on
- * Google Play" dosyası (Turkish / color) olduğu gibi, Apple'ın "Download on the
- * App Store" dosyası ise (US-UK / Black lockup) yalnızca üst satırı Türkçeleşmiş
- * hâliyle. Gövde, elma, kenarlık, köşe yarıçapı ve iki satırın punto/konumu
- * Apple'ın dosyasından; üst satırdaki "Download on the" glifleri, aynı paketin
- * Türkçe dosyasındaki "İndirin" glifleriyle değiştirildi ve o satırın kendi
- * yerine taşındı. Tek elle ayar, bu satırın baseline hizasından 2,8 birim
- * (rozet yüksekliğinin %7'si) yukarı alınması: "İndirin" İngilizce metinden
- * kısa ve yüksek olduğu için iki satır arası dar kalıyordu.
- *
- * Paketin Türkçe dosyası doğrudan kullanılmadı: orada dizilim ters — büyük "App
- * Store'dan" üstte, küçük "İndirin" altta — ve yanındaki Google rozetiyle hizası
- * kaçıyor.
- */
-import appStoreBadge from "@/assets/store-badge-app-store-tr.svg";
-import googlePlayBadge from "@/assets/store-badge-google-play-tr.svg";
 
 /**
  * Mağaza bölümü. Bileşen eskiden `ComingSoon` adıyla duruyordu; uygulama iki
  * mağazada da yayına girdiği için bölümün işi artık "yakında" duyurusu değil,
  * indirme adresini vermek.
- *
- * Rozetin basılıp basılmayacağını `site.stores` belirliyor: adresi boş olan
- * mağazanın rozeti hiç render edilmez. Linksiz rozet göstermek hem ziyaretçiyi
- * boşa çıkarır hem de rozet kurallarına aykırı.
  */
 export function StoreLinks() {
   return (
@@ -57,15 +37,15 @@ export function StoreLinks() {
             tanımlanır ve giriş bilgileri e-posta ile iletilir.
           </p>
 
-          {/* Rozetler kayıt düğmesinin ÜSTÜNDE: bölümün başlığı indirmeyi
-              söylüyor, indirme adresi de hemen onun altında duruyor. Kayıt
-              düğmesi hesabı olmayan servis noktası için ikinci adım. */}
+          {/* Kayıt düğmesi rozetlerin üstünde: bölümün metni hesabın önce
+              tanımlanması gerektiğini söylüyor, başvuru da bu yüzden ilk adım.
+              Rozetler hemen altında, hesabı hazır olan servis noktası için. */}
           <div className="mt-8">
             <Link
               href="/app/kayit"
               className="inline-flex items-center gap-2 rounded-full bg-primary-fixed px-6 py-3 text-[15px] font-semibold text-on-primary-fixed transition-colors hover:bg-primary-fixed-dim"
             >
-              Kayıt olun
+              Servis noktası ağına katılın
               <svg
                 viewBox="0 0 24 24"
                 className="size-4"
@@ -81,54 +61,9 @@ export function StoreLinks() {
             </Link>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <StoreBadge
-              href={site.stores.appStore}
-              src={appStoreBadge}
-              alt="App Store'dan indirin"
-            />
-            <StoreBadge
-              href={site.stores.googlePlay}
-              src={googlePlayBadge}
-              alt="Google Play'den indirin"
-            />
-          </div>
-
+          <StoreBadges className="mt-10 justify-center" />
         </div>
       </div>
     </section>
-  );
-}
-
-/**
- * Adresi olmayan mağazanın rozeti hiç basılmaz.
- *
- * İki rozet de 48px yüksekliğinde (`h-12`); genişlik dosyaların kendi oranından
- * geliyor. `unoptimized` gerekçesi bölümün başındaki uygulama simgesiyle aynı:
- * Next'in görsel iyileştiricisi SVG'yi işlemez, bayrak olmadan istek 400 döner.
- */
-function StoreBadge({
-  href,
-  src,
-  alt,
-}: {
-  href?: string;
-  src: React.ComponentProps<typeof Image>["src"];
-  alt: string;
-}) {
-  if (!href) {
-    return null;
-  }
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener"
-      className="transition-opacity hover:opacity-80"
-    >
-      <Image src={src} alt={alt} unoptimized className="h-12 w-auto" />
-      <span className="sr-only">— yeni sekmede açılır</span>
-    </a>
   );
 }

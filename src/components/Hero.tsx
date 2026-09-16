@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { StoreBadges } from "@/components/StoreBadges";
 /* Static import — gerekçesi home/Hero.tsx'in başında. */
 import heroScreen from "@/assets/hero.webp";
 
@@ -23,19 +23,16 @@ export function Hero() {
           </p>
 
           {/*
-            Birincil düğme kayıt başvurusu (/app/kayit): hero'yu okuyan servis
+            Tek düğme kayıt başvurusu (/app/kayit): hero'yu okuyan servis
             noktasının çoğunun henüz hesabı yok, indirme tek başına işine
-            yaramıyor. İkincil düğme mağaza yerine sayfadaki indirme bölümüne
-            götürüyor: uygulama iki mağazada da yayında, hero'da tek mağazanın
-            adını vermek diğer cihazı dışarıda bırakır. Adreslerin ikisi de
-            boşaltılırsa düğme basılmaz (bkz. site.stores, StoreLinks.tsx).
+            yaramıyor.
           */}
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8">
             <Link
               href="/app/kayit"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
             >
-              Kayıt olun
+              Servis noktası ağına katılın
               <svg
                 viewBox="0 0 24 24"
                 className="size-4"
@@ -49,15 +46,6 @@ export function Hero() {
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </Link>
-
-            {(site.stores.appStore || site.stores.googlePlay) && (
-              <a
-                href="#indir"
-                className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
-              >
-                Uygulamayı indirin
-              </a>
-            )}
           </div>
         </div>
 
@@ -73,6 +61,15 @@ export function Hero() {
             sizes="(min-width: 1024px) 300px, (min-width: 640px) 280px, 70vw"
             className="mx-auto h-auto w-full max-w-[300px]"
           />
+
+          {/*
+            Rozetler metin kolonunda değil, ekran görüntüsünün altında: kurulacak
+            şey üstlerinde duruyor, "bu uygulama, buradan" bağını kurmak için
+            açıklama gerekmiyor. Metin kolonu da tek çağrıyla kalıyor — hero'yu
+            okuyan servis noktasının çoğunun henüz hesabı yok, onun adımı
+            başvuru; rozetler hesabı tanımlanmış olan için.
+          */}
+          <StoreBadges className="mt-8 justify-center" />
         </div>
       </div>
     </section>
