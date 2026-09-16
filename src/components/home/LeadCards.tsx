@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Hero'nun sağ kolonu: gelen talep kartlarından bir deste.
@@ -117,9 +117,37 @@ const konumlar = [
 export function LeadCards() {
   const [aktif, setAktif] = useState(0);
   const [durdu, setDurdu] = useState(false);
+  const [gorunur, setGorunur] = useState(false);
+  const kapsayici = useRef<HTMLDivElement>(null);
 
   /*
-   * Turu iki şey durduruyor:
+   * Tur, deste ekranda değilken dönmüyor.
+   *
+   * Telefonda hero tek kolona düşüyor ve kart metnin altında, ilk ekranın
+   * dışında kalıyor. Tur sayfa açılırken başlasa ziyaretçi kaydırıp kartı
+   * gördüğünde turun ortasına düşerdi: gösterge rastgele bir noktada, ilk kart
+   * çoktan geçmiş. Gözlemci sayesinde deste hangi cihazda olursa olsun
+   * görüldüğü anda ilk karttan başlıyor.
+   */
+  useEffect(() => {
+    const dugum = kapsayici.current;
+    if (!dugum) {
+      return;
+    }
+
+    const gozlemci = new IntersectionObserver(
+      ([kayit]) => setGorunur(kayit.isIntersecting),
+      { threshold: 0.4 },
+    );
+    gozlemci.observe(dugum);
+
+    return () => gozlemci.disconnect();
+  }, []);
+
+  /*
+   * Turu üç şey durduruyor:
+   *
+   * `gorunur` — yukarıdaki gözlemci.
    *
    * `durdu` — fare destenin üzerinde. Kartı okumak için duran ziyaretçinin
    * altından kart çekilmiyor; imleç ayrıldığında sayaç sıfırdan başlıyor, yani
@@ -129,7 +157,11 @@ export function LeadCards() {
    * kalıyor. Kartın taşıdığı bilgi hareketin kendisinde değil.
    */
   useEffect(() => {
-    if (durdu || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      durdu ||
+      !gorunur ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       return;
     }
 
@@ -138,12 +170,25 @@ export function LeadCards() {
     }, BEKLEME_MS);
 
     return () => clearInterval(sayac);
-  }, [durdu]);
+  }, [durdu, gorunur]);
 
+  /*
+   * Duraklatma yalnızca fareye bağlı, `pointerType` bu yüzden süzülüyor:
+   * dokunmatikte tek dokunuş `pointerenter` üretiyor ama `pointerleave`
+   * çoğunlukla gelmiyor — filtre olmasa karta bir kez dokunan ziyaretçide tur
+   * kalıcı olarak duruyordu. Parmakla okuyan ziyaretçinin duraklatmaya
+   * ihtiyacı da yok: sayfayı kaydırdığında deste ekrandan çıkıyor ve tur
+   * kendiliğinden duruyor.
+   */
   return (
     <div
-      onMouseEnter={() => setDurdu(true)}
-      onMouseLeave={() => setDurdu(false)}
+      ref={kapsayici}
+      onPointerEnter={(olay) => {
+        if (olay.pointerType === "mouse") setDurdu(true);
+      }}
+      onPointerLeave={(olay) => {
+        if (olay.pointerType === "mouse") setDurdu(false);
+      }}
     >
       {/* `pb-6`: arkadaki kartlar 20px aşağı taşıyor, alt kenarları kırpılmasın. */}
       <div className="grid pb-6">
