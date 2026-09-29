@@ -380,6 +380,7 @@ function KayitFormu({ yenidenBasla }: { yenidenBasla: () => void }) {
             label="E-posta"
             type="email"
             inputMode="email"
+            placeholder="Marka uzantılı mail adresinizi giriniz"
             autoComplete="email"
             defaultValue={state.values?.email}
             hata={hatalar.email}
