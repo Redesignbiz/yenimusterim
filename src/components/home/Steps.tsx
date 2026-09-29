@@ -7,29 +7,21 @@ import { Section, SectionHeading } from "@/components/Section";
  */
 const steps = [
   {
-    title: "Konuşma, niteleme ve izin",
+    title: "İhtiyacı anla",
     points: [
-      "Ziyaretçi bir formla karşılaşmaz; sitenizdeki konuşmada ne aradığını anlatır.",
-      "İhtiyaç ve satın alma niyeti, önceden kurulmuş konuşma akışlarında netleşir.",
-      "Veri servis noktasıyla paylaşılmadan önce KVKK uyumlu iletişim izni alınır.",
+      "Web sitenize entegre chatbot, doğru sorularla ziyaretçinin ihtiyacını ve satın alma niyetini anlar.",
     ],
   },
   {
-    title: "Eşleştirme ve aktarım",
+    title: "Eşleştir",
     points: [
-      "Talep konum, uzmanlık ve müsaitliğe göre doğru servis noktasına eşleştirilir.",
-      "Atama il, ilçe ve marka kurallarıyla yapılır; kimse elle dağıtmaz.",
-      "Servis noktasına bildirim gider; arama ya da WhatsApp uygulama içinden tek dokunuşla başlar.",
-      "Numara uygulamada gizli durur; görüntülendiğinde bu kayda geçer.",
+      "Yapay zeka destekli algoritma, talebi konum, uzmanlık ve müsaitliğe göre en uygun servis noktasına yönlendirir.",
     ],
   },
   {
-    title: "Takip ve ölçüm",
+    title: "Takip et",
     points: [
-      "Görüşme sonucu işaretlenir: randevu verildi, fiyat verildi, ulaşılamadı, yanlış numara, stok yok.",
-      "Ulaşılamadıysa görev kapanmaz; ertesi gün aynı saate ötelenir ve ikinci deneme de kayda geçer.",
-      "Arama saati kaçırılırsa talep sıradaki servis noktasına geçer.",
-      "Her talebin hangi servis noktasına gittiği ve son durumu markanın dashboard'unda görünür.",
+      "Talebin son durumu uygulama üzerinden anlık izlenir, sonuçlar raporlanır. Hiçbir talep kayıtsız kalmaz.",
     ],
   },
 ];
@@ -39,8 +31,8 @@ export function Steps() {
     <Section id="nasil-calisir" className="border-t border-outline-variant">
       <SectionHeading
         eyebrow="Nasıl çalışır"
-        title="Sitenizdeki konuşmadan merkez ekibinizin okuduğu rapora kadar üç aşama"
-        lead="Sıra önemli. Talebi bir yere göndermek yeterli değil: ihtiyacı netleşmiş ve izni alınmış talep, onu arayacak servis noktasına gider — ve o aramanın yapılıp yapılmadığı ölçülür."
+        title="Üç adımda: İhtiyacı Anla, Eşleştir ve Takip Et."
+        lead="Her talep önce doğru sorularla netleşir, en uygun servis noktasına yönlendirilir ve sonuçlanana kadar takip edilir."
       />
 
       <ol className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant lg:grid-cols-3">

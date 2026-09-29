@@ -34,10 +34,10 @@ export const site = {
   },
 
   /**
-   * Mağaza adresleri. Bir mağazanın adresi BOŞ olduğu sürece o rozet
-   * tıklanabilir olmaz (bkz. StoreLinks.tsx): link vermek kullanıcıyı boş bir
-   * arama sonucuna götürür. Adres girildiği anda rozet kendiliğinden bağlantıya
-   * dönüşür, kod değişikliği gerekmez.
+   * Mağaza adresleri; bugün ikisi de tanımlı. Bir mağazanın adresi BOŞ olduğu
+   * sürece o rozet tıklanabilir olmaz (bkz. StoreLinks.tsx): link vermek
+   * kullanıcıyı boş bir arama sonucuna götürür. Adres girildiği anda rozet
+   * kendiliğinden bağlantıya dönüşür, kod değişikliği gerekmez.
    *
    * `as string` gerekçesi `contact.phone` ile aynı: nesne `as const` olduğu için
    * tip aksi hâlde `''` literaline daralır ve koşullu dal ölü kod sayılır.
@@ -46,8 +46,9 @@ export const site = {
     /** Google Play — 31 Ağustos 2026 itibarıyla yayında. */
     googlePlay:
       'https://play.google.com/store/apps/details?id=com.brisa.dealer' as string,
-    /** App Store — henüz yayında değil. */
-    appStore: '' as string,
+    /** App Store — 8 Eylül 2026 itibarıyla yayında. */
+    appStore:
+      'https://apps.apple.com/tr/app/yeni-m%C3%BC%C5%9Fterim/id6804978252' as string,
   },
 
   controller: {

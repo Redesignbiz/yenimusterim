@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Section } from "@/components/Section";
-import { site } from "@/lib/site";
 
 /**
  * Kapanış. Form yok: bu projede backend de form uç noktası da yok, sessizce
@@ -19,11 +18,7 @@ export function Closing() {
             Kendi satış ağınızda nasıl çalışacağını görün
           </h2>
           <p className="mt-5 text-base leading-relaxed text-ink-muted sm:text-lg">
-            {site.name} sisteminin dijital talepleri nasıl nitelendirdiğini,
-            doğru servis noktasına nasıl yönlendirdiğini ve süreci satışa kadar
-            nasıl takip ettiğini kendi yapınız üzerinden gösterelim. Kısa bir
-            görüşmede mevcut akışınızı dinleyip size özel senaryoyu birlikte
-            oluşturalım.
+            Kısa bir görüşmede mevcut akışınızı dinleriz, size özel senaryoyu birlikte kurgularız ve kısa sürede devreye alırız.
           </p>
 
           <div className="mt-7 flex flex-wrap items-center gap-3">

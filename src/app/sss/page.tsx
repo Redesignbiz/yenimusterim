@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: "Uygulamaya nasıl erişilir?",
-    a: `${site.name} Google Play'de yayında; iPhone sürümü hazırlanıyor. Uygulama içinde kendi kendine hesap oluşturma adımı bulunmamaktadır: kayıt formu doldurulur, başvuru incelendikten sonra hesap merkez tarafından tanımlanır ve giriş bilgileri servis noktasına iletilir.`,
+    a: `${site.name} Google Play ve App Store'da yayında. Web sitesi üzerindeki kayıt formu doldurulur, başvuru incelendikten sonra hesap merkez tarafından tanımlanır ve giriş bilgileri servis noktasına iletilir.`,
   },
   {
     q: "Servis noktası olarak nasıl kayıt olunur?",
@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     q: "Hangi cihazlarda kullanılabilir?",
-    a: "Uygulama şu anda Google Play üzerinden güncel Android sürümüne sahip telefonlara kurulabilir; iPhone sürümü hazırlanıyor. Tablet için ayrı bir sürüm bulunmamaktadır; arayüz telefon ekranı için tasarlanmıştır.",
+    a: "Uygulama, güncel Android sürümüne sahip telefonlara Google Play üzerinden, iPhone'a App Store üzerinden kurulabilir. Tablet için ayrı bir sürüm bulunmamaktadır; arayüz telefon ekranı için tasarlanmıştır.",
   },
   {
     q: "Bildirim iletilmediğinde talep kaybolur mu?",

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { StoreBadges } from "@/components/StoreBadges";
 /* Static import — gerekçesi home/Hero.tsx'in başında. */
 import heroScreen from "@/assets/hero.webp";
 
@@ -15,27 +15,24 @@ export function Hero() {
           </p>
 
           <h1 className="mt-6 text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-ink sm:text-[44px]">
-            Doğru müşteri, doğru zamanda servis noktanızda
+            Hizmetinize gerçekten ihtiyacı olan müşteriyi yakalayın.
           </h1>
 
           <p className="mt-6 max-w-lg text-base leading-relaxed text-ink-muted sm:text-lg">
-            Her talep, daha en baştan doğru bilgiyle gelir: müşterinin ne
-            istediği, görüşmeye ne kadar hazır olduğu ve ne zaman aranacağı
-            bellidir.
+            Müşterinin ihtiyacı netleştiğinde, artık sadece gezinmiyor; çözüm arıyordur. Yeni Müşterim, bu talebi doğru zamanda servis noktanıza ulaştırır.
           </p>
 
           {/*
-            Birincil düğme kayıt başvurusu (/app/kayit): hero'yu okuyan servis
+            Tek düğme kayıt başvurusu (/app/kayit): hero'yu okuyan servis
             noktasının çoğunun henüz hesabı yok, indirme tek başına işine
-            yaramıyor. İndirme bağlantısı ikincil ve yalnızca adresi tanımlı
-            mağaza için basılıyor (bkz. site.stores, StoreLinks.tsx).
+            yaramıyor.
           */}
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8">
             <Link
               href="/app/kayit"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
             >
-              Kayıt olun
+              Servis noktası ağına katılın
               <svg
                 viewBox="0 0 24 24"
                 className="size-4"
@@ -49,17 +46,6 @@ export function Hero() {
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </Link>
-
-            {site.stores.googlePlay && (
-              <a
-                href={site.stores.googlePlay}
-                target="_blank"
-                rel="noopener"
-                className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
-              >
-                Google Play&apos;den indirin
-              </a>
-            )}
           </div>
         </div>
 
@@ -75,6 +61,15 @@ export function Hero() {
             sizes="(min-width: 1024px) 300px, (min-width: 640px) 280px, 70vw"
             className="mx-auto h-auto w-full max-w-[300px]"
           />
+
+          {/*
+            Rozetler metin kolonunda değil, ekran görüntüsünün altında: kurulacak
+            şey üstlerinde duruyor, "bu uygulama, buradan" bağını kurmak için
+            açıklama gerekmiyor. Metin kolonu da tek çağrıyla kalıyor — hero'yu
+            okuyan servis noktasının çoğunun henüz hesabı yok, onun adımı
+            başvuru; rozetler hesabı tanımlanmış olan için.
+          */}
+          <StoreBadges className="mt-8 justify-center" />
         </div>
       </div>
     </section>

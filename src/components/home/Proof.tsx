@@ -5,8 +5,8 @@ import { site } from "@/lib/site";
  * ediyor.
  *
  * Marka adı METİNDE GEÇMEZ — "bir lastik üreticisi" diye anılıyor. Brisa /
- * Lassa / Bridgestone adlarının sayfada kullanım izni docs/landing-brief.md'de
- * hâlâ açık soru; izin geldiğinde ad buraya ve bağlantı metnine girer.
+ * Lassa / Bridgestone adlarının sayfada kullanım izni alınmış değil; izin
+ * geldiğinde ad buraya ve bağlantı metnine girer.
  *
  * Burada geçen her rakam `site.metrics` içindeki dörtten biri — yani Redesign
  * Business'ın vaka çalışmasında zaten yayımlanmış olanlar. Bu bölüme başka bir
