@@ -16,17 +16,18 @@ export function Header() {
         </Link>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          {/* Telefonda gizli: logoyla giriş düğmesinin yanına sığmıyor. */}
           <Link
             href="/iletisim"
-            className="hidden shrink-0 rounded-full border border-outline-variant bg-surface-lowest px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-surface-low sm:inline-flex sm:px-5"
+            className="shrink-0 rounded-full border border-outline-variant bg-surface-lowest px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-surface-low sm:px-5"
           >
             Bize ulaşın
           </Link>
 
+          {/* Telefonda gizli: orada web uygulamasına girmek yerine uygulamayı
+              kurmak daha kolay, banner da bunu yapıyor (bkz. AppBanner.tsx). */}
           <a
             href={site.appUrl}
-            className="shrink-0 whitespace-nowrap rounded-full bg-primary px-3 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-primary-bright sm:px-5 sm:text-sm"
+            className="hidden shrink-0 whitespace-nowrap rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-bright sm:inline-flex"
           >
             Servis noktası girişi
           </a>
