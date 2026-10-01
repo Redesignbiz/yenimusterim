@@ -56,7 +56,7 @@ function subscribe(onStoreChange: () => void): () => void {
 }
 
 /**
- * Çerez bildirimi — sol alt köşede küçük bir pencere.
+ * Çerez bildirimi — ekranın alt kenarına yayılan bir çubuk.
  *
  * Model opt-out: analitik bildirimle birlikte çalışmaya başlamış oluyor,
  * bildirim de bunu haber verip kapatma imkânı sunuyor. Bu yüzden "Tamam" bir
@@ -76,7 +76,7 @@ export function CookieConsent() {
 
   /* İndirme banner'ı da alt kenarda duruyor; bildirim onun üstüne çıkıyor
      (bkz. AppBanner.tsx). Banner yalnızca telefonda basıldığı için kayma da
-     `sm:bottom-6` ile geniş ekranda geri alınıyor. */
+     `sm:bottom-0` ile geniş ekranda geri alınıyor. */
   const bannerAcik =
     useSyncExternalStore(bannerDinle, bannerDurumu, bannerSunucuda) !== null;
 
@@ -106,23 +106,19 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Çerez bildirimi"
-      className={`fixed left-4 right-4 z-[60] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-sm ${
+      className={`fixed inset-x-0 z-[60] border-t border-outline-variant bg-surface-lowest ${
         bannerAcik
-          ? "bottom-[calc(85px_+_env(safe-area-inset-bottom))]"
-          : "bottom-4"
+          ? "bottom-[calc(69px_+_env(safe-area-inset-bottom))] sm:bottom-0"
+          : "bottom-0 pb-[env(safe-area-inset-bottom)]"
       }`}
     >
-      <div className="rounded-lg border border-outline-variant bg-surface-lowest p-4">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:px-6">
         <p className="text-[13px] leading-5 text-ink-muted">
           Sitemizin performansını ve kullanım deneyimini geliştirmek amacıyla
-          sayfa içindeki tıklama, kaydırma ve gezinme gibi etkileşim verilerini
-          analiz ediyoruz.
-        </p>
-        <p className="mt-3 text-[13px] leading-5 text-ink-muted">
-          Analitik kullanımını dilediğiniz zaman kapatabilirsiniz.
+          sayfa içindeki etkileşim verilerini analiz ediyoruz.
         </p>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="flex shrink-0 gap-2">
           <button
             type="button"
             onClick={() => decide("granted")}
@@ -144,10 +140,9 @@ export function CookieConsent() {
 }
 
 /**
- * Metin "dilediğiniz zaman kapatabilirsiniz" diyor; bu cümlenin doğru olması
- * için bildirimi yeniden açan bir giriş noktası gerekiyor. O nokta gizlilik
- * politikasının 13. bölümü — ziyaretçi oraya her sayfanın footer'ındaki
- * Gizlilik Politikası bağlantısından ulaşıyor. Politika sayfası bir server
+ * Ziyaretçi kararını sonradan değiştirebilsin diye bildirimi yeniden açan giriş
+ * noktası: gizlilik politikasının 13. bölümü, her sayfanın footer'ındaki
+ * Gizlilik Politikası bağlantısından ulaşılıyor. Politika sayfası bir server
  * component olduğundan `onClick` taşıyan parça ayrı.
  */
 export function CookieConsentButton({ className }: { className?: string }) {
