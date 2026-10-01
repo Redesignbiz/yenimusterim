@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { bannerDinle, bannerDurumu, bannerSunucuda } from "@/lib/app-banner";
 import {
   clearAnalyticsCookies,
   readConsent,
@@ -73,6 +74,12 @@ export function CookieConsent() {
     getServerSnapshot,
   );
 
+  /* İndirme banner'ı da alt kenarda duruyor; bildirim onun üstüne çıkıyor
+     (bkz. AppBanner.tsx). Banner yalnızca telefonda basıldığı için kayma da
+     `sm:bottom-6` ile geniş ekranda geri alınıyor. */
+  const bannerAcik =
+    useSyncExternalStore(bannerDinle, bannerDurumu, bannerSunucuda) !== null;
+
   function decide(choice: ConsentChoice) {
     writeConsent(choice);
     setSnapshot(false);
@@ -99,7 +106,11 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Çerez bildirimi"
-      className="fixed bottom-4 left-4 right-4 z-[60] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-sm"
+      className={`fixed left-4 right-4 z-[60] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-sm ${
+        bannerAcik
+          ? "bottom-[calc(85px_+_env(safe-area-inset-bottom))]"
+          : "bottom-4"
+      }`}
     >
       <div className="rounded-lg border border-outline-variant bg-surface-lowest p-4">
         <p className="text-[13px] leading-5 text-ink-muted">
