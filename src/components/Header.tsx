@@ -1,13 +1,11 @@
 import Link from "next/link";
+import { site } from "@/lib/site";
 import { Logo } from "./Logo";
 
 /**
- * Header her sayfada render ediliyor, bu yüzden iki bağlantı da MUTLAK yol
- * kullanır: logo ana sayfaya ("/"), buton iletişim sayfasına ("/iletisim").
- *
- * Buton eskiden düz `a` + çapa idi (`/app#iletisim`); iletişim kendi sayfası
- * olduğundan artık normal bir `Link`. Aynı route üzerinde yalnızca hash değişince
- * router'ın gezinme saymaması sorunu da böylece ortadan kalktı.
+ * Header her sayfada render ediliyor, bu yüzden site içi bağlantılar MUTLAK yol
+ * kullanır: logo ana sayfaya ("/"), iletişim düğmesi "/iletisim" sayfasına.
+ * Giriş düğmesi ayrı bir alan adına gittiği için `Link` değil düz `a`.
  */
 export function Header() {
   return (
@@ -17,12 +15,22 @@ export function Header() {
           <Logo className="h-6 w-auto sm:h-7" />
         </Link>
 
-        <Link
-          href="/iletisim"
-          className="shrink-0 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-bright sm:px-5"
-        >
-          Bize ulaşın
-        </Link>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          {/* Telefonda gizli: logoyla giriş düğmesinin yanına sığmıyor. */}
+          <Link
+            href="/iletisim"
+            className="hidden shrink-0 rounded-full border border-outline-variant bg-surface-lowest px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-surface-low sm:inline-flex sm:px-5"
+          >
+            Bize ulaşın
+          </Link>
+
+          <a
+            href={site.appUrl}
+            className="shrink-0 whitespace-nowrap rounded-full bg-primary px-3 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-primary-bright sm:px-5 sm:text-sm"
+          >
+            Servis noktası girişi
+          </a>
+        </div>
       </div>
     </header>
   );

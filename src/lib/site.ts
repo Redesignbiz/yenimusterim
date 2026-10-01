@@ -14,6 +14,9 @@ export const site = {
 
   url: 'https://yenimusterim.com',
 
+  /** Servis noktasının giriş yaptığı web uygulaması. */
+  appUrl: 'https://app.yenimusterim.com',
+
   contact: {
     support: 'destek@yenimusterim.com',
     privacy: 'kvkk@yenimusterim.com',
