@@ -1,3 +1,4 @@
+import { AppBanner } from "@/components/AppBanner";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { Journey } from "@/components/Journey";
@@ -18,6 +19,7 @@ export default function Home() {
         <StoreLinks />
       </main>
       <Footer />
+      <AppBanner />
     </>
   );
 }
