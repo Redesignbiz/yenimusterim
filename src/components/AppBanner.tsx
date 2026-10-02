@@ -2,14 +2,64 @@
 
 import Image from "next/image";
 import { useSyncExternalStore } from "react";
-import {
-  bannerDinle,
-  banneriKapat,
-  bannerDurumu,
-  bannerSunucuda,
-} from "@/lib/app-banner";
 import { site } from "@/lib/site";
 import appIcon from "@/assets/app-icon.svg";
+
+const KAPATILDI_ANAHTARI = "app-banner-kapatildi";
+
+let kapandi = false;
+const dinleyiciler = new Set<() => void>();
+
+function abone(yenile: () => void): () => void {
+  dinleyiciler.add(yenile);
+  return () => {
+    dinleyiciler.delete(yenile);
+  };
+}
+
+function sunucuda(): null {
+  return null;
+}
+
+function platformOku(): "ios" | "android" | null {
+  if (kapandi) {
+    return null;
+  }
+
+  try {
+    if (localStorage.getItem(KAPATILDI_ANAHTARI)) {
+      return null;
+    }
+  } catch {
+    /* Gizli sekmede okuma hata atıyor; banner yine de çıksın. */
+  }
+
+  const ua = navigator.userAgent;
+
+  if (/iPhone|iPad|iPod/.test(ua)) {
+    return site.stores.appStore ? "ios" : null;
+  }
+
+  if (/Android/.test(ua)) {
+    return site.stores.googlePlay ? "android" : null;
+  }
+
+  return null;
+}
+
+function kapat(): void {
+  kapandi = true;
+
+  try {
+    localStorage.setItem(KAPATILDI_ANAHTARI, "1");
+  } catch {
+    /* Kapatma bu oturumda yine de geçerli, yalnızca hatırlanmıyor. */
+  }
+
+  for (const yenile of dinleyiciler) {
+    yenile();
+  }
+}
 
 /**
  * Telefondan gelen ziyaretçiye uygulamayı kurma çağrısı. iOS Safari'nin kendi
@@ -19,13 +69,15 @@ import appIcon from "@/assets/app-icon.svg";
  * Yalnızca telefonda çıkıyor: platform iOS ya da Android değilse hiçbir şey
  * basılmıyor, `sm:hidden` de geniş ekranı dışarıda bırakıyor. Masaüstü ziyaretçi
  * indirme bölümündeki iki rozeti görüyor.
+ *
+ * Platform `useSyncExternalStore` ile okunuyor: değer yalnızca tarayıcıda belli
+ * olduğu için sunucu anlık görüntüsü `null` ve hidrasyon bu sayede uyuşuyor.
+ *
+ * Konum layout'taki alt kaptan geliyor (bkz. layout.tsx), bileşen kendini
+ * sabitlemiyor.
  */
 export function AppBanner() {
-  const platform = useSyncExternalStore(
-    bannerDinle,
-    bannerDurumu,
-    bannerSunucuda,
-  );
+  const platform = useSyncExternalStore(abone, platformOku, sunucuda);
 
   if (!platform) {
     return null;
@@ -35,11 +87,11 @@ export function AppBanner() {
     platform === "ios" ? site.stores.appStore : site.stores.googlePlay;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-outline-variant bg-surface-lowest pb-[env(safe-area-inset-bottom)] sm:hidden">
+    <div className="pointer-events-auto border-t border-outline-variant bg-surface-lowest sm:hidden">
       <div className="flex items-center gap-3 px-4 py-3">
         <button
           type="button"
-          onClick={banneriKapat}
+          onClick={kapat}
           aria-label="Kapat"
           className="-m-1 shrink-0 p-1 text-outline transition-colors hover:text-ink"
         >

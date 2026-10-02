@@ -1,7 +1,6 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { bannerDinle, bannerDurumu, bannerSunucuda } from "@/lib/app-banner";
 import {
   clearAnalyticsCookies,
   readConsent,
@@ -64,8 +63,11 @@ function subscribe(onStoreChange: () => void): () => void {
  * düğme "Reddet".
  *
  * Kapatma (X) düğmesi yok: bildirimin karar verilmeden kapanması, kapanmayı
- * zımni onay sayan bir okumaya kapı açardı. Pencere modal değil, odak
- * hapsetmiyor; sayfa okunmaya devam edebilir.
+ * zımni onay sayan bir okumaya kapı açardı. Çubuk modal değil, odak hapsetmiyor;
+ * sayfa okunmaya devam edebilir.
+ *
+ * Konum layout'taki alt kaptan geliyor (bkz. layout.tsx), bileşen kendini
+ * sabitlemiyor.
  */
 export function CookieConsent() {
   const visible = useSyncExternalStore(
@@ -73,12 +75,6 @@ export function CookieConsent() {
     getSnapshot,
     getServerSnapshot,
   );
-
-  /* İndirme banner'ı da alt kenarda duruyor; bildirim onun üstüne çıkıyor
-     (bkz. AppBanner.tsx). Banner yalnızca telefonda basıldığı için kayma da
-     `sm:bottom-0` ile geniş ekranda geri alınıyor. */
-  const bannerAcik =
-    useSyncExternalStore(bannerDinle, bannerDurumu, bannerSunucuda) !== null;
 
   function decide(choice: ConsentChoice) {
     writeConsent(choice);
@@ -106,11 +102,7 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Çerez bildirimi"
-      className={`fixed inset-x-0 z-[60] border-t border-outline-variant bg-surface-lowest ${
-        bannerAcik
-          ? "bottom-[calc(69px_+_env(safe-area-inset-bottom))] sm:bottom-0"
-          : "bottom-0 pb-[env(safe-area-inset-bottom)]"
-      }`}
+      className="pointer-events-auto border-t border-outline-variant bg-surface-lowest"
     >
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:px-6">
         <p className="text-[13px] leading-5 text-ink-muted">

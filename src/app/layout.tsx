@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
+import { AppBanner } from "@/components/AppBanner";
 import { CookieConsent } from "@/components/CookieConsent";
 import { site } from "@/lib/site";
 import "./globals.css";
@@ -58,9 +59,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-surface text-ink font-[family-name:var(--font-sans)]">
         {children}
-        {/* Bildirim `children`dan sonra: küçük pencere modal değil, odak
-            hapsetmiyor; klavye sırası sayfa içeriğinin ardından ona ulaşıyor. */}
-        <CookieConsent />
+
+        {/*
+          Alt kenarı paylaşan iki çubuk tek kapta: üst üste binmeyi akış
+          hallediyor, ikisinin birbirinin yüksekliğini bilmesi gerekmiyor.
+          `pointer-events`: kap tüm genişliği kapladığı için ikisi de
+          basılmadığında altındaki içeriğe dokunmayı engellemesin.
+
+          Kap `children`dan sonra: çubuklar modal değil, odak hapsetmiyor;
+          klavye sırası sayfa içeriğinin ardından onlara ulaşıyor.
+        */}
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] flex flex-col pb-[env(safe-area-inset-bottom)]">
+          <AppBanner />
+          <CookieConsent />
+        </div>
       </body>
     </html>
   );
