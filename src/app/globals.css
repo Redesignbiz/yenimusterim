@@ -24,6 +24,12 @@
 
   --color-primary: #0056c9;
   --color-primary-bright: #1b6ef3;
+  /*
+   * Başlık vurgusunun (Section.tsx, `Highlight`) gradyan sonu. LeadHanger'daki
+   * `blue-bright` ile aynı değer; açık zeminde 3,4:1, yalnızca büyük ve kalın
+   * başlık metninde kullanılır.
+   */
+  --color-primary-light: #3686fe;
   --color-primary-fixed: #d9e2ff;
   --color-primary-fixed-dim: #b0c6ff;
   --color-on-primary-fixed: #001945;
@@ -34,6 +40,17 @@
   --color-accent: #9f3e00;
   --color-accent-fixed: #ffdbcc;
   --color-on-accent-fixed: #351000;
+
+  /*
+   * Lacivert vurgu yüzeyi: kanıt bölümü ve sayfa sonundaki kapanış kutusu.
+   * LeadHanger'daki `blue-deep` ile aynı değer; orada koyu zeminde, burada
+   * açık zeminde aynı lacivert. Üstündeki yazı ve çizgiler de LeadHanger'ın
+   * `on-blue` değerleri.
+   */
+  --color-primary-deep: #11389e;
+  --color-on-deep: #f5f6f8;
+  --color-on-deep-muted: #dce8fa;
+  --color-on-deep-line: color-mix(in oklab, #f5f6f8 14%, transparent);
 
   --color-danger: #ba1a1a;
   --color-danger-fixed: #ffdad6;
@@ -85,4 +102,686 @@ body {
 .eyebrow {
   letter-spacing: 0.02em;
   font-weight: 600;
+}
+
+/* ================================================================ ana sayfa */
+
+/*
+ * Aşağıdaki her şey ana sayfanın LeadHanger'dan uyarlanan bölümleri için:
+ * hero hikâyesi, Problem eğrisi, adım rayı, kanıt ve kapanış kutusu.
+ *
+ * Hareketin kuralı tek: sayfa hareket olmadan da eksiksiz ve doğru. Her
+ * animasyon `prefers-reduced-motion: no-preference` içinde ve yalnızca
+ * işaretlemenin zaten gösterdiği son hâle doğru çalışır; kaydırmaya bağlı
+ * olanlar ayrıca `@supports` ile korunur. Destek yoksa içerik görünür kalır,
+ * `opacity: 0`'da takılmaz.
+ */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Hero'nun zemini: tek bir yumuşak primary ışık ve onun üstünde ince bir
+ * ızgara. Gölge yok; derinlik bu iki katmandan geliyor.
+ */
+.hero-wash {
+  background-image:
+    radial-gradient(
+      62rem 38rem at 18% -12%,
+      color-mix(in oklab, var(--color-primary) 9%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      40rem 26rem at 92% 8%,
+      color-mix(in oklab, var(--color-primary) 5%, transparent),
+      transparent 60%
+    );
+}
+
+/*
+ * Ölçü ızgarası. Hücre sabit piksel değil, içerik genişliğinden kesiliyor:
+ * içerik genişliği (Section.tsx'teki max-w-5xl eksi yan dolgu) çift sayıda
+ * hücreye bölünüyor ve ilk çizgi içeriğin sol kenarında. Böylece içeriğin
+ * iki kenarına, ortasına ve iki ya da dört sütunlu bir satırın her sütun
+ * sınırına her genişlikte bir çizgi düşüyor.
+ *
+ * Tam genişlik bir `@container` bölüme konur; `cqw` o bölümün genişliği.
+ * Sayılar Section.tsx ile aynı: px-4, sm:px-6, max-w-5xl (64rem).
+ */
+.measure-grid {
+  --measure-w: calc(100cqw - 2rem);
+  --measure-x: 1rem;
+  --measure-cell: calc(var(--measure-w) / 6);
+}
+@media (min-width: 40rem) {
+  .measure-grid {
+    --measure-w: calc(100cqw - 3rem);
+    --measure-x: 1.5rem;
+    --measure-cell: calc(var(--measure-w) / 10);
+  }
+}
+@media (min-width: 64rem) {
+  .measure-grid {
+    --measure-w: min(calc(100cqw - 3rem), 64rem);
+    --measure-x: calc((100cqw - var(--measure-w)) / 2);
+    --measure-cell: calc(var(--measure-w) / 20);
+  }
+}
+
+/*
+ * Izgara gri değil, açık mavi (`primary-fixed-dim`) ve düşük opaklıkta:
+ * LeadHanger'daki gibi belli belirsiz, zeminin dokusu olarak okunuyor.
+ */
+.ruled {
+  background-image:
+    linear-gradient(to right, var(--color-primary-fixed-dim) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-primary-fixed-dim) 1px, transparent 1px);
+  background-size: var(--measure-cell) var(--measure-cell);
+  background-position: var(--measure-x) 0;
+  opacity: 0.35;
+}
+
+/* Hero'nun başlığı zamanla gelir: ekranın üstünde kaydırma yok. */
+@media (prefers-reduced-motion: no-preference) {
+  .intro > * {
+    animation: rise-in 700ms cubic-bezier(0.22, 0.7, 0.28, 1) both;
+  }
+  .intro > *:nth-child(1) {
+    animation-delay: 60ms;
+  }
+  .intro > *:nth-child(2) {
+    animation-delay: 160ms;
+  }
+
+  /* "Devamını görün" oku: çağrı değil ipucu, yavaşça aşağı iner. */
+  .explore-bob {
+    animation: explore-bob 2.4s ease-in-out infinite;
+  }
+  .group:hover .explore-bob {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes explore-bob {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(4px);
+  }
+}
+
+/* ------------------------------------------------------- hero hikâyesi */
+
+/*
+ * Hero hikâyesi (home/HeroStory.tsx): döngüdeki üç sahne ve sonundaki
+ * kapanış kartı. Zamanlayıcı, geçerli adımın içindeki görünmez bir öğe.
+ * Her parçanın zamanlaması işaretlemede `--d` olarak duruyor.
+ */
+
+/* Adımların ve alt yazının arkasında ızgarayı silen yumuşak zemin. */
+.story-band {
+  isolation: isolate;
+}
+.story-band::before {
+  content: "";
+  position: absolute;
+  inset: -2rem -6rem;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    var(--color-surface) 55%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.story-scene {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 400ms ease,
+    visibility 0s linear 400ms;
+}
+.story-scene.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 400ms ease 120ms,
+    visibility 0s;
+}
+
+/* Kameranın kenarları yumuşak: site sahneden kesilmeden kayarak çıkar. */
+.story-frame {
+  mask-image: linear-gradient(90deg, transparent, #000 12% 88%, transparent);
+}
+
+.s-pan {
+  transform: translateX(var(--pan, -50%));
+}
+
+/* `pathLength="1"` ile çizginin tamamı kadar tek bir kesik. */
+.s-draw {
+  stroke-dasharray: 1;
+}
+
+/* Sıfır uzunlukta, yuvarlak uçlu bir kesik noktadır; offset onu yürütür. */
+.s-travel {
+  stroke-dasharray: 0 2;
+  stroke-dashoffset: -1;
+  opacity: 0;
+}
+
+.s-scan {
+  opacity: 0;
+}
+.s-scan,
+.s-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.s-dim {
+  opacity: 0.4;
+}
+
+/* Eşleşen servis noktasının çerçevesi: gölge değil, outline. */
+.s-match .story-badge {
+  outline: 1.5px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.story-progress {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.story-progress.is-current {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .story-scene.is-active .s-pop {
+    animation: chip-in 520ms cubic-bezier(0.2, 1.4, 0.4, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-rise {
+    animation: rise-in 520ms cubic-bezier(0.22, 0.7, 0.28, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-fade {
+    animation: story-fade 600ms ease var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-draw {
+    animation: story-draw 800ms cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-travel {
+    animation: story-travel 900ms cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-pan {
+    animation: story-pan 1100ms cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-pulse {
+    animation: story-pulse 600ms ease-in-out var(--d, 0ms) 2 both;
+  }
+  .story-scene.is-active .s-scan {
+    animation: story-scan 1900ms cubic-bezier(0.2, 0.7, 0.3, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-dim {
+    animation: story-dim 500ms ease var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-match .story-badge {
+    animation: story-match 600ms ease var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-move {
+    animation: story-move 900ms cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms) both;
+  }
+  .story-scene.is-active .s-ring {
+    animation: story-ring 700ms ease-in-out var(--d, 0ms) 3 both;
+  }
+
+  /* Ziyaretçi her döngünün başında soldan gelir, sohbetteki yerine yürür;
+     son sahnede servis noktasına yer açmak için kenara çekilir. */
+  .story-visitor {
+    transition: left 900ms cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .story[data-chapter="0"] .story-visitor-dot {
+    animation: story-enter 1100ms cubic-bezier(0.22, 0.7, 0.28, 1) 500ms both;
+  }
+  .story[data-chapter="0"] .story-visitor {
+    animation: story-to-seat 3500ms linear both;
+  }
+
+  .story-progress.is-current {
+    animation: story-progress var(--chapter-ms) linear both;
+  }
+
+  .story-caption {
+    animation: rise-in 500ms cubic-bezier(0.22, 0.7, 0.28, 1) both;
+  }
+
+  /*
+   * Yeni kurulan sahne (başa dönüş ya da adıma tıklama) kesilmeden belirir.
+   * `both` değil `backwards`: biten bir dolgu sahnenin opaklığını sabitler
+   * ve kapanış kartından önceki sönme kesik görünür.
+   */
+  .story-stage {
+    animation: story-fade 500ms ease backwards;
+  }
+
+  /* Kapanış kartı son sahne tamamen söndükten sonra yükselir; üzerindeyken
+     ya da odak içindeyken süresi durur. */
+  .story-cta-in {
+    animation: rise-in 600ms cubic-bezier(0.22, 0.7, 0.28, 1) 550ms both;
+  }
+  .story-cta:hover .story-progress,
+  .story-cta:focus-within .story-progress {
+    animation-play-state: paused;
+  }
+
+  /* Tek anahtar: sahne ekran dışındayken saat ve sahne birlikte durur. */
+  .story[data-paused] * {
+    animation-play-state: paused !important;
+  }
+}
+
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
+@keyframes story-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes story-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes story-travel {
+  0% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -1;
+    opacity: 0;
+  }
+}
+@keyframes story-pan {
+  from {
+    transform: translateX(0);
+  }
+}
+@keyframes story-pulse {
+  50% {
+    transform: scale(1.4);
+  }
+}
+@keyframes story-scan {
+  from {
+    opacity: 0.9;
+    transform: scale(0.15);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@keyframes story-dim {
+  from {
+    opacity: 1;
+  }
+}
+@keyframes story-match {
+  from {
+    background-color: var(--color-surface-container);
+    color: var(--color-ink-muted);
+    outline-color: transparent;
+  }
+}
+@keyframes story-move {
+  from {
+    left: var(--from-x);
+    top: var(--from-y);
+    width: var(--from-w);
+  }
+}
+@keyframes story-ring {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-14deg);
+  }
+  40%,
+  80% {
+    transform: rotate(14deg);
+  }
+}
+@keyframes story-to-seat {
+  0%,
+  68% {
+    left: var(--center-x);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  100% {
+    left: var(--seat-x);
+  }
+}
+@keyframes story-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-420%);
+  }
+  30% {
+    opacity: 1;
+  }
+}
+@keyframes story-progress {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* ---------------------------------------------------- Problem eğrisi */
+
+/*
+ * Problem bölümü (home/Problem.tsx): kutular kaydırdıkça eğri boyunca, sol
+ * üstten yerine iner; eğri de onların içinden geçerek kendini çizer.
+ * `lg`'den itibaren hepsi bölümün görüş alanından geçişine bağlı tek bir
+ * zaman çizgisinde, kutular sırasıyla. Alt alta dizildiğinde her kutu kendi
+ * girişini kullanır.
+ */
+.decline-curve {
+  stroke-dasharray: 1;
+}
+
+.decline-track-y {
+  background: linear-gradient(
+    180deg,
+    var(--color-primary) 0%,
+    color-mix(in oklab, var(--color-primary) 15%, transparent) 100%
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .decline-step {
+      animation: decline-in linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 55%;
+    }
+
+    @media (min-width: 64rem) {
+      .decline {
+        view-timeline-name: --decline;
+      }
+      .decline-step {
+        animation-timeline: --decline;
+        animation-range: cover calc(6% + var(--i) * 6%) cover calc(20% + var(--i) * 6%);
+      }
+      .decline-curve {
+        animation: decline-draw linear both;
+        animation-timeline: --decline;
+        animation-range: cover 4% cover 40%;
+      }
+    }
+  }
+}
+
+@keyframes decline-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-28px, -20px, 0);
+  }
+}
+@keyframes decline-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+/* ------------------------------------------------------- adım rayı */
+
+/*
+ * "Nasıl çalışır" rayı (home/RouteLine.tsx): dört durak ve ray boyunca
+ * ilerleyen bir parıltı. SVG değil CSS, çünkü telefonda ray dönüp dikey
+ * akıyor; SVG'de bunun için çizimin ikinci bir kopyası gerekirdi.
+ */
+.route-rail {
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(
+    var(--route-axis, 90deg),
+    var(--color-outline-variant) 0 82%,
+    transparent
+  );
+}
+.route-rail-y {
+  --route-axis: 180deg;
+}
+
+/* Parıltı rayıyla aynı boyda; parlak bant kutusunda değil, gradyanında. */
+.route-pulse {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0 42%,
+    var(--color-primary) 50%,
+    transparent 58% 100%
+  );
+}
+.route-pulse-y {
+  background: linear-gradient(
+    180deg,
+    transparent 0 42%,
+    var(--color-primary) 50%,
+    transparent 58% 100%
+  );
+}
+
+.route-icon {
+  color: var(--color-outline);
+  transform-origin: 50% 100%;
+}
+
+/*
+ * Parıltı her durakta bekler, sonra bir sonrakine geçer. 10 saniyelik tek
+ * döngü: girişte, dört durakta birer bekleme, sonra solan kuyruk boyunca
+ * çıkış. Bekleme döngünün %16'sı, geçiş %6'sı.
+ *
+ * Yatayda duraklar 2rem aralıklı dört sütunun başında: i × (25% + 0.5rem).
+ * Dikeyde adımların yüksekliği farklı olduğu için duraklar çeyrek kabul
+ * ediliyor; bant her birinde duruyormuş gibi okunacak kadar geniş.
+ *
+ * Her ikon kendi durağının beklemesinde yanar ve büyür: aynı keyframe'ler,
+ * sırasına göre bir bekleme-ve-geçiş (2,2 sn) kadar gecikmeli.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .route-pulse {
+    animation: route-run 10s infinite;
+  }
+  .route-pulse-y {
+    animation-name: route-run-vertical;
+  }
+  .route-icon {
+    animation: route-icon 10s calc(var(--i, 0) * 2.2s) infinite both;
+  }
+}
+
+@keyframes route-run {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  6%,
+  22% {
+    transform: translate3d(-50%, 0, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  28%,
+  44% {
+    transform: translate3d(calc(-25% + 0.5rem), 0, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  50%,
+  66% {
+    transform: translate3d(1rem, 0, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  72%,
+  88% {
+    transform: translate3d(calc(25% + 1.5rem), 0, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  94%,
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes route-run-vertical {
+  0% {
+    transform: translate3d(0, -100%, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  6%,
+  22% {
+    transform: translate3d(0, -50%, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  28%,
+  44% {
+    transform: translate3d(0, -25%, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  50%,
+  66% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  72%,
+  88% {
+    transform: translate3d(0, 25%, 0);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  94%,
+  100% {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes route-icon {
+  0%,
+  4% {
+    color: var(--color-outline);
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+  9%,
+  20% {
+    color: var(--color-primary);
+    transform: scale(1.4);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  25%,
+  100% {
+    color: var(--color-outline);
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------- lacivert yüzeyler */
+
+/*
+ * Kanıt bölümü ve kapanış kutusu, lacivert (`primary-deep`) üstünde aynı
+ * sokak haritası dokusunu taşıyor (home/MapBackdrop.tsx). Doku hiçbir yerde
+ * yazının arkasında tam güçte durmuyor: kapanış kutusunda soldan sağa,
+ * kanıtta yukarıdan aşağı belirginleşiyor.
+ */
+.map-grid {
+  background-image:
+    linear-gradient(to right, var(--color-on-deep-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-on-deep-line) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.6;
+}
+
+.closing-backdrop {
+  background-image: radial-gradient(
+    36rem 22rem at 92% 0%,
+    color-mix(in oklab, var(--color-primary-bright) 30%, transparent),
+    transparent 70%
+  );
+  mask-image: linear-gradient(90deg, transparent 8%, #000 62%);
+}
+/* Telefonda başlık kutunun tamamını kaplıyor; doku sağ alt köşeye çekilir. */
+@media (max-width: 639px) {
+  .closing-backdrop {
+    mask-image: linear-gradient(150deg, transparent 45%, #000 95%);
+  }
+}
+
+.proof-backdrop {
+  background-image: radial-gradient(
+    48rem 28rem at 12% 100%,
+    color-mix(in oklab, var(--color-primary-bright) 26%, transparent),
+    transparent 70%
+  );
+  mask-image: linear-gradient(180deg, transparent 12%, #000 80%);
+}
+
+/*
+ * Kanıt bölümünün ızgarası rakam satırından kesiliyor (home/Proof.tsx):
+ * kapsayıcısı satırın kendisi, hücre de satır genişliğinin ölçü ızgarasındaki
+ * sayının iki katına bölünmüşü. Yani hero'daki ızgaranın yarısı, aynı
+ * çizgiler üstünde. Katman satırın çok ötesine taşıyor ve bölümce
+ * kırpılıyor; böylece başlangıç noktası, dolayısıyla bir çizgi, satırın üst
+ * çizgisine ve sol kenarına tam oturuyor. Yukarı doğru soluyor.
+ */
+.proof-grid {
+  --cell: calc(100cqw / 12);
+  position: absolute;
+  inset: calc(-40 * var(--cell)) calc(-64 * var(--cell)) calc(-12 * var(--cell));
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--color-on-deep-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-on-deep-line) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  background-position: calc(64 * var(--cell)) calc(40 * var(--cell));
+  opacity: 0.6;
+  mask-image: linear-gradient(
+    180deg,
+    transparent calc(40 * var(--cell) - 34rem),
+    #000 calc(40 * var(--cell) - 2rem)
+  );
+}
+@media (min-width: 40rem) {
+  .proof-grid {
+    --cell: calc(100cqw / 20);
+  }
+}
+@media (min-width: 64rem) {
+  .proof-grid {
+    --cell: calc(100cqw / 40);
+  }
 }

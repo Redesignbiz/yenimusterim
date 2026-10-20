@@ -25,10 +25,14 @@ export const metadata: Metadata = {
 };
 
 /**
- * Bölüm sırası özellik listesini değil alıcının sorusunu izliyor: nerede
- * kopuyor (Problem), onun yerine ne oluyor (Steps — CLAUDE.md'deki üç aşama),
- * ekosistemin parçaları ne (Products — chatbot, uygulama, dashboard),
- * çalıştığının kanıtı ne (Proof), bana uygun mu (Industries), sonra istek.
+ * Bölüm sırası özellik listesini değil alıcının sorusunu izliyor: ürün ne
+ * yapıyor (Hero — animasyonlu hikâye), nerede kopuyor (Problem), onun yerine
+ * ne oluyor (Steps — dört adım), ekosistemin parçaları ne (Products —
+ * chatbot, uygulama, dashboard), çalıştığının kanıtı ne (Proof), bana uygun
+ * mu (Industries), sonra istek (Closing).
+ *
+ * Hero, Problem, Steps, Proof, Industries ve Closing'in tasarımı LeadHanger
+ * landing'inden uyarlandı; ikisi aynı ürünü iki dilde anlatıyor.
  */
 export default function Home() {
   return (

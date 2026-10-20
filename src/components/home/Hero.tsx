@@ -1,7 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
-import { site } from "@/lib/site";
-
 /*
  * SİTEDEKİ GÖRSELLERİN KURALI — diğer bileşenler buraya atıf yapıyor.
  *
@@ -22,113 +18,78 @@ import { site } from "@/lib/site";
  *
  * `public/` yalnızca sabit URL'e mecbur olan şeyler için kalır.
  */
-import heroBg from "@/assets/Hero_BG.webp";
-import { LeadCards } from "./LeadCards";
+import { Highlight } from "@/components/Section";
+import { HeroStory } from "./HeroStory";
 
+/**
+ * Hero hikâyenin kendisi (bkz. HeroStory.tsx). İddia üstte duruyor: solda
+ * başlık, sağda açıklama; ilk ekran önce ürünün ne yaptığını söylüyor, sonra
+ * gösteriyor. Ekranın altında bir sonraki bölüme inen bağlantı var.
+ *
+ * Zemin bir görsel değil, iki katman: yumuşak bir primary ışık ve içerik
+ * genişliğinden kesilen ince bir ızgara (globals.css, `.measure-grid`).
+ * Önceki arka plan görselinin ağ deseni hikâyenin sohbet balonlarının
+ * arkasına denk geliyordu.
+ */
 export function Hero() {
-  /*
-   * Hero ekranın tamamını kaplıyor: `100svh` eksi header (globals.css,
-   * `--header-h`). Bu bir alt sınır — içerik sığmazsa section uzar, kesilmez.
-   *
-   * `svh` bilinçli: `dvh` mobilde adres çubuğu gizlenip görünürken hero'nun
-   * yüksekliğini oynatıyor ve sayfa kaydırmada zıplıyor. `svh` en küçük
-   * viewport'u baz aldığı için taşma da olmuyor.
-   */
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-hidden border-b border-outline-variant px-4 pt-12 pb-14 sm:px-6 sm:pt-20 sm:pb-20"
+      className="measure-grid @container relative isolate overflow-hidden border-b border-outline-variant"
     >
-      {/*
-        Arka plan yalnızca hero'yu kaplıyor: `relative` + `fill` ikilisi katmanı
-        section'ın sınırlarına bağlıyor, `overflow-hidden` de kırpılan tarafın
-        alt bölümlere sızmasını engelliyor.
-
-        Görsel 3548×1774 (2:1), hero ise ekran oranını takip ediyor; bu yüzden
-        `cover` ile ölçekleniyor. Hero her zaman görselden daha dar oranlı
-        olduğu için kırpma yatayda oluyor: `object-right` desenin yoğun tarafını
-        sağda tutuyor, kırpılan sol kenar da görselin boş tarafı.
-
-        `priority`: ana sayfanın en büyük görseli bu — tembel yüklenirse LCP
-        ölçümü gecikir.
-      */}
-      <Image
-        src={heroBg}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="-z-10 object-cover object-right"
+      <div
+        className="hero-wash pointer-events-none absolute inset-x-0 top-0 -z-10 h-[48rem]"
+        aria-hidden
       />
+      <div className="ruled pointer-events-none absolute inset-0 -z-10" aria-hidden />
 
-      {/*
-        Ekran yüksekliği içerikten fazla olduğunda artan boşluğun nereye
-        gideceği belirli olsun diye dikey eksen flex'e bırakıldı: ana blok
-        (`flex-1` + `content-center`) kalan alanı alıp içeriğini ortalıyor,
-        metrik şeridi de kendiliğinden alta oturuyor. `content-center`
-        olmadan grid satırları gerilip aralarında ölçüsüz boşluk açılıyor.
-      */}
-      <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col">
-        <div className="grid flex-1 content-center items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
-          <div>
-            <p className="eyebrow inline-flex items-start gap-2 rounded-full border border-primary-fixed-dim bg-primary-fixed px-3.5 py-1.5 text-[13px] text-on-primary-fixed">
-              <span
-                className="mt-[7px] size-1.5 shrink-0 rounded-full bg-primary"
-                aria-hidden
-              />
-              Servis noktası ağıyla satış yapan markalar için
-            </p>
-
-            <h1 className="mt-6 text-[32px] font-bold leading-[1.1] tracking-[-0.035em] text-ink sm:text-[46px]">
-              Potansiyel Müşterilerinizi Yetkili Servis Noktalarıyla Buluşturun.
+      {/* Section.tsx ile aynı ölçü: dolgu dışta, max-w-5xl içte. */}
+      <div className="px-4 pt-8 pb-8 sm:px-6 sm:pt-12 sm:pb-10">
+      <div className="mx-auto w-full max-w-5xl">
+        {/*
+          İlk ekran: iddia, hikâye ve ekranın altına sabitlenen bağlantı.
+          Hikâye iddianın hemen altında duruyor; ekranda artan yükseklik onun
+          altında toplanıyor, adımlara ve alt yazıya yer açıyor. Yükseklikten
+          sticky header (`--header-h`) ve dikey dolgu düşülüyor.
+        */}
+        <div className="flex min-h-[calc(100svh-var(--header-h)-4rem)] flex-col sm:min-h-[calc(100svh-var(--header-h)-5.5rem)]">
+          <div className="intro grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-14">
+            <h1 className="text-[30px] font-bold leading-[1.08] tracking-[-0.03em] text-balance text-ink sm:text-[40px]">
+              Potansiyel Müşterilerinizi{" "}
+              <Highlight>Yetkili Servis Noktalarıyla</Highlight> Buluşturun.
             </h1>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
-              {site.name}, web sitenizden ve çağrı merkezinden gelen ziyaretçilerin ihtiyaç ve satın alma niyetlerini belirler, potansiyel müşterileri yetkili servis noktalarına anında ulaştırır; talepler satışa dönüşene kadar takip eder.
+            <p className="max-w-[21rem] text-[14px] leading-[1.6] text-ink-muted sm:text-[15px] lg:justify-self-end">
+              Yeni Müşterim, web sitenizden ve çağrı merkezinden gelen
+              ziyaretçilerin ihtiyacını belirler, potansiyel müşterileri uygun
+              yetkili servis noktasına anında ulaştırır.
             </p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/iletisim"
-                className="rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-primary-bright"
-              >
-                Bize ulaşın
-              </Link>
-              <Link
-                href="/app"
-                className="rounded-full border border-outline-variant bg-surface-lowest px-6 py-3 text-[15px] font-semibold text-ink transition-colors hover:bg-surface-low"
-              >
-                Mobil uygulamayı görün
-              </Link>
-            </div>
           </div>
 
-          {/* Sağ kolon görsel değil, işaretlemeyle çizildi (bkz. LeadCards.tsx). */}
-          <div className="lg:pl-4">
-            <LeadCards />
+          <div className="flex flex-1 flex-col justify-start pt-6 sm:pt-8">
+            <HeroStory />
           </div>
-        </div>
 
-        {/*
-          Burada rakamlar yalnızca hatırlatma. Aynı dördü kanıt bölümünde tam
-          etiketiyle ve nefes alacak yerde duruyor; iki yerde de tam boyda
-          tekrarlanması dolgu gibi okunuyor.
-        */}
-        <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-outline-variant pt-7 sm:flex sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-3">
-          {site.metrics.map((metric) => (
-            // Telefonda alt alta: yan yana dizildiğinde etiket rakamın altına
-            // taşıyor ve şerit tırtıklı okunuyor.
-            <p
-              key={metric.short}
-              className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2"
+          <a
+            href="#sorun"
+            className="group mx-auto flex flex-col items-center gap-1.5 pt-8 pb-2 text-[13px] font-semibold text-ink-muted transition-colors hover:text-ink"
+          >
+            Devamını görün
+            <svg
+              viewBox="0 0 24 24"
+              className="explore-bob size-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
             >
-              <span className="text-[19px] font-bold tracking-[-0.02em] text-primary tabular-nums">
-                {metric.value}
-              </span>
-              <span className="text-[14px] text-ink-muted">{metric.short}</span>
-            </p>
-          ))}
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </a>
         </div>
+      </div>
       </div>
     </section>
   );

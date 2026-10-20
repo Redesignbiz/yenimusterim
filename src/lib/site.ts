@@ -97,7 +97,10 @@ export const site = {
     },
   ],
 
-  /** Referans vaka çalışması, Redesign Business sitesinde yayında. */
+  /**
+   * Referans vaka çalışması, Redesign Business sitesinde yayında. Kapak ve
+   * logo o sitenin portfolyo kartındakiler (bkz. docs/gorseller.md).
+   */
   caseStudy: {
     client: 'Bridgestone',
     href: 'https://www.redesignbiz.com/work/bridgestone/',

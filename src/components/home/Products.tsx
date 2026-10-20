@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Section, SectionHeading } from "@/components/Section";
+import { Highlight, Section, SectionHeading } from "@/components/Section";
 
 /**
  * Üç parça, CLAUDE.md'nin "Ürün ne" bölümündeki sırayla: chatbot, servis
@@ -57,8 +57,11 @@ export function Products() {
   return (
     <Section id="platform" className="border-t border-outline-variant">
       <SectionHeading
-        eyebrow="Platform"
-        title="Tek sistem, üç ekran"
+        title={
+          <>
+            Tek sistem, <Highlight>üç ekran</Highlight>
+          </>
+        }
         lead="Ziyaretçiyle konuşan, servis noktasını arayan ve sonucu ölçen taraf aynı veriye bakar. Bir talebin nereden geldiği ve sonunda ne olduğu tek yerde görünür."
       />
       <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant lg:grid-cols-3">

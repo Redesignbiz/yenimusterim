@@ -20,6 +20,28 @@ site üzerinde `/images/<dosya-adı>` adresinden servis edilir.
 > `src/components/ComingSoon.tsx` içindeki `src` yolunu güncelleyin ve `unoptimized`
 > bayrağını **kaldırın** — o bayrak yalnızca SVG için gerekli.
 
+## Ana sayfa görselleri (`src/assets/`)
+
+Ana sayfadaki görseller, sitenin görsel kuralına göre (`src/components/home/Hero.tsx`
+başındaki açıklama) `src/assets/` altında durur ve static import ile verilir.
+
+| Dosya | Nerede kullanılıyor | Kaynak |
+|---|---|---|
+| `case-study/bridgestone-cover.webp` | Kanıt bölümünün kapağı (`home/Proof.tsx`) | Redesign Business portfolyosundaki Bridgestone kartı |
+| `case-study/bridgestone-logo.svg` | Kapağın sol üstündeki logo | Aynı kart |
+| `industries/tires.webp` | Sektörler: Lastik ve oto servis | Unsplash, Robert Laursoo (`WHPOFFzY9gU`) |
+| `industries/hvac.webp` | Sektörler: İklimlendirme | Unsplash, alpha innotec (`VsjNRXO_c2w`) |
+| `industries/kitchen-bath.webp` | Sektörler: Mutfak ve banyo | Unsplash, Aaron Huber (`G7sE2S4Lab4`) |
+| `industries/insurance.webp` | Sektörler: Sigorta ve acente ağları | Unsplash, Igor Lolatto (`TdwYsTmA2Bc`) |
+| `industries/batteries.webp` | Sektörler: Akü ve enerji | Unsplash, Wesley Tingey (`E4Oz0TZUDe8`) |
+| `industries/appliances.webp` | Sektörler: Beyaz eşya ve yapı marketi | Unsplash, Josh Lemmon (`0t6fkXvg9hs`) |
+
+Sektör fotoğrafları LeadHanger landing'iyle aynı; 1200 px genişliğe küçültülüp WebP'ye
+çevrildi (15–80 KB). Unsplash lisansı kaynak gösterilmesini zorunlu tutmuyor. İki
+fotoğrafta marka görünüyor: ısı pompalarında alpha innotec, akünün üstünde Energizer.
+
+`Hero_BG.webp` ana sayfada artık kullanılmıyor; hero'nun zemini ızgara ve ışık katmanı.
+
 ## Kurallar
 
 - **Format:** Şeffaf zemin gerekiyorsa PNG, gerekmiyorsa JPG (daha küçük dosya).

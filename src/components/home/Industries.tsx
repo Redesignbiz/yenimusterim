@@ -1,71 +1,48 @@
-import { Section, SectionHeading } from "@/components/Section";
+import Image from "next/image";
+import { Highlight, Section, SectionHeading } from "@/components/Section";
+/* Static import — gerekçesi home/Hero.tsx'in başında. */
+import appliances from "@/assets/industries/appliances.webp";
+import batteries from "@/assets/industries/batteries.webp";
+import hvac from "@/assets/industries/hvac.webp";
+import insurance from "@/assets/industries/insurance.webp";
+import kitchenBath from "@/assets/industries/kitchen-bath.webp";
+import tires from "@/assets/industries/tires.webp";
 
+/**
+ * Her kart kategorinin yatay bir fotoğrafıyla açılıyor, kartın tam
+ * genişliğinde; altı kart bir bakışta altı farklı satın alma türü olarak
+ * okunuyor. Fotoğrafların kaynağı docs/gorseller.md'de.
+ */
 const industries = [
   {
     name: "Lastik ve oto servis",
+    photo: tires,
     detail: "Ebat uyumu, stok ve randevu",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="9" />
-        <circle cx="12" cy="12" r="5.2" />
-        <circle cx="12" cy="12" r="1.5" />
-        <path d="M12 10.5V6.8M13.43 11.54l3.52-1.15M12.88 13.21l2.18 3M11.12 13.21l-2.18 3M10.57 11.54l-3.52-1.15" />
-      </>
-    ),
   },
   {
     name: "İklimlendirme",
+    photo: hvac,
     detail: "Yerinde keşif ve montaj",
-    icon: (
-      <>
-        <rect x="3" y="5" width="18" height="8" rx="2" />
-        <path d="M7 9.5h10" />
-        <path d="M8 17v3M12 16v4M16 17v3" />
-      </>
-    ),
   },
   {
     name: "Mutfak ve banyo",
+    photo: kitchenBath,
     detail: "Ölçü, seçim ve montaj",
-    icon: (
-      <>
-        <path d="M3 11.5h18" />
-        <path d="M5 11.5v4a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-4" />
-        <path d="M12 11.5V7a3 3 0 0 1 3-3h1" />
-      </>
-    ),
   },
   {
     name: "Sigorta ve acente ağları",
+    photo: insurance,
     detail: "Teklif ve yerel acente",
-    icon: (
-      <>
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-        <path d="m9 12 2 2 4-4" />
-      </>
-    ),
   },
   {
     name: "Akü ve enerji",
+    photo: batteries,
     detail: "Uyumluluk ve acil servis",
-    icon: (
-      <>
-        <rect x="2" y="7" width="16" height="10" rx="2.5" />
-        <path d="M21 10.5v3" />
-        <path d="m11 9.5-2 3.5h3l-2 3.5" />
-      </>
-    ),
   },
   {
     name: "Beyaz eşya ve yapı marketi",
+    photo: appliances,
     detail: "Teslimat ve kurulum",
-    icon: (
-      <>
-        <rect x="4" y="3" width="16" height="18" rx="2.5" />
-        <path d="M4 8h16" />
-        <circle cx="12" cy="14.5" r="3.5" />
-      </>
-    ),
   },
 ];
 
@@ -73,42 +50,37 @@ export function Industries() {
   return (
     <Section id="sektorler" className="border-t border-outline-variant">
       <SectionHeading
-        eyebrow="Sektörler"
-        title="Servis ağıyla fark yarattığımız sektörler"
+        title={
+          <>
+            Servis ağıyla <Highlight>fark yarattığımız sektörler</Highlight>
+          </>
+        }
         lead="Karar sürecinde uzman görüşü, ölçü ya da yerinde hizmet gereken sektörlerde, satışı servis noktanız tamamlar."
       />
 
       <ul className="mt-12 grid gap-px overflow-hidden rounded-lg border border-outline-variant bg-outline-variant sm:grid-cols-2 lg:grid-cols-3">
         {industries.map((industry) => (
-          <li key={industry.name} className="bg-surface-lowest p-6">
-            <svg
-              viewBox="0 0 24 24"
-              className="size-7 text-primary"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-            >
-              {industry.icon}
-            </svg>
-
-            <p className="mt-4 text-[16px] font-semibold tracking-[-0.01em] text-ink">
-              {industry.name}
-            </p>
-            <p className="mt-1.5 text-[14px] text-ink-muted">
-              {industry.detail}
-            </p>
+          <li key={industry.name} className="group bg-surface-lowest">
+            <div className="relative aspect-[2/1] overflow-hidden">
+              <Image
+                src={industry.photo}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 21rem, (min-width: 640px) 50vw, 100vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </div>
+            <div className="p-6">
+              <p className="text-[16px] font-semibold tracking-[-0.01em] text-ink">
+                {industry.name}
+              </p>
+              <p className="mt-1.5 text-[14px] text-ink-muted">
+                {industry.detail}
+              </p>
+            </div>
           </li>
         ))}
       </ul>
-
-      <p className="mt-8 text-[15px] leading-6 text-ink-muted">
-        Satış web sitesinde tamamlanmıyorsa, kritik olan müşterinin ilgisini
-        doğru anda doğru servis noktasına aktarabilmektir. Yeni Müşterim,
-        online ilgiyi gerçek satış fırsatına dönüştürür.
-      </p>
     </Section>
   );
 }
