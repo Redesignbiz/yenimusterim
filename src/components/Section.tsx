@@ -29,7 +29,7 @@ export function SectionHeading({
   as: Heading = "h2",
 }: {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   lead?: string;
   as?: "h1" | "h2";
 }) {
@@ -47,5 +47,18 @@ export function SectionHeading({
         </p>
       )}
     </div>
+  );
+}
+
+/**
+ * Başlığın döndüğü kelimeler, primary'den parlak maviye giden bir gradyanla
+ * (LeadHanger landing'indeki vurgunun açık tema karşılığı). Başlık başına
+ * tek bir parça; iki parça olunca hiçbiri asıl nokta gibi okunmuyor.
+ */
+export function Highlight({ children }: { children: ReactNode }) {
+  return (
+    <span className="bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+      {children}
+    </span>
   );
 }
